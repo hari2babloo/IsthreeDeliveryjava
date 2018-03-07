@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/cardview_light_background"
+    android:gravity="bottom|end"
     android:orientation="vertical"
     tools:context=".Dashpage">
 
@@ -12,7 +13,6 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="120dp"
         android:gravity="center"
         android:orientation="vertical">
 
@@ -20,6 +20,7 @@
             android:id="@+id/imageView3"
             android:layout_width="200dp"
             android:layout_height="200dp"
+            android:layout_marginTop="100dp"
             android:background="@drawable/logo" />
 
         <View
@@ -50,7 +51,7 @@
             android:id="@+id/delivery"
             android:layout_width="150dp"
             android:layout_height="150dp"
-            android:background="@drawable/placeordr" />
+            android:background="@drawable/delivery" />
 
 
     </LinearLayout>
