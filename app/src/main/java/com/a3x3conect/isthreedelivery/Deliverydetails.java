@@ -14,11 +14,9 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.a3x3conect.isthreedelivery.Models.modelPickuplist;
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.squareup.okhttp.Callback;
 import com.squareup.okhttp.MediaType;
 import com.squareup.okhttp.OkHttpClient;
@@ -33,12 +31,9 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class PickupDetails extends AppCompatActivity {
+public class Deliverydetails extends AppCompatActivity {
 
-
-
-
-    TextView custname,address;
+    TextView custname,address,total;
 
     Button map,call,submit;
     modelPickuplist mm;
@@ -51,9 +46,7 @@ public class PickupDetails extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.pickup_details);
-
-
+        setContentView(R.layout.deliverydetails);
         Bundle bundle = getIntent().getExtras();
         String message = bundle.getString("message");
         final Integer pos = bundle.getInt("positon");
@@ -62,6 +55,7 @@ public class PickupDetails extends AppCompatActivity {
 
         custname = (TextView)findViewById(R.id.custname);
         address = (TextView)findViewById(R.id.adressdata);
+        total = (TextView)findViewById(R.id.total);
         map = (Button)findViewById(R.id.directions);
         call = (Button)findViewById(R.id.call);
         spinner = (Spinner)findViewById(R.id.spinner);
@@ -75,6 +69,8 @@ public class PickupDetails extends AppCompatActivity {
             Log.e("Adres", mm.getAddress());
             custname.setText(mm.getDisplayName());
             address.setText(mm.getAddress() + ","+mm.getLandMark()+ ","+mm.getCity()+","+mm.getState());
+            total.setText("Total: "+mm.getGrandTotal().toString());
+
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -108,15 +104,15 @@ public class PickupDetails extends AppCompatActivity {
 
 
         spinerdata.add("Select Status");
-        spinerdata.add("PICKUP-INITIATED");
-        spinerdata.add("PICKUP-CUSTOMER NOT AVAILABLE");
+        spinerdata.add("DELIVERY-INITIATED");
+        spinerdata.add("DELIVERY-CUSTOMER NOT AVAILABLE");
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,R.layout.support_simple_spinner_dropdown_item,spinerdata);
         spinner.setAdapter(adapter);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
- //               Toast.makeText(PickupDetails.this, spinerdata.get(position), Toast.LENGTH_SHORT).show();
-          status = spinerdata.get(position);
+                //               Toast.makeText(PickupDetails.this, spinerdata.get(position), Toast.LENGTH_SHORT).show();
+                status = spinerdata.get(position);
 
             }
 
@@ -131,7 +127,7 @@ public class PickupDetails extends AppCompatActivity {
             public void onClick(View v) {
 
                 if (status.equalsIgnoreCase("Select Status")){
-                    final Dialog openDialog = new Dialog(PickupDetails.this);
+                    final Dialog openDialog = new Dialog(Deliverydetails.this);
                     openDialog.setContentView(R.layout.alert);
                     openDialog.setTitle("Select Status");
                     TextView dialogTextContent = (TextView)openDialog.findViewById(R.id.dialog_text);
@@ -172,7 +168,7 @@ public class PickupDetails extends AppCompatActivity {
 
     private void Submitstatus() {
 
-        pd = new ProgressDialog(PickupDetails.this);
+        pd = new ProgressDialog(Deliverydetails.this);
         pd.setMessage("Updating Status..");
         pd.setCancelable(false);
         pd.show();
@@ -205,7 +201,7 @@ public class PickupDetails extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        final Dialog openDialog = new Dialog(PickupDetails.this);
+                        final Dialog openDialog = new Dialog(Deliverydetails.this);
                         openDialog.setContentView(R.layout.alert);
                         openDialog.setTitle("No Internet");
                         TextView dialogTextContent = (TextView)openDialog.findViewById(R.id.dialog_text);
@@ -255,7 +251,7 @@ public class PickupDetails extends AppCompatActivity {
                                 JSONObject jsonObject = new JSONObject(mMessage);
 
                                 if (jsonObject.getString("statusCode").equalsIgnoreCase("0")){
-                                    final Dialog openDialog = new Dialog(PickupDetails.this);
+                                    final Dialog openDialog = new Dialog(Deliverydetails.this);
                                     openDialog.setContentView(R.layout.alert);
                                     openDialog.setTitle("status");
                                     TextView dialogTextContent = (TextView)openDialog.findViewById(R.id.dialog_text);
@@ -283,7 +279,7 @@ public class PickupDetails extends AppCompatActivity {
                                 }
 
                                 else if (jsonObject.getString("statusCode").equalsIgnoreCase("1")){
-                                    final Dialog openDialog = new Dialog(PickupDetails.this);
+                                    final Dialog openDialog = new Dialog(Deliverydetails.this);
                                     openDialog.setContentView(R.layout.alert);
                                     openDialog.setTitle("status");
                                     TextView dialogTextContent = (TextView)openDialog.findViewById(R.id.dialog_text);
@@ -299,8 +295,8 @@ public class PickupDetails extends AppCompatActivity {
                                             openDialog.dismiss();
 
 //                                                //                                          Toast.makeText(Puckup.this, jsonResponse.getString("status"), Toast.LENGTH_SHORT).show();
-                                                Intent intent = new Intent(PickupDetails.this,Dashpage.class);
-                                                startActivity(intent);
+                                            Intent intent = new Intent(Deliverydetails.this,Dashpage.class);
+                                            startActivity(intent);
                                         }
                                     });
 
@@ -311,7 +307,7 @@ public class PickupDetails extends AppCompatActivity {
 
                                 else {
 
-                                    final Dialog openDialog = new Dialog(PickupDetails.this);
+                                    final Dialog openDialog = new Dialog(Deliverydetails.this);
                                     openDialog.setContentView(R.layout.alert);
                                     openDialog.setTitle("Status");
                                     TextView dialogTextContent = (TextView)openDialog.findViewById(R.id.dialog_text);
@@ -342,7 +338,7 @@ public class PickupDetails extends AppCompatActivity {
                                 e.printStackTrace();
                             }
                             // Toast.makeText(Signin.this, mMessage, Toast.LENGTH_SHORT).show();
-                           // TraverseData();
+                            // TraverseData();
 
                         }
                     });

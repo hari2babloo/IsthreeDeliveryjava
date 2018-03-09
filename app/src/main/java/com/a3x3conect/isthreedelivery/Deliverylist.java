@@ -222,7 +222,7 @@ String mMessage;
                 public void onClick(View v) {
 
 
-                    Intent intent = new Intent(Deliverylist.this,PickupDetails.class);
+                    Intent intent = new Intent(Deliverylist.this,Deliverydetails.class);
 
                     intent.putExtra("message",mMessage);
                     intent.putExtra("position",position);

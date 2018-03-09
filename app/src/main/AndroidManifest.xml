@@ -14,6 +14,9 @@
         <activity android:name=".MainActivity" />
         <activity
             android:name=".SplashScreen"
+            android:theme="@style/AppTheme2"></activity>
+        <activity
+            android:name=".Signin"
             android:theme="@style/AppTheme2">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -21,17 +24,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".Signin"
-            android:theme="@style/AppTheme2" />
         <activity android:name=".Signup" />
         <activity android:name=".VerifyEmail" />
-        <activity android:name=".Dashpage">
-
-        </activity>
+        <activity android:name=".Dashpage"></activity>
         <activity android:name=".Deliverylist" />
-        <activity android:name=".Pickuplist"></activity>
+        <activity android:name=".Pickuplist" />
         <activity android:name=".PickupDetails"></activity>
+        <activity android:name=".Deliverydetails"></activity>
     </application>
 
 </manifest>
