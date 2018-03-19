@@ -135,27 +135,27 @@ String mMessage;
 
                                     }
 
-                                    else {
 
-                                        final ArrayList<String> dd = new ArrayList<>();
-                                        for(int k = 0; k < tarif.size(); k++){
-
-                                            Log.e("Dta",dd.toString());
-
-                                            filterdata.add(tarif.get(k));
-
-                                            Log.e("eee",filterdata.get(k).getId());
-                                        }
-
-                                        Adapter = new AdapterFish(Deliverylist.this, filterdata);
-                                        Adapter.setHasStableIds(false);
-                                        mRVFishPrice.setAdapter(Adapter);
-                                        mRVFishPrice.setHasFixedSize(false);
-                                        mRVFishPrice.setLayoutManager(new LinearLayoutManager(Deliverylist.this,LinearLayoutManager.VERTICAL,true));
-                                    }
 
 
                                 }
+
+                                final ArrayList<String> dd = new ArrayList<>();
+                                for(int k = 0; k < tarif.size(); k++){
+
+                                    Log.e("Dta",dd.toString());
+
+                                    filterdata.add(tarif.get(k));
+
+//                                    Log.e("eee",filterdata.get(k).getId());
+                                }
+
+                                Adapter = new AdapterFish(Deliverylist.this, filterdata);
+                                Adapter.setHasStableIds(false);
+                                mRVFishPrice.setAdapter(Adapter);
+                                mRVFishPrice.setHasFixedSize(false);
+                                mRVFishPrice.setLayoutManager(new LinearLayoutManager(Deliverylist.this,LinearLayoutManager.VERTICAL,true));
+
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }

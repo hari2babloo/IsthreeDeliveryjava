@@ -14,11 +14,10 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.a3x3conect.isthreedelivery.Models.TinyDB;
 import com.a3x3conect.isthreedelivery.Models.modelPickuplist;
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.squareup.okhttp.Callback;
 import com.squareup.okhttp.MediaType;
 import com.squareup.okhttp.OkHttpClient;
@@ -31,16 +30,14 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class PickupDetails extends AppCompatActivity {
 
-
-
-
     TextView custname,address;
-
-    Button map,call,submit;
+    Button map,call,submit,joborder;
     modelPickuplist mm;
     Spinner spinner;
     String status,mMessage;
@@ -48,15 +45,17 @@ public class PickupDetails extends AppCompatActivity {
     ArrayList<String> spinerdata = new ArrayList<>();
     public static final MediaType MEDIA_TYPE =
             MediaType.parse("application/json");
+    TinyDB tinyDB;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.pickup_details);
+        tinyDB = new TinyDB(PickupDetails.this);
 
 
         Bundle bundle = getIntent().getExtras();
         String message = bundle.getString("message");
-        final Integer pos = bundle.getInt("positon");
+        final Integer pos = bundle.getInt("position");
 
         Log.e(String.valueOf(pos),message);
 
@@ -66,6 +65,10 @@ public class PickupDetails extends AppCompatActivity {
         call = (Button)findViewById(R.id.call);
         spinner = (Spinner)findViewById(R.id.spinner);
         submit = (Button) findViewById(R.id.submit);
+        joborder = (Button)findViewById(R.id.joborder);
+
+
+
 
         try {
             JSONArray jj = new JSONArray(message);
@@ -75,7 +78,25 @@ public class PickupDetails extends AppCompatActivity {
             Log.e("Adres", mm.getAddress());
             custname.setText(mm.getDisplayName());
             address.setText(mm.getAddress() + ","+mm.getLandMark()+ ","+mm.getCity()+","+mm.getState());
+            tinyDB.putString("custid",mm.getCustomerId());
+            tinyDB.putString("jobid",mm.getJobid());
+            Log.e("custid",mm.getCustomerId());
+            Log.e("job" ,mm.getJobid());
+//
+            if (mm.getStatus().equalsIgnoreCase("PICKUP-INITIATED")){
 
+                spinner.setVisibility(View.GONE);
+                submit.setVisibility(View.GONE);
+            }
+
+            if (mm.getStatus().equalsIgnoreCase("PICKUP-REQUESTED")){
+
+                joborder.setVisibility(View.GONE);
+
+            }
+
+
+            Log.e(mm.getCustomerId(),mm.getJobid());
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -104,11 +125,9 @@ public class PickupDetails extends AppCompatActivity {
             }
         });
 
-
-
-
         spinerdata.add("Select Status");
         spinerdata.add("PICKUP-INITIATED");
+      //  spinerdata.add("PICKUP-CONFIRMED");
         spinerdata.add("PICKUP-CUSTOMER NOT AVAILABLE");
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,R.layout.support_simple_spinner_dropdown_item,spinerdata);
         spinner.setAdapter(adapter);
@@ -122,6 +141,16 @@ public class PickupDetails extends AppCompatActivity {
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        joborder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent intent = new Intent(PickupDetails.this,SummaryReport.class);
+                startActivity(intent);
 
             }
         });
@@ -146,6 +175,7 @@ public class PickupDetails extends AppCompatActivity {
                         public void onClick(View v) {
                             openDialog.dismiss();
 
+
 //                                                //                                          Toast.makeText(Puckup.this, jsonResponse.getString("status"), Toast.LENGTH_SHORT).show();
 //                                                Intent intent = new Intent(Puckup.this,Dashpage.class);
 //                                                startActivity(intent);
@@ -157,6 +187,7 @@ public class PickupDetails extends AppCompatActivity {
                     openDialog.show();
 
                 }
+
 
                 else {
                     Submitstatus();
@@ -172,11 +203,11 @@ public class PickupDetails extends AppCompatActivity {
 
     private void Submitstatus() {
 
+
         pd = new ProgressDialog(PickupDetails.this);
         pd.setMessage("Updating Status..");
         pd.setCancelable(false);
         pd.show();
-
         final OkHttpClient okHttpClient = new OkHttpClient();
         JSONObject postdat = new JSONObject();
 
@@ -221,7 +252,7 @@ public class PickupDetails extends AppCompatActivity {
                                 openDialog.dismiss();
 
 //                                                //                                          Toast.makeText(Puckup.this, jsonResponse.getString("status"), Toast.LENGTH_SHORT).show();
-//                                                Intent intent = new Intent(Puckup.this,Dashpage.class);
+//                                                Intent intent = new Intent(PickupDetails.this,SummaryReport.class);
 //                                                startActivity(intent);
                             }
                         });
@@ -271,8 +302,8 @@ public class PickupDetails extends AppCompatActivity {
                                             openDialog.dismiss();
 
 //                                                //                                          Toast.makeText(Puckup.this, jsonResponse.getString("status"), Toast.LENGTH_SHORT).show();
-//                                                Intent intent = new Intent(Puckup.this,Dashpage.class);
-//                                                startActivity(intent);
+                                                Intent intent = new Intent(PickupDetails.this,Dashpage.class);
+                                                startActivity(intent);
                                         }
                                     });
 
@@ -299,7 +330,10 @@ public class PickupDetails extends AppCompatActivity {
                                             openDialog.dismiss();
 
 //                                                //                                          Toast.makeText(Puckup.this, jsonResponse.getString("status"), Toast.LENGTH_SHORT).show();
-                                                Intent intent = new Intent(PickupDetails.this,Dashpage.class);
+                                                Intent intent = new Intent(PickupDetails.this,SummaryReport.class);
+ //                                           TinyDB tinyDB = new TinyDB(PickupDetails.this);
+//                                            tinyDB.putString("customerId",mm.getCustomerId());
+//                                            tinyDB.putString("jobId",mm.getJobid());
                                                 startActivity(intent);
                                         }
                                     });
@@ -327,8 +361,8 @@ public class PickupDetails extends AppCompatActivity {
                                             openDialog.dismiss();
 
 //                                                //                                          Toast.makeText(Puckup.this, jsonResponse.getString("status"), Toast.LENGTH_SHORT).show();
-//                                                Intent intent = new Intent(Puckup.this,Dashpage.class);
-//                                                startActivity(intent);
+                                                Intent intent = new Intent(PickupDetails.this,SummaryReport.class);
+                                                startActivity(intent);
                                         }
                                     });
 

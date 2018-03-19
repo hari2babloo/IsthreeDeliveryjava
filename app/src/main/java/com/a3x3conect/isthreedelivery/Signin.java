@@ -58,7 +58,20 @@ public class Signin extends AppCompatActivity {
         signin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Validate();
+
+
+                if (userid.getText().toString().isEmpty()){
+
+                    userid.setError("Please Enter User ID");
+                }
+                else if (pass.getText().toString().isEmpty()){
+
+                    pass.setError("Please Enter Your Password");
+
+                }
+                else {
+                    Validate();
+                }
             }
         });
         signuptxt.setOnClickListener(new View.OnClickListener() {
@@ -239,7 +252,7 @@ public class Signin extends AppCompatActivity {
                     openDialog.setContentView(R.layout.alert);
                     openDialog.setTitle("");
                     TextView dialogTextContent = (TextView)openDialog.findViewById(R.id.dialog_text);
-                    dialogTextContent.setText("Please Enter Valid Partner ID");
+                    dialogTextContent.setText("Please login using customer app");
                     ImageView dialogImage = (ImageView)openDialog.findViewById(R.id.dialog_image);
                     dialogImage.setBackgroundResource(R.drawable.failure);
                     dialogImage.setBackgroundDrawable(getApplicationContext().getResources().getDrawable(R.drawable.failure));

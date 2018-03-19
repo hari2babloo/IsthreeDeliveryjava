@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.a3x3conect.isthreedelivery.Models.TinyDB;
 import com.a3x3conect.isthreedelivery.Models.modelPickuplist;
 import com.google.gson.Gson;
 import com.squareup.okhttp.Callback;
@@ -33,9 +34,9 @@ import java.util.ArrayList;
 
 public class Deliverydetails extends AppCompatActivity {
 
-    TextView custname,address,total;
+    TextView custname,address,total,count;
 
-    Button map,call,submit;
+    Button map,call,joborder;
     modelPickuplist mm;
     Spinner spinner;
     String status,mMessage;
@@ -43,46 +44,50 @@ public class Deliverydetails extends AppCompatActivity {
     ArrayList<String> spinerdata = new ArrayList<>();
     public static final MediaType MEDIA_TYPE =
             MediaType.parse("application/json");
+    TinyDB tinyDB;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.deliverydetails);
         Bundle bundle = getIntent().getExtras();
         String message = bundle.getString("message");
-        final Integer pos = bundle.getInt("positon");
-
-        Log.e(String.valueOf(pos),message);
-
-        custname = (TextView)findViewById(R.id.custname);
-        address = (TextView)findViewById(R.id.adressdata);
-        total = (TextView)findViewById(R.id.total);
-        map = (Button)findViewById(R.id.directions);
-        call = (Button)findViewById(R.id.call);
+        final Integer pos = bundle.getInt("position");
+        tinyDB = new TinyDB(Deliverydetails.this);
+        Log.e(String.valueOf(pos), message);
+        custname = (TextView) findViewById(R.id.custname);
+        address = (TextView) findViewById(R.id.adressdata);
+        total = (TextView) findViewById(R.id.total);
+        map = (Button) findViewById(R.id.directions);
+        call = (Button) findViewById(R.id.call);
+        joborder = (Button) findViewById(R.id.joborder);
+        count = (TextView)findViewById(R.id.count);
         spinner = (Spinner)findViewById(R.id.spinner);
-        submit = (Button) findViewById(R.id.submit);
 
         try {
             JSONArray jj = new JSONArray(message);
-            JSONObject ss =jj.getJSONObject(pos);
+            JSONObject ss = jj.getJSONObject(pos);
             Gson gson = new Gson();
-            mm = gson.fromJson(String.valueOf(ss),modelPickuplist.class);
+            mm = gson.fromJson(String.valueOf(ss), modelPickuplist.class);
             Log.e("Adres", mm.getAddress());
             custname.setText(mm.getDisplayName());
-            address.setText(mm.getAddress() + ","+mm.getLandMark()+ ","+mm.getCity()+","+mm.getState());
-            total.setText("Total: "+mm.getGrandTotal().toString());
+            address.setText(mm.getAddress() + "," + mm.getLandMark() + "," + mm.getCity() + "," + mm.getState());
+            total.setText("Bill Amount: " +getResources().getString(R.string.rupee) +" "+ mm.getGrandTotal().toString());
+            count.setText("Clothes Count:" +mm.getCount());
+            tinyDB.putString("custid", mm.getCustomerId());
+            tinyDB.putString("jobid", mm.getJobid());
+            Log.e(mm.getCustomerId(), mm.getJobid());
+
 
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
-
         map.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                Log.e(mm.getLat(),mm.getLongi());
-                String strUri = "http://maps.google.com/maps?q=" +mm.getLat() + "," +mm.getLongi() + " (" + mm.getDisplayName() + ")";
+                Log.e(mm.getLat(), mm.getLongi());
+                String strUri = "http://maps.google.com/maps?q=" + mm.getLat() + "," + mm.getLongi() + " (" + mm.getDisplayName() + ")";
                 Intent intent = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(strUri));
 
                 intent.setClassName("com.google.android.apps.maps", "com.google.android.maps.MapsActivity");
@@ -95,17 +100,16 @@ public class Deliverydetails extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Intent.ACTION_DIAL);
-                intent.setData(Uri.parse("tel:"+mm.getPhoneNo()));
+                intent.setData(Uri.parse("tel:" + mm.getPhoneNo()));
                 startActivity(intent);
             }
         });
 
 
-
-
         spinerdata.add("Select Status");
-        spinerdata.add("DELIVERY-INITIATED");
-        spinerdata.add("DELIVERY-CUSTOMER NOT AVAILABLE");
+        spinerdata.add("JOB-FINISHED");
+        //  spinerdata.add("PICKUP-CONFIRMED");
+        spinerdata.add("DELIVERY CUSTOMER NOTAVAILABLE");
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,R.layout.support_simple_spinner_dropdown_item,spinerdata);
         spinner.setAdapter(adapter);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -121,10 +125,11 @@ public class Deliverydetails extends AppCompatActivity {
 
             }
         });
-
-        submit.setOnClickListener(new View.OnClickListener() {
+        joborder.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
+//                Intent intent = new Intent(Deliverydetails.this,GiveDelivery.class);
+//                startActivity(intent);
 
                 if (status.equalsIgnoreCase("Select Status")){
                     final Dialog openDialog = new Dialog(Deliverydetails.this);
@@ -142,6 +147,7 @@ public class Deliverydetails extends AppCompatActivity {
                         public void onClick(View v) {
                             openDialog.dismiss();
 
+
 //                                                //                                          Toast.makeText(Puckup.this, jsonResponse.getString("status"), Toast.LENGTH_SHORT).show();
 //                                                Intent intent = new Intent(Puckup.this,Dashpage.class);
 //                                                startActivity(intent);
@@ -154,25 +160,24 @@ public class Deliverydetails extends AppCompatActivity {
 
                 }
 
+
                 else {
                     Submitstatus();
 
                 }
-
-
-
             }
         });
+
 
     }
 
     private void Submitstatus() {
 
+
         pd = new ProgressDialog(Deliverydetails.this);
         pd.setMessage("Updating Status..");
         pd.setCancelable(false);
         pd.show();
-
         final OkHttpClient okHttpClient = new OkHttpClient();
         JSONObject postdat = new JSONObject();
 
@@ -217,7 +222,7 @@ public class Deliverydetails extends AppCompatActivity {
                                 openDialog.dismiss();
 
 //                                                //                                          Toast.makeText(Puckup.this, jsonResponse.getString("status"), Toast.LENGTH_SHORT).show();
-//                                                Intent intent = new Intent(Puckup.this,Dashpage.class);
+//                                                Intent intent = new Intent(Deliverydetails.this,SummaryReport.class);
 //                                                startActivity(intent);
                             }
                         });
@@ -267,8 +272,8 @@ public class Deliverydetails extends AppCompatActivity {
                                             openDialog.dismiss();
 
 //                                                //                                          Toast.makeText(Puckup.this, jsonResponse.getString("status"), Toast.LENGTH_SHORT).show();
-//                                                Intent intent = new Intent(Puckup.this,Dashpage.class);
-//                                                startActivity(intent);
+                                            Intent intent = new Intent(Deliverydetails.this,Dashpage.class);
+                                            startActivity(intent);
                                         }
                                     });
 
@@ -283,7 +288,7 @@ public class Deliverydetails extends AppCompatActivity {
                                     openDialog.setContentView(R.layout.alert);
                                     openDialog.setTitle("status");
                                     TextView dialogTextContent = (TextView)openDialog.findViewById(R.id.dialog_text);
-                                    dialogTextContent.setText(jsonObject.getString("status"));
+                                    dialogTextContent.setText("Your transaction has been succesfully updated");
                                     ImageView dialogImage = (ImageView)openDialog.findViewById(R.id.dialog_image);
                                     Button dialogCloseButton = (Button)openDialog.findViewById(R.id.dialog_button);
                                     dialogCloseButton.setVisibility(View.GONE);
@@ -296,6 +301,9 @@ public class Deliverydetails extends AppCompatActivity {
 
 //                                                //                                          Toast.makeText(Puckup.this, jsonResponse.getString("status"), Toast.LENGTH_SHORT).show();
                                             Intent intent = new Intent(Deliverydetails.this,Dashpage.class);
+                                            //                                           TinyDB tinyDB = new TinyDB(Deliverydetails.this);
+//                                            tinyDB.putString("customerId",mm.getCustomerId());
+//                                            tinyDB.putString("jobId",mm.getJobid());
                                             startActivity(intent);
                                         }
                                     });
@@ -305,33 +313,6 @@ public class Deliverydetails extends AppCompatActivity {
                                     openDialog.show();
                                 }
 
-                                else {
-
-                                    final Dialog openDialog = new Dialog(Deliverydetails.this);
-                                    openDialog.setContentView(R.layout.alert);
-                                    openDialog.setTitle("Status");
-                                    TextView dialogTextContent = (TextView)openDialog.findViewById(R.id.dialog_text);
-                                    dialogTextContent.setText(jsonObject.getString("status"));
-                                    ImageView dialogImage = (ImageView)openDialog.findViewById(R.id.dialog_image);
-                                    Button dialogCloseButton = (Button)openDialog.findViewById(R.id.dialog_button);
-                                    dialogCloseButton.setVisibility(View.GONE);
-                                    Button dialogno = (Button)openDialog.findViewById(R.id.cancel);
-                                    dialogno.setText("OK");
-                                    dialogno.setOnClickListener(new View.OnClickListener() {
-                                        @Override
-                                        public void onClick(View v) {
-                                            openDialog.dismiss();
-
-//                                                //                                          Toast.makeText(Puckup.this, jsonResponse.getString("status"), Toast.LENGTH_SHORT).show();
-//                                                Intent intent = new Intent(Puckup.this,Dashpage.class);
-//                                                startActivity(intent);
-                                        }
-                                    });
-
-
-
-                                    openDialog.show();
-                                }
 
 
                             } catch (JSONException e) {

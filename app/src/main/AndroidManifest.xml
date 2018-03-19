@@ -14,7 +14,7 @@
         <activity android:name=".MainActivity" />
         <activity
             android:name=".SplashScreen"
-            android:theme="@style/AppTheme2"></activity>
+            android:theme="@style/AppTheme2" />
         <activity
             android:name=".Signin"
             android:theme="@style/AppTheme2">
@@ -26,11 +26,14 @@
         </activity>
         <activity android:name=".Signup" />
         <activity android:name=".VerifyEmail" />
-        <activity android:name=".Dashpage"></activity>
+        <activity android:name=".Dashpage" />
         <activity android:name=".Deliverylist" />
         <activity android:name=".Pickuplist" />
-        <activity android:name=".PickupDetails"></activity>
-        <activity android:name=".Deliverydetails"></activity>
+        <activity android:name=".PickupDetails" />
+        <activity android:name=".Deliverydetails" />
+        <activity android:name=".PickupInvoice" />
+        <activity android:name=".SummaryReport" />
+        <activity android:name=".GiveDelivery"></activity>
     </application>
 
 </manifest>

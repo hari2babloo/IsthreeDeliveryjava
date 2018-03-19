@@ -51,6 +51,7 @@ public class Pickuplist extends AppCompatActivity {
 
     modelPickuplist data = new modelPickuplist();
     final ArrayList<String> dd = new ArrayList<>();
+    List<modelPickuplist> tarif;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -100,10 +101,7 @@ public class Pickuplist extends AppCompatActivity {
                         @Override
                         public void run() {
                             Type listType = new TypeToken<List<modelPickuplist>>(){}.getType();
-                            final List<modelPickuplist> tarif = (List<modelPickuplist>)  gson.fromJson(mMessage,listType);
-
-
-
+                            tarif = (List<modelPickuplist>)  gson.fromJson(mMessage,listType);
 
                             try {
                                 JSONArray jj = new JSONArray(mMessage);
@@ -143,33 +141,22 @@ public class Pickuplist extends AppCompatActivity {
 
                                     }
 
-                                    else {
-
-                                        final ArrayList<String> dd = new ArrayList<>();
-                                        for(int k = 0; k < tarif.size(); k++){
-
-                                            Log.e("Dta",dd.toString());
-
-                                            filterdata.add(tarif.get(k));
-
-                                            Log.e("eee",filterdata.get(k).getId());
-                                        }
-
-                                        Adapter = new AdapterFish(Pickuplist.this, filterdata);
-                                        Adapter.setHasStableIds(false);
-                                        mRVFishPrice.setAdapter(Adapter);
-                                        mRVFishPrice.setHasFixedSize(false);
-                                        mRVFishPrice.setLayoutManager(new LinearLayoutManager(Pickuplist.this,LinearLayoutManager.VERTICAL,true));
-                                    }
 
 
                                 }
+
+                                TraverseData();
+
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
 
+
                         }
                     });
+
+
+
 
                 }
 
@@ -189,6 +176,22 @@ public class Pickuplist extends AppCompatActivity {
 
 
 
+    }
+
+    private void TraverseData() {
+
+        for(int k = 0; k < tarif.size(); k++){
+
+            filterdata.add(tarif.get(k));
+
+            Log.e("eee", String.valueOf(filterdata.get(k)));
+
+            Adapter = new AdapterFish(Pickuplist.this, filterdata);
+            Adapter.setHasStableIds(false);
+            mRVFishPrice.setAdapter(Adapter);
+            mRVFishPrice.setHasFixedSize(false);
+            mRVFishPrice.setLayoutManager(new LinearLayoutManager(Pickuplist.this,LinearLayoutManager.VERTICAL,true));
+        }
     }
 
 

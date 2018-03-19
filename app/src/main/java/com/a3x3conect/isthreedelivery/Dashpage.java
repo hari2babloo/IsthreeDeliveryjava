@@ -42,7 +42,7 @@ public class Dashpage extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dashpage);
-        Bundle bundle = getIntent().getExtras();
+//        Bundle bundle = getIntent().getExtras();
         tinydb = new TinyDB(this);
 
         pick = (ImageButton)findViewById(R.id.pickup);
@@ -73,31 +73,70 @@ public class Dashpage extends AppCompatActivity {
 
 
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu, menu);
-        return true;
-    }
+
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        getMenuInflater().inflate(R.menu.menu, menu);
+//        return true;
+//    }
+//
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        int id = item.getItemId();
+//
+//        //noinspection SimplifiableIfStatement
+//        if (id == R.id.action_item_one) {
+//
+//
+//            Intent intent = new Intent(Dashpage.this,Signin.class);
+//            startActivity(intent);
+//
+//
+//            // Do something
+//            return true;
+//        }
+//
+//
+//        return super.onOptionsItemSelected(item);
+//    }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
+    public void onBackPressed() {
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_item_one) {
+        final Dialog openDialog = new Dialog(Dashpage.this);
+        openDialog.setContentView(R.layout.alert);
+        openDialog.setTitle("Logout");
+        TextView dialogTextContent = (TextView)openDialog.findViewById(R.id.dialog_text);
+        dialogTextContent.setText("Do you want to Signout?");
+        ImageView dialogImage = (ImageView)openDialog.findViewById(R.id.dialog_image);
+        Button dialogCloseButton = (Button)openDialog.findViewById(R.id.dialog_button);
+        Button dialogno = (Button)openDialog.findViewById(R.id.cancel);
 
+        dialogCloseButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openDialog.dismiss();
 
-            Intent intent = new Intent(Dashpage.this,Signin.class);
-            startActivity(intent);
+                Intent intent = new Intent(Dashpage.this,Signin.class);
+//                intent.addCategory(Intent.CATEGORY_HOME);
+                startActivity(intent);
+            //    Dashpage.this.finish();
+//                                                //                                          Toast.makeText(Puckup.this, jsonResponse.getString("status"), Toast.LENGTH_SHORT).show();
+//                                                Intent intent = new Intent(Puckup.this,Dashpage.class);
+//                                                startActivity(intent);
+            }
+        });
 
+        dialogno.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openDialog.dismiss();
+            }
+        });
 
-            // Do something
-            return true;
-        }
+        openDialog.show();
+    }
 
-
-        return super.onOptionsItemSelected(item);
     }
 
 
-}
