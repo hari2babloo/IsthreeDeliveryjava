@@ -1,8 +1,10 @@
 package com.a3x3conect.isthreedelivery;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -17,6 +19,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TableLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.a3x3conect.isthreedelivery.Models.JobOrder;
 import com.a3x3conect.isthreedelivery.Models.TinyDB;
@@ -48,10 +51,10 @@ ProgressDialog pd;
     TextView btmtotal;
     List<DataFish2> filterdata2=new ArrayList<DataFish2>();
     private AdapterFish Adapter;
-    Button home;
+    Button home,cancelorder;
     double s;
     TinyDB tinyDB;
-    String mMessage2,mMessage;
+    String mMessage2,mMessage,radiostatus;
     JobOrder jobOrder;
     float garmentscount = 0;
     float sum = 0;
@@ -66,7 +69,68 @@ ProgressDialog pd;
         setContentView(R.layout.summary_report);
         tinyDB = new TinyDB(SummaryReport.this);
         home =  (Button)findViewById(R.id.home);
+        cancelorder = (Button)findViewById(R.id.cancel);
+
+
         grdtotal = (TextView)findViewById(R.id.grdtotal);
+
+        cancelorder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                final String[] items = {"Address does not exist","Phone number not reachable","Customer does not exist","Customer not at home","Issue not listed"};
+                final AlertDialog.Builder builder = new AlertDialog.Builder(SummaryReport.this);//ERROR ShowDialog cannot be resolved to a type
+                builder.setTitle("Select a Status");
+                builder.setSingleChoiceItems(items, -1,
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int item) {
+
+                                radiostatus = items[item];
+
+                                //  Toast.makeText(getApplicationContext(), items[item], Toast.LENGTH_SHORT).show();
+                            }
+                        });
+
+                builder.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+
+
+                        dialog.dismiss();
+                        dialog.cancel();
+
+                    }
+                });
+
+                builder.setPositiveButton("SUBMIT", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+
+                        if (radiostatus!=null && !radiostatus.isEmpty()){
+
+                            Submitstatus();
+                            dialog.dismiss();
+                            dialog.cancel();
+
+
+                        }
+                        else {
+
+                            builder.show();
+
+
+                            Toast.makeText(SummaryReport.this, "Select a Status", Toast.LENGTH_SHORT).show();
+
+
+                        }
+
+
+                    }
+                });
+
+                builder.show();
+            }
+        });
 
         home.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -178,7 +242,7 @@ ProgressDialog pd;
                                     openDialog.setContentView(R.layout.alert);
                                     openDialog.setTitle("Select Status");
                                     TextView dialogTextContent = (TextView)openDialog.findViewById(R.id.dialog_text);
-                                    dialogTextContent.setText(jsonObject.getString("status"));
+                                    dialogTextContent.setText("Please ask your customer to fill order");
                                     ImageView dialogImage = (ImageView)openDialog.findViewById(R.id.dialog_image);
                                     Button dialogCloseButton = (Button)openDialog.findViewById(R.id.dialog_button);
                                     dialogCloseButton.setVisibility(View.GONE);
@@ -204,7 +268,7 @@ ProgressDialog pd;
 
 
 
-else {
+                            else {
 
 
                                     Gson gson = new Gson();
@@ -247,9 +311,9 @@ else {
 
                                     btmtotal.setText(String.valueOf(Math.round(garmentscount)));
 
-                                    s =  ((18.0/100) *sum)+sum;
-                                    grdtotal.setText("Total : " +getResources().getString(R.string.rupee)+String.valueOf(s)+"(Inc of all taxes)");
-                                    Adapter = new SummaryReport.AdapterFish(SummaryReport.this, filterdata2);
+                                    s =  ((0/100) *sum)+sum;
+                                    grdtotal.setText("Total " +getResources().getString(R.string.rupee)+String.valueOf(s));
+                                    Adapter = new AdapterFish(SummaryReport.this, filterdata2);
                                     Adapter.setHasStableIds(false);
                                     mRVFishPrice.setAdapter(Adapter);
                                     mRVFishPrice.setHasFixedSize(false);
@@ -567,5 +631,174 @@ else {
             }
         });
     }
+
+
+
+    private void Submitstatus() {
+
+
+        pd = new ProgressDialog(SummaryReport.this);
+        pd.setMessage("Updating Status..");
+        pd.setCancelable(false);
+        pd.show();
+        final OkHttpClient okHttpClient = new OkHttpClient();
+        JSONObject postdat = new JSONObject();
+
+        try {
+            postdat.put("customerId", jobOrder.getCustomerId());
+            postdat.put("jobId", jobOrder.getJobid());
+            postdat.put("status",radiostatus);
+        } catch(JSONException e){
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        RequestBody body = RequestBody.create(MEDIA_TYPE,postdat.toString());
+        final Request request = new Request.Builder()
+                .url("http://52.172.191.222/isthree/index.php/services/updateJobStatus")
+                .post(body)
+                .build();
+        okHttpClient.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Request request, IOException e) {
+
+                pd.cancel();
+                pd.dismiss();
+                String mMessage = e.getMessage().toString();
+                Log.e("resyul reer",mMessage);
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        final Dialog openDialog = new Dialog(SummaryReport.this);
+                        openDialog.setContentView(R.layout.alert);
+                        openDialog.setTitle("No Internet");
+                        TextView dialogTextContent = (TextView)openDialog.findViewById(R.id.dialog_text);
+                        dialogTextContent.setText("Something Went Wrong");
+                        ImageView dialogImage = (ImageView)openDialog.findViewById(R.id.dialog_image);
+                        Button dialogCloseButton = (Button)openDialog.findViewById(R.id.dialog_button);
+                        dialogCloseButton.setVisibility(View.GONE);
+                        Button dialogno = (Button)openDialog.findViewById(R.id.cancel);
+                        dialogno.setText("OK");
+                        dialogno.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                openDialog.dismiss();
+
+//                                                //                                          Toast.makeText(Puckup.this, jsonResponse.getString("status"), Toast.LENGTH_SHORT).show();
+//                                                Intent intent = new Intent(PickupDetails.this,SummaryReport.class);
+//                                                startActivity(intent);
+                            }
+                        });
+
+
+
+                        openDialog.show();
+
+                    }
+                });
+
+
+
+            }
+
+            @Override
+            public void onResponse(Response response) throws IOException {
+
+
+                pd.cancel();
+                pd.dismiss();
+                mMessage = response.body().string();
+                if (response.isSuccessful()){
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+
+                            Log.e("Resy",mMessage);
+
+                            try {
+                                JSONObject jsonObject = new JSONObject(mMessage);
+
+                                if (jsonObject.getString("statusCode").equalsIgnoreCase("0")){
+                                    final Dialog openDialog = new Dialog(SummaryReport.this);
+                                    openDialog.setContentView(R.layout.alert);
+                                    openDialog.setTitle("status");
+                                    TextView dialogTextContent = (TextView)openDialog.findViewById(R.id.dialog_text);
+                                    dialogTextContent.setText(jsonObject.getString("status"));
+                                    ImageView dialogImage = (ImageView)openDialog.findViewById(R.id.dialog_image);
+                                    Button dialogCloseButton = (Button)openDialog.findViewById(R.id.dialog_button);
+                                    dialogCloseButton.setVisibility(View.GONE);
+                                    Button dialogno = (Button)openDialog.findViewById(R.id.cancel);
+                                    dialogno.setText("OK");
+                                    dialogno.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            openDialog.dismiss();
+
+//                                                //                                          Toast.makeText(Puckup.this, jsonResponse.getString("status"), Toast.LENGTH_SHORT).show();
+                                            Intent intent = new Intent(SummaryReport.this,Dashpage.class);
+                                            startActivity(intent);
+                                        }
+                                    });
+
+
+
+                                    openDialog.show();
+
+                                }
+
+                                else if (jsonObject.getString("statusCode").equalsIgnoreCase("1")){
+                                    final Dialog openDialog = new Dialog(SummaryReport.this);
+                                    openDialog.setContentView(R.layout.alert);
+                                    openDialog.setTitle("status");
+                                    TextView dialogTextContent = (TextView)openDialog.findViewById(R.id.dialog_text);
+                                    dialogTextContent.setText(jsonObject.getString("status"));
+                                    ImageView dialogImage = (ImageView)openDialog.findViewById(R.id.dialog_image);
+                                    Button dialogCloseButton = (Button)openDialog.findViewById(R.id.dialog_button);
+                                    dialogCloseButton.setVisibility(View.GONE);
+                                    Button dialogno = (Button)openDialog.findViewById(R.id.cancel);
+                                    dialogno.setText("OK");
+                                    dialogno.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            openDialog.dismiss();
+
+//                                                //                                          Toast.makeText(Puckup.this, jsonResponse.getString("status"), Toast.LENGTH_SHORT).show();
+                                            Intent intent = new Intent(SummaryReport.this,Dashpage.class);
+                                            //                                           TinyDB tinyDB = new TinyDB(PickupDetails.this);
+//                                            tinyDB.putString("customerId",mm.getCustomerId());
+//                                            tinyDB.putString("jobId",mm.getJobid());
+                                            startActivity(intent);
+                                        }
+                                    });
+
+
+
+                                    openDialog.show();
+                                }
+
+
+
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                            // Toast.makeText(Signin.this, mMessage, Toast.LENGTH_SHORT).show();
+                            // TraverseData();
+
+                        }
+                    });
+                }
+                else runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+
+
+                    }
+                });
+            }
+        });
+    }
+
+
 
 }

@@ -53,8 +53,17 @@ public class Signin extends AppCompatActivity {
         userid  = (MaterialEditText)findViewById(R.id.userid);
         pass = (MaterialEditText)findViewById(R.id.pass);
         signin = (Button)findViewById(R.id.signin);
-        signuptxt = (TextView)findViewById(R.id.signuptext);
-        forgotpass = (TextView)findViewById(R.id.forgotpass);
+
+        tinyDB = new TinyDB(this);
+
+        Log.e("custid",tinyDB.getString("custid"));
+        String s = tinyDB.getString("custid");
+        if (s != null && !s.isEmpty()){
+
+            Intent intent = new Intent(Signin.this,Dashpage.class);
+            startActivity(intent);
+        }
+
         signin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -74,23 +83,7 @@ public class Signin extends AppCompatActivity {
                 }
             }
         });
-        signuptxt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-                Intent intent = new Intent(Signin.this,Signup.class);
-                startActivity(intent);
-            }
-        });
-
-        forgotpass.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Signin.this,VerifyEmail.class);
-                startActivity(intent);
-
-            }
-        });
     }
 
     private void Validate() {

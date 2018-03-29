@@ -1,8 +1,10 @@
 package com.a3x3conect.isthreedelivery;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -17,10 +19,14 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TableLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.a3x3conect.isthreedelivery.Models.JobOrder;
+import com.a3x3conect.isthreedelivery.Models.Sigin;
 import com.a3x3conect.isthreedelivery.Models.TinyDB;
+import com.a3x3conect.isthreedelivery.Models.getJobSummary;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.squareup.okhttp.Callback;
 import com.squareup.okhttp.MediaType;
 import com.squareup.okhttp.OkHttpClient;
@@ -33,6 +39,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -48,7 +55,8 @@ public class GiveDelivery extends AppCompatActivity {
     TextView btmtotal;
     List<DataFish2> filterdata2=new ArrayList<DataFish2>();
     private AdapterFish Adapter;
-    Button home;
+    Button home,cancel;
+    String radiostatus;
     double s;
     TinyDB tinyDB;
     String mMessage2,mMessage;
@@ -68,12 +76,74 @@ public class GiveDelivery extends AppCompatActivity {
         home =  (Button)findViewById(R.id.home);
         grdtotal = (TextView)findViewById(R.id.grdtotal);
 
+        cancel = (Button)findViewById(R.id.cancel);
+
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                final String[] items = {"Customer not at home","Phone not reachable","Payment not initiated","Issue not listed"};
+                final AlertDialog.Builder builder = new AlertDialog.Builder(GiveDelivery.this);//ERROR ShowDialog cannot be resolved to a type
+                builder.setTitle("Select a Status");
+                builder.setSingleChoiceItems(items, -1,
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int item) {
+
+                                radiostatus = items[item];
+
+                                //  Toast.makeText(getApplicationContext(), items[item], Toast.LENGTH_SHORT).show();
+                            }
+                        });
+
+                builder.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+
+
+                        dialog.dismiss();
+                        dialog.cancel();
+
+                    }
+                });
+
+                builder.setPositiveButton("SUBMIT", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+
+                        if (radiostatus!=null && !radiostatus.isEmpty()){
+
+                            Submitstatus();
+                            dialog.dismiss();
+                            dialog.cancel();
+
+
+                        }
+                        else {
+
+                            builder.show();
+
+
+                            Toast.makeText(GiveDelivery.this, "Select a Status", Toast.LENGTH_SHORT).show();
+
+
+                        }
+
+
+                    }
+                });
+
+                builder.show();
+            }
+        });
+
         home.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                Invoice();
+//                Invoice();
 
+                radiostatus = "JOB-FINISHED";
+                Submitstatus();
 
             }
         });
@@ -98,7 +168,7 @@ public class GiveDelivery extends AppCompatActivity {
         JSONObject postdat = new JSONObject();
 
         try {
-            postdat.put("customerId", tinyDB.getString("custid"));
+          //  postdat.put("customerId", tinyDB.getString("custid"));
             postdat.put("jobId", tinyDB.getString("jobid"));
         } catch(JSONException e){
             // TODO Auto-generated catch block
@@ -108,7 +178,7 @@ public class GiveDelivery extends AppCompatActivity {
 
         Log.e("postdata",postdat.toString());
         final Request request = new Request.Builder()
-                .url("http://52.172.191.222/isthree/index.php/services/getJobOrder")
+                .url("http://52.172.191.222/isthree/index.php/services/getJobSummary")
                 .post(body)
                 .build();
         okHttpClient.newCall(request).enqueue(new Callback() {
@@ -147,6 +217,8 @@ public class GiveDelivery extends AppCompatActivity {
 
 
                 mMessage2 = e.getMessage().toString();
+
+                Log.e("error",mMessage2);
             }
 
             @Override
@@ -162,107 +234,111 @@ public class GiveDelivery extends AppCompatActivity {
                         public void run() {
 
 
-                            Log.e("Resy",mMessage2);
+                            Log.e("Resy22",mMessage2);
                             // Toast.makeText(Signin.this, mMessage, Toast.LENGTH_SHORT).show();
                             //   TraverseData();
 
-                            try {
-                                JSONObject jsonObject = new JSONObject(mMessage2);
+                            //                                JSONObject jsonObject = new JSONObject(mMessage2);
+//
+//                                Double statuscode = jsonObject.optDouble("statusCode");
+//                                Double jobid = jsonObject.optDouble("jobid");
+//
+//                                if (jsonObject.optString("statusCode").equalsIgnoreCase("0")){
+//
+//                                    final Dialog openDialog = new Dialog(GiveDelivery.this);
+//                                    openDialog.setContentView(R.layout.alert);
+//                                    openDialog.setTitle("Select Status");
+//                                    TextView dialogTextContent = (TextView)openDialog.findViewById(R.id.dialog_text);
+//                                    dialogTextContent.setText(jsonObject.getString("status"));
+//                                    ImageView dialogImage = (ImageView)openDialog.findViewById(R.id.dialog_image);
+//                                    Button dialogCloseButton = (Button)openDialog.findViewById(R.id.dialog_button);
+//                                    dialogCloseButton.setVisibility(View.GONE);
+//                                    Button dialogno = (Button)openDialog.findViewById(R.id.cancel);
+//                                    dialogno.setText("OK");
+//                                    dialogno.setOnClickListener(new View.OnClickListener() {
+//                                        @Override
+//                                        public void onClick(View v) {
+//                                            openDialog.dismiss();
+//
+////                                                //                                          Toast.makeText(Puckup.this, jsonResponse.getString("status"), Toast.LENGTH_SHORT).show();
+//                                            Intent intent = new Intent(GiveDelivery.this,Dashpage.class);
+//                                            startActivity(intent);
+//                                        }
+//                                    });
+//
+//
+//
+//                                    openDialog.show();
+//
+//
+//                                }
+//
+//
+//
+//                                else {
 
-                                Double statuscode = jsonObject.optDouble("statusCode");
-                                Double jobid = jsonObject.optDouble("jobid");
+                            Gson gson = new Gson();
+                            Type listType = new TypeToken<List<getJobSummary>>(){}.getType();
+                            List<getJobSummary> modelsignin = (List<getJobSummary>)  gson.fromJson(mMessage2,listType);
 
-                                if (jsonObject.optString("statusCode").equalsIgnoreCase("0")){
 
-                                    final Dialog openDialog = new Dialog(GiveDelivery.this);
-                                    openDialog.setContentView(R.layout.alert);
-                                    openDialog.setTitle("Select Status");
-                                    TextView dialogTextContent = (TextView)openDialog.findViewById(R.id.dialog_text);
-                                    dialogTextContent.setText(jsonObject.getString("status"));
-                                    ImageView dialogImage = (ImageView)openDialog.findViewById(R.id.dialog_image);
-                                    Button dialogCloseButton = (Button)openDialog.findViewById(R.id.dialog_button);
-                                    dialogCloseButton.setVisibility(View.GONE);
-                                    Button dialogno = (Button)openDialog.findViewById(R.id.cancel);
-                                    dialogno.setText("OK");
-                                    dialogno.setOnClickListener(new View.OnClickListener() {
-                                        @Override
-                                        public void onClick(View v) {
-                                            openDialog.dismiss();
+                            for(int j = 0; j < modelsignin.size(); j++) {
 
-//                                                //                                          Toast.makeText(Puckup.this, jsonResponse.getString("status"), Toast.LENGTH_SHORT).show();
-                                            Intent intent = new Intent(GiveDelivery.this,Dashpage.class);
-                                            startActivity(intent);
-                                        }
-                                    });
+                                String s = modelsignin.get(j).getCategory();
+
+                                Log.e("s",s);
 
 
 
-                                    openDialog.show();
 
 
-                                }
+//
+//                                        DataFish2 ss = new DataFish2("item", "qty", "price", "total");
+//
+//                                        Float ss2 = Float.parseFloat(jobOrder.getPrice().get(j));
+//
+//                                        Float ss3 = Float.parseFloat(jobOrder.getQuantity().get(j));
+//                                        Float ss4 = ss2 * ss3;
+                                        DataFish2 sds = new DataFish2(modelsignin.get(j).getCategory(), modelsignin.get(j).getQty(), modelsignin.get(j).getPrice(), modelsignin.get(j).getSubTotal());
+
+//
+                                        filterdata2.add(sds);
+                            }
+
+                            for (int i=0;i<filterdata2.size();i++){
 
 
+                                float foo = Float.parseFloat(filterdata2.get(i).noofpieces);
+                                float foo3 = Float.parseFloat(filterdata2.get(i).amt);
 
-                                else {
+
+                                garmentscount+= foo;
+                                sum+=foo3;
+
+                                //   quantity.put(filterdata2.get(i).noofpieces);
+                            }
+                            s =  ((0/100) *sum)+sum;
+                            btmtotal.setText(getResources().getString(R.string.rupee)+String.valueOf(s));
+                           // btmtotal.setText();
+                            grdtotal.setText("  "+String.valueOf(Math.round(garmentscount)));
+                            Adapter = new AdapterFish(GiveDelivery.this, filterdata2);
+                            Adapter.setHasStableIds(false);
+                            mRVFishPrice.setAdapter(Adapter);
+                            mRVFishPrice.setHasFixedSize(false);
+                            //                          mRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, true));
+                            //                          mRVFishPrice.setLayoutManager(new GridLayoutManager(MainActivity.this,1));
+                            mRVFishPrice.setLayoutManager(new LinearLayoutManager(GiveDelivery.this, LinearLayoutManager.VERTICAL,true));
+
+//                                    }
 
 
-                                    Gson gson = new Gson();
-
-                                    jobOrder = gson.fromJson(mMessage2,JobOrder.class);
+//                                    jobOrder = gson.fromJson(mMessage2,JobOrder.class);
 
 
 //                                String s = jobOrder.getCustomerId();
 
 //                                filterdata2.add(jobOrder);
 
-                                    for (int i= 0; i<jobOrder.getCategory().size(); i++){
-
-
-                                        DataFish2 ss = new DataFish2("item","qty","price","total");
-
-                                        Float ss2 = Float.parseFloat(jobOrder.getPrice().get(i));
-
-                                        Float ss3 =  Float.parseFloat(jobOrder.getQuantity().get(i));
-                                        Float ss4 = ss2 * ss3;
-                                        DataFish2 sds = new DataFish2(jobOrder.getCategory().get(i),jobOrder.getQuantity().get(i),jobOrder.getPrice().get(i),String.valueOf(ss4));
-
-
-                                        filterdata2.add(sds);
-                                    }
-
-
-                                    for (int i=0;i<filterdata2.size();i++){
-
-
-                                        float foo = Float.parseFloat(filterdata2.get(i).noofpieces);
-                                        float foo3 = Float.parseFloat(filterdata2.get(i).amt);
-
-
-                                        garmentscount+= foo;
-                                        sum+=foo3;
-
-                                        //   quantity.put(filterdata2.get(i).noofpieces);
-                                    }
-
-                                    btmtotal.setText(String.valueOf(Math.round(garmentscount)));
-
-                                    s =  ((18.0/100) *sum)+sum;
-                                    grdtotal.setText("Total = " +getResources().getString(R.string.rupee)+String.valueOf(s)+"(Inc of all taxes)");
-                                    Adapter = new GiveDelivery.AdapterFish(GiveDelivery.this, filterdata2);
-                                    Adapter.setHasStableIds(false);
-                                    mRVFishPrice.setAdapter(Adapter);
-                                    mRVFishPrice.setHasFixedSize(false);
-                                    //                          mRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, true));
-                                    //                          mRVFishPrice.setLayoutManager(new GridLayoutManager(MainActivity.this,1));
-                                    mRVFishPrice.setLayoutManager(new LinearLayoutManager(GiveDelivery.this, LinearLayoutManager.VERTICAL,true));
-
-                                }
-
-
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
 
                         }
                     });
@@ -545,6 +621,173 @@ public class GiveDelivery extends AppCompatActivity {
 
 
                                 }
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                            // Toast.makeText(Signin.this, mMessage, Toast.LENGTH_SHORT).show();
+                            // TraverseData();
+
+                        }
+                    });
+                }
+                else runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+
+
+                    }
+                });
+            }
+        });
+    }
+
+
+    private void Submitstatus() {
+
+
+        pd = new ProgressDialog(GiveDelivery.this);
+        pd.setMessage("Updating Status..");
+        pd.setCancelable(false);
+        pd.show();
+        final OkHttpClient okHttpClient = new OkHttpClient();
+        JSONObject postdat = new JSONObject();
+
+        try {
+            postdat.put("customerId", tinyDB.getString("custid"));
+            postdat.put("jobId", tinyDB.getString("jobid"));
+            postdat.put("status",radiostatus);
+        } catch(JSONException e){
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        RequestBody body = RequestBody.create(MEDIA_TYPE,postdat.toString());
+
+        Log.e("body",body.toString());
+        final Request request = new Request.Builder()
+                .url("http://52.172.191.222/isthree/index.php/services/updateJobStatus")
+                .post(body)
+                .build();
+        okHttpClient.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Request request, IOException e) {
+
+                pd.cancel();
+                pd.dismiss();
+                String mMessage = e.getMessage().toString();
+                Log.e("resyul reer",mMessage);
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        final Dialog openDialog = new Dialog(GiveDelivery.this);
+                        openDialog.setContentView(R.layout.alert);
+                        openDialog.setTitle("No Internet");
+                        TextView dialogTextContent = (TextView)openDialog.findViewById(R.id.dialog_text);
+                        dialogTextContent.setText("Something Went Wrong");
+                        ImageView dialogImage = (ImageView)openDialog.findViewById(R.id.dialog_image);
+                        Button dialogCloseButton = (Button)openDialog.findViewById(R.id.dialog_button);
+                        dialogCloseButton.setVisibility(View.GONE);
+                        Button dialogno = (Button)openDialog.findViewById(R.id.cancel);
+                        dialogno.setText("OK");
+                        dialogno.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                openDialog.dismiss();
+
+//                                                //                                          Toast.makeText(Puckup.this, jsonResponse.getString("status"), Toast.LENGTH_SHORT).show();
+//                                                Intent intent = new Intent(Deliverydetails.this,SummaryReport.class);
+//                                                startActivity(intent);
+                            }
+                        });
+
+
+
+                        openDialog.show();
+
+                    }
+                });
+
+
+
+            }
+
+            @Override
+            public void onResponse(Response response) throws IOException {
+
+
+                pd.cancel();
+                pd.dismiss();
+                mMessage = response.body().string();
+                if (response.isSuccessful()){
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+
+                            Log.e("Resy",mMessage);
+
+                            try {
+                                JSONObject jsonObject = new JSONObject(mMessage);
+
+                                if (jsonObject.getString("statusCode").equalsIgnoreCase("0")){
+                                    final Dialog openDialog = new Dialog(GiveDelivery.this);
+                                    openDialog.setContentView(R.layout.alert);
+                                    openDialog.setTitle("status");
+                                    TextView dialogTextContent = (TextView)openDialog.findViewById(R.id.dialog_text);
+                                    dialogTextContent.setText(jsonObject.getString("status"));
+                                    ImageView dialogImage = (ImageView)openDialog.findViewById(R.id.dialog_image);
+                                    Button dialogCloseButton = (Button)openDialog.findViewById(R.id.dialog_button);
+                                    dialogCloseButton.setVisibility(View.GONE);
+                                    Button dialogno = (Button)openDialog.findViewById(R.id.cancel);
+                                    dialogno.setText("OK");
+                                    dialogno.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            openDialog.dismiss();
+
+//                                                //                                          Toast.makeText(Puckup.this, jsonResponse.getString("status"), Toast.LENGTH_SHORT).show();
+                                            Intent intent = new Intent(GiveDelivery.this,Dashpage.class);
+                                            startActivity(intent);
+                                        }
+                                    });
+
+
+
+                                    openDialog.show();
+
+                                }
+
+                                else if (jsonObject.getString("statusCode").equalsIgnoreCase("1")){
+                                    final Dialog openDialog = new Dialog(GiveDelivery.this);
+                                    openDialog.setContentView(R.layout.alert);
+                                    openDialog.setTitle("status");
+                                    TextView dialogTextContent = (TextView)openDialog.findViewById(R.id.dialog_text);
+                                    dialogTextContent.setText("Your transaction has been succesfully updated");
+                                    ImageView dialogImage = (ImageView)openDialog.findViewById(R.id.dialog_image);
+                                    Button dialogCloseButton = (Button)openDialog.findViewById(R.id.dialog_button);
+                                    dialogCloseButton.setVisibility(View.GONE);
+                                    Button dialogno = (Button)openDialog.findViewById(R.id.cancel);
+                                    dialogno.setText("OK");
+                                    dialogno.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            openDialog.dismiss();
+
+//                                                //                                          Toast.makeText(Puckup.this, jsonResponse.getString("status"), Toast.LENGTH_SHORT).show();
+                                            Intent intent = new Intent(GiveDelivery.this,Dashpage.class);
+                                            //                                           TinyDB tinyDB = new TinyDB(Deliverydetails.this);
+//                                            tinyDB.putString("customerId",mm.getCustomerId());
+//                                            tinyDB.putString("jobId",mm.getJobid());
+                                            startActivity(intent);
+                                        }
+                                    });
+
+
+
+                                    openDialog.show();
+                                }
+
+
 
                             } catch (JSONException e) {
                                 e.printStackTrace();

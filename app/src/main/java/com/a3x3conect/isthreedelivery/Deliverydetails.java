@@ -1,7 +1,9 @@
 package com.a3x3conect.isthreedelivery;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
@@ -11,9 +13,11 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.a3x3conect.isthreedelivery.Models.TinyDB;
 import com.a3x3conect.isthreedelivery.Models.modelPickuplist;
@@ -36,7 +40,10 @@ public class Deliverydetails extends AppCompatActivity {
 
     TextView custname,address,total,count;
 
-    Button map,call,joborder;
+    Button joborder,cancel;
+
+    ImageButton map,call;
+    String radiostatus;
     modelPickuplist mm;
     Spinner spinner;
     String status,mMessage;
@@ -56,12 +63,73 @@ public class Deliverydetails extends AppCompatActivity {
         Log.e(String.valueOf(pos), message);
         custname = (TextView) findViewById(R.id.custname);
         address = (TextView) findViewById(R.id.adressdata);
-        total = (TextView) findViewById(R.id.total);
-        map = (Button) findViewById(R.id.directions);
-        call = (Button) findViewById(R.id.call);
-        joborder = (Button) findViewById(R.id.joborder);
-        count = (TextView)findViewById(R.id.count);
+       // total = (TextView) findViewById(R.id.total);
+        map = (ImageButton) findViewById(R.id.directions);
+        call = (ImageButton) findViewById(R.id.call);
+        joborder = (Button) findViewById(R.id.submit);
+      //  count = (TextView)findViewById(R.id.count);
         spinner = (Spinner)findViewById(R.id.spinner);
+        cancel = (Button)findViewById(R.id.cancel);
+
+
+
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                final String[] items = {"Customer not at home","Customer not answering phone","Payment not initiated","Issue not listed"};
+                final AlertDialog.Builder builder = new AlertDialog.Builder(Deliverydetails.this);//ERROR ShowDialog cannot be resolved to a type
+                builder.setTitle("Select a Status");
+                builder.setSingleChoiceItems(items, -1,
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int item) {
+
+                                radiostatus = items[item];
+
+                                //  Toast.makeText(getApplicationContext(), items[item], Toast.LENGTH_SHORT).show();
+                            }
+                        });
+
+                builder.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+
+
+                        dialog.dismiss();
+                        dialog.cancel();
+
+                    }
+                });
+
+                builder.setPositiveButton("SUBMIT", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+
+                        if (radiostatus!=null && !radiostatus.isEmpty()){
+
+                            Submitstatus();
+                            dialog.dismiss();
+                            dialog.cancel();
+
+
+                        }
+                        else {
+
+                            builder.show();
+
+
+                            Toast.makeText(Deliverydetails.this, "Select a Status", Toast.LENGTH_SHORT).show();
+
+
+                        }
+
+
+                    }
+                });
+
+                builder.show();
+            }
+        });
 
         try {
             JSONArray jj = new JSONArray(message);
@@ -71,8 +139,8 @@ public class Deliverydetails extends AppCompatActivity {
             Log.e("Adres", mm.getAddress());
             custname.setText(mm.getDisplayName());
             address.setText(mm.getAddress() + "," + mm.getLandMark() + "," + mm.getCity() + "," + mm.getState());
-            total.setText("Bill Amount: " +getResources().getString(R.string.rupee) +" "+ mm.getGrandTotal().toString());
-            count.setText("Clothes Count:" +mm.getCount());
+//            total.setText("Bill Amount: " +getResources().getString(R.string.rupee) +" "+ mm.getGrandTotal().toString());
+//            count.setText("Clothes Count:" +mm.getCount());
             tinyDB.putString("custid", mm.getCustomerId());
             tinyDB.putString("jobid", mm.getJobid());
             Log.e(mm.getCustomerId(), mm.getJobid());
@@ -105,66 +173,67 @@ public class Deliverydetails extends AppCompatActivity {
             }
         });
 
-
-        spinerdata.add("Select Status");
-        spinerdata.add("JOB-FINISHED");
-        //  spinerdata.add("PICKUP-CONFIRMED");
-        spinerdata.add("DELIVERY CUSTOMER NOTAVAILABLE");
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,R.layout.support_simple_spinner_dropdown_item,spinerdata);
-        spinner.setAdapter(adapter);
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                //               Toast.makeText(PickupDetails.this, spinerdata.get(position), Toast.LENGTH_SHORT).show();
-                status = spinerdata.get(position);
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
+//
+//        spinerdata.add("Select Status");
+//        spinerdata.add("JOB-FINISHED");
+//        //  spinerdata.add("PICKUP-CONFIRMED");
+//        spinerdata.add("DELIVERY CUSTOMER NOTAVAILABLE");
+//        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,R.layout.support_simple_spinner_dropdown_item,spinerdata);
+//        spinner.setAdapter(adapter);
+//        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//                //               Toast.makeText(PickupDetails.this, spinerdata.get(position), Toast.LENGTH_SHORT).show();
+//                status = spinerdata.get(position);
+//
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> parent) {
+//
+//            }
+//        });
         joborder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Intent intent = new Intent(Deliverydetails.this,GiveDelivery.class);
-//                startActivity(intent);
 
-                if (status.equalsIgnoreCase("Select Status")){
-                    final Dialog openDialog = new Dialog(Deliverydetails.this);
-                    openDialog.setContentView(R.layout.alert);
-                    openDialog.setTitle("Select Status");
-                    TextView dialogTextContent = (TextView)openDialog.findViewById(R.id.dialog_text);
-                    dialogTextContent.setText("Select Status Correctly");
-                    ImageView dialogImage = (ImageView)openDialog.findViewById(R.id.dialog_image);
-                    Button dialogCloseButton = (Button)openDialog.findViewById(R.id.dialog_button);
-                    dialogCloseButton.setVisibility(View.GONE);
-                    Button dialogno = (Button)openDialog.findViewById(R.id.cancel);
-                    dialogno.setText("OK");
-                    dialogno.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            openDialog.dismiss();
-
-
-//                                                //                                          Toast.makeText(Puckup.this, jsonResponse.getString("status"), Toast.LENGTH_SHORT).show();
-//                                                Intent intent = new Intent(Puckup.this,Dashpage.class);
-//                                                startActivity(intent);
-                        }
-                    });
-
-
-
-                    openDialog.show();
-
-                }
-
-
-                else {
-                    Submitstatus();
-
-                }
+                Intent intent = new Intent(Deliverydetails.this,GiveDelivery.class);
+                startActivity(intent);
+//
+//                if (status.equalsIgnoreCase("Select Status")){
+//                    final Dialog openDialog = new Dialog(Deliverydetails.this);
+//                    openDialog.setContentView(R.layout.alert);
+//                    openDialog.setTitle("Select Status");
+//                    TextView dialogTextContent = (TextView)openDialog.findViewById(R.id.dialog_text);
+//                    dialogTextContent.setText("Select Status Correctly");
+//                    ImageView dialogImage = (ImageView)openDialog.findViewById(R.id.dialog_image);
+//                    Button dialogCloseButton = (Button)openDialog.findViewById(R.id.dialog_button);
+//                    dialogCloseButton.setVisibility(View.GONE);
+//                    Button dialogno = (Button)openDialog.findViewById(R.id.cancel);
+//                    dialogno.setText("OK");
+//                    dialogno.setOnClickListener(new View.OnClickListener() {
+//                        @Override
+//                        public void onClick(View v) {
+//                            openDialog.dismiss();
+//
+//
+////                                                //                                          Toast.makeText(Puckup.this, jsonResponse.getString("status"), Toast.LENGTH_SHORT).show();
+////                                                Intent intent = new Intent(Puckup.this,Dashpage.class);
+////                                                startActivity(intent);
+//                        }
+//                    });
+//
+//
+//
+//                    openDialog.show();
+//
+//                }
+//
+//
+//                else {
+//                    Submitstatus();
+//
+//                }
             }
         });
 
@@ -184,7 +253,7 @@ public class Deliverydetails extends AppCompatActivity {
         try {
             postdat.put("customerId", mm.getCustomerId());
             postdat.put("jobId", mm.getJobid());
-            postdat.put("status",status);
+            postdat.put("status",radiostatus);
         } catch(JSONException e){
             // TODO Auto-generated catch block
             e.printStackTrace();

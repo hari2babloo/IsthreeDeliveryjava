@@ -54,6 +54,18 @@ public class modelPickuplist {
     @SerializedName("pincode")
     @Expose
     private String pincode;
+
+    public String getPickupScheduledAt() {
+        return pickupScheduledAt;
+    }
+
+    public void setPickupScheduledAt(String pickupScheduledAt) {
+        this.pickupScheduledAt = pickupScheduledAt;
+    }
+
+    @SerializedName("pickupScheduledAt")
+    @Expose
+    private String pickupScheduledAt;
     @SerializedName("lat")
     @Expose
     private String lat;
