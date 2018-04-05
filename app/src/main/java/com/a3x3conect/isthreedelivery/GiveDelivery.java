@@ -11,12 +11,14 @@ import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TableLayout;
@@ -64,6 +66,7 @@ public class GiveDelivery extends AppCompatActivity {
     String mMessage2,mMessage;
     JobOrder jobOrder;
     float garmentscount = 0;
+    String addmoneyamount;
     float sum = 0;
 
 
@@ -160,6 +163,41 @@ public class GiveDelivery extends AppCompatActivity {
                 else {
 
 
+                    final Dialog openDialog = new Dialog(GiveDelivery.this);
+                    openDialog.setContentView(R.layout.addmoney);
+                    openDialog.setTitle("Enter Money");
+                    TextView dialogTextContent = (TextView)openDialog.findViewById(R.id.dialog_text);
+                   // dialogTextContent.setText("Something Went Wrong");
+                    final EditText editText = (EditText)openDialog.findViewById(R.id.editText);
+                    ImageView dialogImage = (ImageView)openDialog.findViewById(R.id.dialog_image);
+                    Button dialogCloseButton = (Button)openDialog.findViewById(R.id.dialog_button);
+  //                  dialogCloseButton.setVisibility(View.GONE);
+                    Button dialogno = (Button)openDialog.findViewById(R.id.cancel);
+                    //dialogno.setText("OK");
+                    dialogCloseButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+
+
+                         amountcollected = Double.parseDouble(editText.getText().toString());
+                         finishjobstatus();
+                            openDialog.dismiss();
+//                                                //                                          Toast.makeText(GiveDelivery.this, jsonResponse.getString("status"), Toast.LENGTH_SHORT).show();
+//                                                Intent intent = new Intent(GiveDelivery.this,Dashpage.class);
+//                                                startActivity(intent);
+                        }
+                    });
+
+                    dialogno.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            openDialog.dismiss();
+                        }
+                    });
+
+
+                    openDialog.show();
+
 
                 }
 
@@ -237,9 +275,7 @@ public class GiveDelivery extends AppCompatActivity {
                     }
                 });
 
-
                 mMessage2 = e.getMessage().toString();
-
                 Log.e("error",mMessage2);
             }
 
@@ -726,16 +762,17 @@ public class GiveDelivery extends AppCompatActivity {
 
                 pd.cancel();
                 pd.dismiss();
-                mMessage = response.body().string();
+                mMessage2 = response.body().string();
+                Log.e("Resyehgr",mMessage2);
                 if (response.isSuccessful()){
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
 
-                            Log.e("Resy",mMessage);
+                            Log.e("Resyehgr",mMessage2);
 
                             try {
-                                JSONObject jsonObject = new JSONObject(mMessage);
+                                JSONObject jsonObject = new JSONObject(mMessage2);
                                 if (jsonObject.getString("statusCode").equalsIgnoreCase("0")){
                                     final Dialog openDialog = new Dialog(GiveDelivery.this);
                                     openDialog.setContentView(R.layout.alert);
