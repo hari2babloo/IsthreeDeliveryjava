@@ -7,11 +7,13 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -67,6 +69,7 @@ ProgressDialog pd;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.summary_report);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         tinyDB = new TinyDB(SummaryReport.this);
         home =  (Button)findViewById(R.id.home);
         cancelorder = (Button)findViewById(R.id.cancel);
@@ -799,6 +802,15 @@ ProgressDialog pd;
         });
     }
 
-
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                NavUtils.navigateUpFromSameTask(this);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 
 }

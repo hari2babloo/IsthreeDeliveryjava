@@ -15,7 +15,7 @@
         android:layout_marginBottom="12dp"
         android:layout_weight="1"
         android:gravity="center"
-        android:text="Summary Report"
+        android:text="Order Details"
         android:textColor="@color/bluee"
         android:textSize="18sp"
         android:textStyle="bold" />
@@ -28,9 +28,6 @@
         android:layout_margin="5dp"
         android:layout_weight="1"
         android:orientation="horizontal">
-
-
-
 
         <TextView
             android:id="@+id/item"
@@ -97,7 +94,7 @@
         android:layout_alignParentBottom="true"
 
         android:layout_below="@+id/fishPriceList"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="20dp"
         android:gravity="center"
         android:orientation="vertical">
 
@@ -109,22 +106,22 @@
 
 
             <TableRow
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:gravity="center">
 
                 <TextView
                     android:id="@+id/grdtotal2"
-                    android:layout_width="match_parent"
+                    android:layout_width="120dp"
                     android:layout_height="wrap_content"
-                    android:text="Total Clothes Count"
+                    android:text="Clothes Count:"
                     android:textColor="@color/bluee"
                     android:textSize="15sp" />
 
                 <TextView
                     android:id="@+id/grdtotal"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Total Clothes Count"
                     android:textColor="@color/red"
@@ -133,37 +130,79 @@
             </TableRow>
 
             <TableRow
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center">
 
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="120dp"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="Amount"
+                    android:text="Amount:"
                     android:textColor="@color/bluee"
                     android:textSize="15sp" />
-
-
-            </TableRow>
-
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center">
-
 
                 <TextView
                     android:id="@+id/btmtotal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
                     android:text="Total"
                     android:textColor="@color/red"
-                    android:textSize="24sp" />
+                    android:textSize="20sp" />
+
+
             </TableRow>
+
+
+            <TableRow
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/pendingbale"
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:text="Balance to pay:"
+                    android:textColor="@color/bluee"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/baltopay"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="baltopay"
+                    android:textColor="@color/red"
+                    android:textSize="20sp" />
+
+            </TableRow>
+
+
+            <TableRow
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/amountpaid2"
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:text="Amount Paid:"
+                    android:textColor="@color/bluee"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/amountpaid"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Amount paid"
+                    android:textColor="@color/red"
+                    android:textSize="20sp" />
+
+            </TableRow>
+
 
         </TableLayout>
 
@@ -186,21 +225,10 @@
                 android:layout_height="35dp"
                 android:layout_margin="5dp"
                 android:background="@drawable/greenroundcorner"
-                android:text="Delivery Succesful"
+                android:text="Proceed"
                 android:textColor="@color/cardview_light_background" />
 
         </TableRow>
-
-        <TextView
-            android:id="@+id/btmamt2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:gravity="center"
-            android:text="You can update your options from Enter order menu"
-            android:textColor="@color/bluee"
-            android:textSize="12sp"
-            android:visibility="gone" />
 
 
     </LinearLayout>

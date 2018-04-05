@@ -56,8 +56,8 @@ public class Signin extends AppCompatActivity {
 
         tinyDB = new TinyDB(this);
 
-        Log.e("custid",tinyDB.getString("custid"));
-        String s = tinyDB.getString("custid");
+        Log.e("partnerid",tinyDB.getString("partnerid"));
+        String s = tinyDB.getString("partnerid");
         if (s != null && !s.isEmpty()){
 
             Intent intent = new Intent(Signin.this,Dashpage.class);
@@ -236,7 +236,7 @@ public class Signin extends AppCompatActivity {
 
                     Intent intent = new Intent(Signin.this,Dashpage.class);
 //              intent.putExtra("custid",modelsignin.get(j).getUserName());
-                    tinyDB.putString("custid",modelsignin.get(j).getUserName());
+                    tinyDB.putString("partnerid",modelsignin.get(j).getUserName());
                     startActivity(intent);
                 }
 

@@ -3,11 +3,14 @@ package com.a3x3conect.isthreedelivery.Models;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
 /**
  * Created by hari on 20/3/18.
  */
 
 public class getJobSummary {
+
 
     @SerializedName("id")
     @Expose
@@ -29,19 +32,19 @@ public class getJobSummary {
     private String date;
     @SerializedName("category")
     @Expose
-    private String category;
+    private List<String> category = null;
     @SerializedName("price")
     @Expose
-    private String price;
+    private List<String> price = null;
     @SerializedName("qty")
     @Expose
-    private String qty;
+    private List<String> qty = null;
     @SerializedName("subTotal")
     @Expose
-    private String subTotal;
+    private List<String> subTotal = null;
     @SerializedName("status")
     @Expose
-    private Object status;
+    private String status;
     @SerializedName("GSTPercentage")
     @Expose
     private String gSTPercentage;
@@ -51,6 +54,15 @@ public class getJobSummary {
     @SerializedName("grandTotal")
     @Expose
     private String grandTotal;
+    @SerializedName("payableAmount")
+    @Expose
+    private String payableAmount;
+    @SerializedName("amountPaid")
+    @Expose
+    private String amountPaid;
+    @SerializedName("balanceAmountToPay")
+    @Expose
+    private String balanceAmountToPay;
 
     public String getId() {
         return id;
@@ -100,43 +112,43 @@ public class getJobSummary {
         this.date = date;
     }
 
-    public String getCategory() {
+    public List<String> getCategory() {
         return category;
     }
 
-    public void setCategory(String category) {
+    public void setCategory(List<String> category) {
         this.category = category;
     }
 
-    public String getPrice() {
+    public List<String> getPrice() {
         return price;
     }
 
-    public void setPrice(String price) {
+    public void setPrice(List<String> price) {
         this.price = price;
     }
 
-    public String getQty() {
+    public List<String> getQty() {
         return qty;
     }
 
-    public void setQty(String qty) {
+    public void setQty(List<String> qty) {
         this.qty = qty;
     }
 
-    public String getSubTotal() {
+    public List<String> getSubTotal() {
         return subTotal;
     }
 
-    public void setSubTotal(String subTotal) {
+    public void setSubTotal(List<String> subTotal) {
         this.subTotal = subTotal;
     }
 
-    public Object getStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(Object status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 
@@ -163,5 +175,30 @@ public class getJobSummary {
     public void setGrandTotal(String grandTotal) {
         this.grandTotal = grandTotal;
     }
+
+    public String getPayableAmount() {
+        return payableAmount;
+    }
+
+    public void setPayableAmount(String payableAmount) {
+        this.payableAmount = payableAmount;
+    }
+
+    public String getAmountPaid() {
+        return amountPaid;
+    }
+
+    public void setAmountPaid(String amountPaid) {
+        this.amountPaid = amountPaid;
+    }
+
+    public String getBalanceAmountToPay() {
+        return balanceAmountToPay;
+    }
+
+    public void setBalanceAmountToPay(String balanceAmountToPay) {
+        this.balanceAmountToPay = balanceAmountToPay;
+    }
+
 
 }
