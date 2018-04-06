@@ -54,6 +54,9 @@ public class getJobSummary {
     @SerializedName("grandTotal")
     @Expose
     private String grandTotal;
+    @SerializedName("paymentMode")
+    @Expose
+    private String paymentMode;
     @SerializedName("payableAmount")
     @Expose
     private String payableAmount;
@@ -176,6 +179,14 @@ public class getJobSummary {
         this.grandTotal = grandTotal;
     }
 
+    public String getPaymentMode() {
+        return paymentMode;
+    }
+
+    public void setPaymentMode(String paymentMode) {
+        this.paymentMode = paymentMode;
+    }
+
     public String getPayableAmount() {
         return payableAmount;
     }
@@ -199,6 +210,7 @@ public class getJobSummary {
     public void setBalanceAmountToPay(String balanceAmountToPay) {
         this.balanceAmountToPay = balanceAmountToPay;
     }
+
 
 
 }

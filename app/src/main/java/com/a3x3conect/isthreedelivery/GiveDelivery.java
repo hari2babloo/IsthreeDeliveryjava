@@ -6,6 +6,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
@@ -60,12 +61,13 @@ public class GiveDelivery extends AppCompatActivity {
     List<DataFish2> filterdata2=new ArrayList<DataFish2>();
     private AdapterFish Adapter;
     Button home,cancel;
-    String radiostatus;
+    String radiostatus,paymentmode;
     double s,amountpayable,amountcollected;
     TinyDB tinyDB;
     String mMessage2,mMessage;
     JobOrder jobOrder;
     float garmentscount = 0;
+
     String addmoneyamount;
     float sum = 0;
 
@@ -308,6 +310,41 @@ public class GiveDelivery extends AppCompatActivity {
 
                                 baltopay.setText(getResources().getString(R.string.rupee)+modelsignin.get(j).getPayableAmount());
                                 amtpaid.setText(getResources().getString(R.string.rupee)+modelsignin.get(j).getAmountPaid());
+
+                                paymentmode = modelsignin.get(j).getPaymentMode();
+
+ //                               Log.e("Paymentmode",paymentmode);
+
+                                if (paymentmode == null) {
+
+                                   // Toast.makeText(GiveDelivery.this, "Empty", Toast.LENGTH_SHORT).show();
+
+                                    home.setVisibility(View.GONE);
+
+
+                                    final Dialog openDialog = new Dialog(GiveDelivery.this);
+                                    openDialog.setContentView(R.layout.alert);
+                                    openDialog.setTitle("Payment");
+                                    TextView dialogTextContent = (TextView)openDialog.findViewById(R.id.dialog_text);
+                                    dialogTextContent.setText("Please request your customer to initiate payment");
+                                    ImageView dialogImage = (ImageView)openDialog.findViewById(R.id.dialog_image);
+                                    Button dialogCloseButton = (Button)openDialog.findViewById(R.id.dialog_button);
+                                    dialogCloseButton.setVisibility(View.GONE);
+                                    Button dialogno = (Button)openDialog.findViewById(R.id.cancel);
+                                    dialogno.setText("OK");
+                                    dialogno.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            openDialog.dismiss();
+
+//                                                //                                          Toast.makeText(GiveDelivery.this, jsonResponse.getString("status"), Toast.LENGTH_SHORT).show();
+                                                Intent intent = new Intent(GiveDelivery.this,Deliverylist.class);
+                                                startActivity(intent);
+                                        }
+                                    });
+                                    openDialog.show();
+                                    // doSomething
+                                }
 
                                 amountpayable = Double.parseDouble(modelsignin.get(j).getPayableAmount());
                                 amountcollected = Double.parseDouble(modelsignin.get(j).getPayableAmount());
@@ -816,6 +853,8 @@ public class GiveDelivery extends AppCompatActivity {
                                     Button dialogCloseButton = (Button)openDialog.findViewById(R.id.dialog_button);
                                     dialogCloseButton.setVisibility(View.GONE);
                                     Button dialogno = (Button)openDialog.findViewById(R.id.cancel);
+
+                                    //dialogno.setBackground(R.drawable.greenroundcorner);
                                     dialogno.setText("OK");
                                     dialogno.setOnClickListener(new View.OnClickListener() {
                                         @Override
