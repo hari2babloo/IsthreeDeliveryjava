@@ -58,6 +58,7 @@ public class Signin extends AppCompatActivity {
 
         Log.e("partnerid",tinyDB.getString("partnerid"));
         String s = tinyDB.getString("partnerid");
+
         if (s != null && !s.isEmpty()){
 
             Intent intent = new Intent(Signin.this,Dashpage.class);
@@ -297,10 +298,13 @@ public class Signin extends AppCompatActivity {
             public void onClick(View v) {
                 openDialog.dismiss();
 
-                Intent intent = new Intent(Intent.ACTION_MAIN);
-                intent.addCategory(Intent.CATEGORY_HOME);
-                startActivity(intent);
-                Signin.this.finish();
+                Intent homeIntent = new Intent(Intent.ACTION_MAIN);
+                homeIntent.addCategory( Intent.CATEGORY_HOME );
+                homeIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(homeIntent);
+                //
+//                Signin.this.finish();
+//                System.exit(0);
 //                                                //                                          Toast.makeText(Puckup.this, jsonResponse.getString("status"), Toast.LENGTH_SHORT).show();
 //                                                Intent intent = new Intent(Puckup.this,Dashpage.class);
 //                                                startActivity(intent);

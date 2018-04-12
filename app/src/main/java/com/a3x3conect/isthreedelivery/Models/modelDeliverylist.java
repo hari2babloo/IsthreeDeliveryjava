@@ -10,6 +10,7 @@ import com.google.gson.annotations.SerializedName;
 public class modelDeliverylist {
 
 
+
     @SerializedName("id")
     @Expose
     private String id;
@@ -25,12 +26,21 @@ public class modelDeliverylist {
     @SerializedName("status")
     @Expose
     private String status;
+    @SerializedName("count")
+    @Expose
+    private String count;
+    @SerializedName("grandTotal")
+    @Expose
+    private String grandTotal;
+    @SerializedName("paymentMode")
+    @Expose
+    private Object paymentMode;
     @SerializedName("displayName")
     @Expose
     private String displayName;
     @SerializedName("pic")
     @Expose
-    private String pic;
+    private Object pic;
     @SerializedName("Address")
     @Expose
     private String address;
@@ -61,6 +71,9 @@ public class modelDeliverylist {
     @SerializedName("phoneNo")
     @Expose
     private String phoneNo;
+    @SerializedName("orderDeliveryDate")
+    @Expose
+    private String orderDeliveryDate;
 
     public String getId() {
         return id;
@@ -102,6 +115,30 @@ public class modelDeliverylist {
         this.status = status;
     }
 
+    public String getCount() {
+        return count;
+    }
+
+    public void setCount(String count) {
+        this.count = count;
+    }
+
+    public String getGrandTotal() {
+        return grandTotal;
+    }
+
+    public void setGrandTotal(String grandTotal) {
+        this.grandTotal = grandTotal;
+    }
+
+    public Object getPaymentMode() {
+        return paymentMode;
+    }
+
+    public void setPaymentMode(Object paymentMode) {
+        this.paymentMode = paymentMode;
+    }
+
     public String getDisplayName() {
         return displayName;
     }
@@ -110,11 +147,11 @@ public class modelDeliverylist {
         this.displayName = displayName;
     }
 
-    public String getPic() {
+    public Object getPic() {
         return pic;
     }
 
-    public void setPic(String pic) {
+    public void setPic(Object pic) {
         this.pic = pic;
     }
 
@@ -196,5 +233,13 @@ public class modelDeliverylist {
 
     public void setPhoneNo(String phoneNo) {
         this.phoneNo = phoneNo;
+    }
+
+    public String getOrderDeliveryDate() {
+        return orderDeliveryDate;
+    }
+
+    public void setOrderDeliveryDate(String orderDeliveryDate) {
+        this.orderDeliveryDate = orderDeliveryDate;
     }
 }

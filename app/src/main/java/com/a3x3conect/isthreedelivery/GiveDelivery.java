@@ -354,7 +354,7 @@ public class GiveDelivery extends AppCompatActivity {
 
                                    // finishjobstatus();
 
-                                    home.setText("ADD MONEY");
+                                    home.setText("ADD MONEY TO USER WALLET");
                                 }
                                 else {
 

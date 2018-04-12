@@ -20,12 +20,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.a3x3conect.isthreedelivery.Models.TinyDB;
 import com.a3x3conect.isthreedelivery.Models.modelPickuplist;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.squareup.okhttp.Callback;
+import com.squareup.okhttp.MediaType;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
+import com.squareup.okhttp.RequestBody;
 import com.squareup.okhttp.Response;
 
 import org.json.JSONArray;
@@ -47,6 +50,7 @@ public class Pickuplist extends AppCompatActivity {
     String mMessage;
     RecyclerView mRVFishPrice;
     private AdapterFish Adapter;
+    TinyDB tinyDB;
     ArrayList<prizes> dataModels = new ArrayList<>();
 
     List<modelPickuplist> filterdata=new ArrayList<modelPickuplist>();
@@ -54,10 +58,13 @@ public class Pickuplist extends AppCompatActivity {
     modelPickuplist data = new modelPickuplist();
     final ArrayList<String> dd = new ArrayList<>();
     List<modelPickuplist> tarif;
+    public static final MediaType MEDIA_TYPE =
+            MediaType.parse("application/json");
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.pickuplist);
+        tinyDB = new TinyDB(this);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mRVFishPrice = (RecyclerView)findViewById(R.id.fishPriceList);
 
@@ -74,10 +81,22 @@ public class Pickuplist extends AppCompatActivity {
         pd.setCancelable(false);
         pd.show();
         final OkHttpClient client = new OkHttpClient();
+        JSONObject postdat = new JSONObject();
+
+        try {
+            //  postdat.put("customerId", tinyDB.getString("custid"));
+            postdat.put("agentId", tinyDB.getString("partnerid"));
+        } catch(JSONException e){
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        RequestBody body = RequestBody.create(MEDIA_TYPE,postdat.toString());
+
+        Log.e("postdata",postdat.toString());
 
         final Request request = new Request.Builder()
                 .url("http://52.172.191.222/isthree/index.php/services/getPickupRequests")
-                .get()
+                .post(body)
                 .build();
 
         client.newCall(request).enqueue(new Callback() {
@@ -248,6 +267,8 @@ public class Pickuplist extends AppCompatActivity {
             //    setHasStableIds(true);
             myHolder.one.setText(current.getCustomerId());
             myHolder.two.setText(current.getDisplayName());
+            myHolder.three.setText(current.getPickupScheduledAt());
+
 //            myHolder.three.setText("City"+current.getCity() +" " +current.getCountry());
 //            myHolder.four.setText("Name"+current.getDisplayName());
 //            myHolder.five.setText("Phone"+current.getPhoneNo());
@@ -265,12 +286,13 @@ public class Pickuplist extends AppCompatActivity {
 
 
         class MyHolder extends RecyclerView.ViewHolder {
-            TextView one,two;
+            TextView one,two,three;
             // create constructor to get widget reference
             public MyHolder(View itemView) {
                 super(itemView);
                 one = (TextView) itemView.findViewById(R.id.one);
                 two = (TextView)itemView.findViewById(R.id.two);
+                three= (TextView)itemView.findViewById(R.id.three);
 
 
             }
