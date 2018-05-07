@@ -113,7 +113,7 @@ public class PickupDetails extends AppCompatActivity {
 
                                                   if (radiostatus!=null && !radiostatus.isEmpty()){
 
-                                                      Submitstatus();
+                                                         CancelStatus();
                                                       dialog.dismiss();
                                                       dialog.cancel();
 
@@ -153,14 +153,14 @@ public class PickupDetails extends AppCompatActivity {
             JSONObject ss =jj.getJSONObject(pos);
             Gson gson = new Gson();
             mm = gson.fromJson(String.valueOf(ss),modelPickuplist.class);
-            Log.e("Adres", mm.getAddress());
+//            Log.e("Adres", mm.getAddress());
             custname.setText(mm.getDisplayName() + " ("+mm.getCustomerId()+")");
             address.setText(mm.getAddress() + ","+mm.getLandMark()+ ","+mm.getCity()+","+mm.getState());
             pickupdate.setText(mm.getPickupScheduledAt());
             tinyDB.putString("custid",mm.getCustomerId());
             tinyDB.putString("jobid",mm.getJobid());
-            Log.e("custid",mm.getCustomerId());
-            Log.e("job" ,mm.getJobid());
+ //           Log.e("custid",mm.getCustomerId());
+   //         Log.e("job" ,mm.getJobid());
 ////
 //            if (mm.getStatus().equalsIgnoreCase("PICKUP-INITIATED")){
 //
@@ -317,7 +317,7 @@ public class PickupDetails extends AppCompatActivity {
         }
         RequestBody body = RequestBody.create(MEDIA_TYPE,postdat.toString());
         final Request request = new Request.Builder()
-                .url("http://52.172.191.222/isthree/index.php/services/updateJobStatus")
+                .url(getString(R.string.baseurl)+"updateJobStatus")
                 .post(body)
                 .build();
         okHttpClient.newCall(request).enqueue(new Callback() {
@@ -380,7 +380,7 @@ public class PickupDetails extends AppCompatActivity {
 
                             try {
                                 JSONObject jsonObject = new JSONObject(mMessage);
-
+//
                                 Intent intent = new Intent(PickupDetails.this,SummaryReport.class);
                                 startActivity(intent);
 
@@ -450,6 +450,175 @@ public class PickupDetails extends AppCompatActivity {
                             }
                             // Toast.makeText(Signin.this, mMessage, Toast.LENGTH_SHORT).show();
                            // TraverseData();
+
+                        }
+                    });
+                }
+                else runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+
+
+                    }
+                });
+            }
+        });
+    }
+
+    private void CancelStatus() {
+
+
+        pd = new ProgressDialog(PickupDetails.this);
+        pd.setMessage("Updating Status..");
+        pd.setCancelable(false);
+        pd.show();
+        final OkHttpClient okHttpClient = new OkHttpClient();
+        JSONObject postdat = new JSONObject();
+
+        try {
+            postdat.put("customerId", mm.getCustomerId());
+            postdat.put("jobId", mm.getJobid());
+            postdat.put("status",radiostatus);
+        } catch(JSONException e){
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        RequestBody body = RequestBody.create(MEDIA_TYPE,postdat.toString());
+        final Request request = new Request.Builder()
+                .url(getString(R.string.baseurl)+"updateJobStatus")
+                .post(body)
+                .build();
+        okHttpClient.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Request request, IOException e) {
+
+                pd.cancel();
+                pd.dismiss();
+                String mMessage = e.getMessage().toString();
+                Log.e("resyul reer",mMessage);
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        final Dialog openDialog = new Dialog(PickupDetails.this);
+                        openDialog.setContentView(R.layout.alert);
+                        openDialog.setTitle("No Internet");
+                        TextView dialogTextContent = (TextView)openDialog.findViewById(R.id.dialog_text);
+                        dialogTextContent.setText("Something Went Wrong");
+                        ImageView dialogImage = (ImageView)openDialog.findViewById(R.id.dialog_image);
+                        Button dialogCloseButton = (Button)openDialog.findViewById(R.id.dialog_button);
+                        dialogCloseButton.setVisibility(View.GONE);
+                        Button dialogno = (Button)openDialog.findViewById(R.id.cancel);
+                        dialogno.setText("OK");
+                        dialogno.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                openDialog.dismiss();
+
+//                                                //                                          Toast.makeText(Puckup.this, jsonResponse.getString("status"), Toast.LENGTH_SHORT).show();
+//                                                Intent intent = new Intent(PickupDetails.this,SummaryReport.class);
+//                                                startActivity(intent);
+                            }
+                        });
+
+
+
+                        openDialog.show();
+
+                    }
+                });
+
+
+
+            }
+
+            @Override
+            public void onResponse(Response response) throws IOException {
+
+
+                pd.cancel();
+                pd.dismiss();
+                mMessage = response.body().string();
+                if (response.isSuccessful()){
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+
+                            Log.e("Resy",mMessage);
+
+                            try {
+                                JSONObject jsonObject = new JSONObject(mMessage);
+
+
+
+                                if (jsonObject.getString("statusCode").equalsIgnoreCase("0")){
+                                    final Dialog openDialog = new Dialog(PickupDetails.this);
+                                    openDialog.setContentView(R.layout.alert);
+                                    openDialog.setTitle("status");
+                                    TextView dialogTextContent = (TextView)openDialog.findViewById(R.id.dialog_text);
+                                    dialogTextContent.setText(jsonObject.getString("status"));
+                                    ImageView dialogImage = (ImageView)openDialog.findViewById(R.id.dialog_image);
+                                    Button dialogCloseButton = (Button)openDialog.findViewById(R.id.dialog_button);
+                                    dialogCloseButton.setVisibility(View.GONE);
+                                    Button dialogno = (Button)openDialog.findViewById(R.id.cancel);
+                                    dialogno.setText("OK");
+                                    dialogno.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            openDialog.dismiss();
+
+//                                                //                                          Toast.makeText(Puckup.this, jsonResponse.getString("status"), Toast.LENGTH_SHORT).show();
+                                                Intent intent = new Intent(PickupDetails.this,Dashpage.class);
+                                                startActivity(intent);
+                                        }
+                                    });
+
+
+
+                                    openDialog.show();
+
+                                }
+
+                                else if (jsonObject.getString("statusCode").equalsIgnoreCase("1")){
+                                    final Dialog openDialog = new Dialog(PickupDetails.this);
+                                    openDialog.setContentView(R.layout.alert);
+                                    openDialog.setTitle("status");
+                                    TextView dialogTextContent = (TextView)openDialog.findViewById(R.id.dialog_text);
+                                    dialogTextContent.setText("Your order has been cancelled succesfully");
+                                    ImageView dialogImage = (ImageView)openDialog.findViewById(R.id.dialog_image);
+                                    Button dialogCloseButton = (Button)openDialog.findViewById(R.id.dialog_button);
+                                    dialogCloseButton.setVisibility(View.GONE);
+                                    Button dialogno = (Button)openDialog.findViewById(R.id.cancel);
+                                    dialogno.setText("OK");
+
+
+                                    dialogno.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            openDialog.dismiss();
+
+//                                                //                                          Toast.makeText(Puckup.this, jsonResponse.getString("status"), Toast.LENGTH_SHORT).show();
+                                                Intent intent = new Intent(PickupDetails.this,Dashpage.class);
+ //                                           TinyDB tinyDB = new TinyDB(PickupDetails.this);
+//                                            tinyDB.putString("customerId",mm.getCustomerId());
+//                                            tinyDB.putString("jobId",mm.getJobid());
+                                                startActivity(intent);
+                                        }
+                                    });
+
+
+
+                                    openDialog.show();
+                                }
+
+
+
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                            // Toast.makeText(Signin.this, mMessage, Toast.LENGTH_SHORT).show();
+                            // TraverseData();
 
                         }
                     });

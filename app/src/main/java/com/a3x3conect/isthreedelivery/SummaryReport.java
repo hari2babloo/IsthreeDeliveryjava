@@ -57,11 +57,12 @@ ProgressDialog pd;
     double s;
     TinyDB tinyDB;
     String mMessage2,mMessage,radiostatus;
+
     JobOrder jobOrder;
     float garmentscount = 0;
     float sum = 0;
 
-    TextView grdtotal;
+    TextView grdtotal,date,custid,status,jobidtxt;
     public static final MediaType MEDIA_TYPE =
             MediaType.parse("application/json");
     
@@ -73,9 +74,12 @@ ProgressDialog pd;
         tinyDB = new TinyDB(SummaryReport.this);
         home =  (Button)findViewById(R.id.home);
         cancelorder = (Button)findViewById(R.id.cancel);
-
-
         grdtotal = (TextView)findViewById(R.id.grdtotal);
+
+        jobidtxt =  (TextView)findViewById(R.id.jobid);
+        custid =  (TextView)findViewById(R.id.custid);
+        date =  (TextView)findViewById(R.id.date);
+      //  status = (TextView)findViewById(R.id.delstatus);
 
         cancelorder.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -138,6 +142,8 @@ ProgressDialog pd;
         home.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                home.setEnabled(false);
+
 
                 Invoice();
 
@@ -175,7 +181,7 @@ ProgressDialog pd;
 
         Log.e("postdata",postdat.toString());
         final Request request = new Request.Builder()
-                .url("http://52.172.191.222/isthree/index.php/services/getJobOrder")
+                .url(getString(R.string.baseurl)+"getJobOrder")
                 .post(body)
                 .build();
         okHttpClient.newCall(request).enqueue(new Callback() {
@@ -184,6 +190,7 @@ ProgressDialog pd;
 
                 pd.cancel();
                 pd.dismiss();
+
 
                 runOnUiThread(new Runnable() {
                     @Override
@@ -223,6 +230,7 @@ ProgressDialog pd;
                 pd.cancel();
                 pd.dismiss();
                 mMessage2 = response.body().string();
+              //  home.setEnabled(true);
                 if (response.isSuccessful()){
                     runOnUiThread(new Runnable() {
                         @Override
@@ -279,6 +287,11 @@ ProgressDialog pd;
                                      jobOrder = gson.fromJson(mMessage2,JobOrder.class);
 
 
+                                     jobidtxt.setText(jobOrder.getJobid());
+                                     custid.setText(jobOrder.getCustomerId());
+                                     date.setText(jobOrder.getDate());
+
+
 //                                String s = jobOrder.getCustomerId();
 
 //                                filterdata2.add(jobOrder);
@@ -293,8 +306,6 @@ ProgressDialog pd;
                                         Float ss3 =  Float.parseFloat(jobOrder.getQuantity().get(i));
                                         Float ss4 = ss2 * ss3;
                                         DataFish2 sds = new DataFish2(jobOrder.getCategory().get(i),jobOrder.getQuantity().get(i),jobOrder.getPrice().get(i),String.valueOf(ss4));
-
-
                                         filterdata2.add(sds);
                                     }
 
@@ -395,7 +406,6 @@ ProgressDialog pd;
             //    setHasStableIds(true);
 
 
-
             myHolder.item.setText(current.item);
             myHolder.noofpices.setText(current.noofpieces);
             myHolder.cost.setText(current.cost);
@@ -453,6 +463,7 @@ ProgressDialog pd;
         pd.setMessage("Updating Status..");
         pd.setCancelable(false);
         pd.show();
+
         final OkHttpClient okHttpClient = new OkHttpClient();
         JSONObject postdat = new JSONObject();
 
@@ -486,7 +497,7 @@ ProgressDialog pd;
         RequestBody body = RequestBody.create(MEDIA_TYPE,postdat.toString());
         Log.e("putdata",postdat.toString());
         final Request request = new Request.Builder()
-                .url("http://52.172.191.222/isthree/index.php/services/deliveryInvoice")
+                .url(getString(R.string.baseurl)+"deliveryInvoice")
                 .post(body)
                 .build();
         okHttpClient.newCall(request).enqueue(new Callback() {
@@ -495,6 +506,8 @@ ProgressDialog pd;
 
                 pd.cancel();
                 pd.dismiss();
+
+ //               home.setEnabled(true);
                 String mMessage = e.getMessage().toString();
                 Log.e("resyul reer",mMessage);
 
@@ -540,6 +553,7 @@ ProgressDialog pd;
                 pd.cancel();
                 pd.dismiss();
                 mMessage = response.body().string();
+//                home.setEnabled(true);
                 if (response.isSuccessful()){
                     runOnUiThread(new Runnable() {
                         @Override
@@ -657,7 +671,7 @@ ProgressDialog pd;
         }
         RequestBody body = RequestBody.create(MEDIA_TYPE,postdat.toString());
         final Request request = new Request.Builder()
-                .url("http://52.172.191.222/isthree/index.php/services/updateJobStatus")
+                .url(getString(R.string.baseurl)+"updateJobStatus")
                 .post(body)
                 .build();
         okHttpClient.newCall(request).enqueue(new Callback() {

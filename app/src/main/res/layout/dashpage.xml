@@ -52,7 +52,11 @@
                 android:id="@+id/pickup"
                 android:layout_width="150dp"
                 android:layout_height="150dp"
-                android:background="@drawable/pickup" />
+                android:scaleType="fitCenter"
+                android:theme="@style/AppTheme.GreenRipple"
+                app:srcCompat="@drawable/pickup"
+                android:background="?selectableItemBackground"
+                />
 
             <View
                 android:layout_width="1dp"
@@ -63,7 +67,10 @@
                 android:id="@+id/delivery"
                 android:layout_width="150dp"
                 android:layout_height="150dp"
-                android:background="@drawable/deliver" />
+                android:scaleType="fitCenter"
+                android:theme="@style/AppTheme.GreenRipple"
+                app:srcCompat="@drawable/deliver"
+                android:background="?selectableItemBackground" />
 
         </TableRow>
     </RelativeLayout>

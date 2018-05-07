@@ -154,12 +154,14 @@ public class Dashpage extends AppCompatActivity {
 //                Intent intent = new Intent(Intent.ACTION_MAIN);
 //                intent.addCategory(Intent.CATEGORY_HOME);
 //                startActivity(intent);
+//
+//                Intent homeIntent = new Intent(Intent.ACTION_MAIN);
+//                homeIntent.addCategory( Intent.CATEGORY_HOME );
+//                homeIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                startActivity(homeIntent);
+//                Dashpage.this.finish();
 
-                Intent homeIntent = new Intent(Intent.ACTION_MAIN);
-                homeIntent.addCategory( Intent.CATEGORY_HOME );
-                homeIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(homeIntent);
-                Dashpage.this.finish();
+                moveTaskToBack(true);
 //                System.exit(0);
 //                                                //                                          Toast.makeText(Puckup.this, jsonResponse.getString("status"), Toast.LENGTH_SHORT).show();
 //                                                Intent intent = new Intent(Puckup.this,Dashpage.class);

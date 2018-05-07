@@ -264,7 +264,7 @@ public class Deliverydetails extends AppCompatActivity {
         }
         RequestBody body = RequestBody.create(MEDIA_TYPE,postdat.toString());
         final Request request = new Request.Builder()
-                .url("http://52.172.191.222/isthree/index.php/services/updateJobStatus")
+                .url(getString(R.string.baseurl)+"updateJobStatus")
                 .post(body)
                 .build();
         okHttpClient.newCall(request).enqueue(new Callback() {

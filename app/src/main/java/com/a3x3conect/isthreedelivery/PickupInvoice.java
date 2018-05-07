@@ -64,7 +64,7 @@ tinyDB = new TinyDB(PickupInvoice.this);
         }
         RequestBody body = RequestBody.create(MEDIA_TYPE,postdat.toString());
         final Request request = new Request.Builder()
-                .url("http://52.172.191.222/isthree/index.php/services/getJoborder")
+                .url(getString(R.string.baseurl)+"getJoborder")
                 .post(body)
                 .build();
         okHttpClient.newCall(request).enqueue(new Callback() {

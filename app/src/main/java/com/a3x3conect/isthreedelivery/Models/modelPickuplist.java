@@ -18,6 +18,9 @@ public class modelPickuplist {
     @SerializedName("customerId")
     @Expose
     private String customerId;
+    @SerializedName("pickupScheduledAt")
+    @Expose
+    private String pickupScheduledAt;
     @SerializedName("createdAt")
     @Expose
     private String createdAt;
@@ -26,16 +29,16 @@ public class modelPickuplist {
     private String status;
     @SerializedName("count")
     @Expose
-    private Object count;
+    private String count;
     @SerializedName("grandTotal")
     @Expose
-    private Object grandTotal;
+    private String grandTotal;
+    @SerializedName("paymentMode")
+    @Expose
+    private String paymentMode;
     @SerializedName("displayName")
     @Expose
     private String displayName;
-    @SerializedName("pic")
-    @Expose
-    private String pic;
     @SerializedName("Address")
     @Expose
     private String address;
@@ -54,18 +57,6 @@ public class modelPickuplist {
     @SerializedName("pincode")
     @Expose
     private String pincode;
-
-    public String getPickupScheduledAt() {
-        return pickupScheduledAt;
-    }
-
-    public void setPickupScheduledAt(String pickupScheduledAt) {
-        this.pickupScheduledAt = pickupScheduledAt;
-    }
-
-    @SerializedName("pickupScheduledAt")
-    @Expose
-    private String pickupScheduledAt;
     @SerializedName("lat")
     @Expose
     private String lat;
@@ -78,6 +69,9 @@ public class modelPickuplist {
     @SerializedName("phoneNo")
     @Expose
     private String phoneNo;
+    @SerializedName("pickupZone")
+    @Expose
+    private String pickupZone;
 
     public String getId() {
         return id;
@@ -103,6 +97,14 @@ public class modelPickuplist {
         this.customerId = customerId;
     }
 
+    public String getPickupScheduledAt() {
+        return pickupScheduledAt;
+    }
+
+    public void setPickupScheduledAt(String pickupScheduledAt) {
+        this.pickupScheduledAt = pickupScheduledAt;
+    }
+
     public String getCreatedAt() {
         return createdAt;
     }
@@ -119,20 +121,28 @@ public class modelPickuplist {
         this.status = status;
     }
 
-    public Object getCount() {
+    public String getCount() {
         return count;
     }
 
-    public void setCount(Object count) {
+    public void setCount(String count) {
         this.count = count;
     }
 
-    public Object getGrandTotal() {
+    public String getGrandTotal() {
         return grandTotal;
     }
 
-    public void setGrandTotal(Object grandTotal) {
+    public void setGrandTotal(String grandTotal) {
         this.grandTotal = grandTotal;
+    }
+
+    public String getPaymentMode() {
+        return paymentMode;
+    }
+
+    public void setPaymentMode(String paymentMode) {
+        this.paymentMode = paymentMode;
     }
 
     public String getDisplayName() {
@@ -141,14 +151,6 @@ public class modelPickuplist {
 
     public void setDisplayName(String displayName) {
         this.displayName = displayName;
-    }
-
-    public String getPic() {
-        return pic;
-    }
-
-    public void setPic(String pic) {
-        this.pic = pic;
     }
 
     public String getAddress() {
@@ -230,4 +232,13 @@ public class modelPickuplist {
     public void setPhoneNo(String phoneNo) {
         this.phoneNo = phoneNo;
     }
+
+    public String getPickupZone() {
+        return pickupZone;
+    }
+
+    public void setPickupZone(String pickupZone) {
+        this.pickupZone = pickupZone;
+    }
+
 }

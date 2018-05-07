@@ -75,6 +75,18 @@ public class modelDeliverylist {
     @Expose
     private String orderDeliveryDate;
 
+    @SerializedName("pickupZone")
+    @Expose
+    private String pickupZone;
+
+    public String getPickupZone() {
+        return pickupZone;
+    }
+
+    public void setPickupZone(String pickupZone) {
+        this.pickupZone = pickupZone;
+    }
+
     public String getId() {
         return id;
     }

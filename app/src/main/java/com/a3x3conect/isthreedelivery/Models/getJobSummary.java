@@ -11,7 +11,6 @@ import java.util.List;
 
 public class getJobSummary {
 
-
     @SerializedName("id")
     @Expose
     private String id;

@@ -57,7 +57,7 @@ public class GiveDelivery extends AppCompatActivity {
     ProgressDialog pd;
     RecyclerView mRVFishPrice;
     TableLayout tableLayout;
-    TextView btmtotal,grdtotal,baltopay,amtpaid;
+    TextView btmtotal,grdtotal,baltopay,amtpaid,date,custid,status,jobidtxt;;
     List<DataFish2> filterdata2=new ArrayList<DataFish2>();
     private AdapterFish Adapter;
     Button home,cancel;
@@ -86,6 +86,9 @@ public class GiveDelivery extends AppCompatActivity {
         grdtotal = (TextView)findViewById(R.id.grdtotal);
         baltopay = (TextView)findViewById(R.id.baltopay);
         amtpaid = (TextView)findViewById(R.id.amountpaid);
+        jobidtxt =  (TextView)findViewById(R.id.jobid);
+        custid =  (TextView)findViewById(R.id.custid);
+        date =  (TextView)findViewById(R.id.date);
 
         cancel = (Button)findViewById(R.id.cancel);
 
@@ -240,7 +243,7 @@ public class GiveDelivery extends AppCompatActivity {
 
         Log.e("postdata",postdat.toString());
         final Request request = new Request.Builder()
-                .url("http://52.172.191.222/isthree/index.php/services/getJobSummary")
+                .url(getString(R.string.baseurl)+"getJobSummary")
                 .post(body)
                 .build();
         okHttpClient.newCall(request).enqueue(new Callback() {
@@ -302,6 +305,12 @@ public class GiveDelivery extends AppCompatActivity {
                             ArrayList<getJobSummary> modelsignin = (ArrayList<getJobSummary>) gson.fromJson(mMessage2,listType);
 
 
+//                            jobidtxt.setText(jobOrder.getJobid());
+//                            custid.setText(jobOrder.getCustomerId());
+//                            date.setText(jobOrder.getDate());
+
+
+
                             for(int j = 0; j < modelsignin.size(); j++) {
 
                                 String s = modelsignin.get(j).getBalanceAmountToPay();
@@ -311,7 +320,11 @@ public class GiveDelivery extends AppCompatActivity {
                                 baltopay.setText(getResources().getString(R.string.rupee)+modelsignin.get(j).getPayableAmount());
                                 amtpaid.setText(getResources().getString(R.string.rupee)+modelsignin.get(j).getAmountPaid());
 
+                                jobidtxt.setText(modelsignin.get(j).getJobid());
+                                custid.setText(modelsignin.get(j).getCustId());
+
                                 paymentmode = modelsignin.get(j).getPaymentMode();
+
 
  //                               Log.e("Paymentmode",paymentmode);
 
@@ -573,7 +586,7 @@ public class GiveDelivery extends AppCompatActivity {
         RequestBody body = RequestBody.create(MEDIA_TYPE,postdat.toString());
         Log.e("putdata",postdat.toString());
         final Request request = new Request.Builder()
-                .url("http://52.172.191.222/isthree/index.php/services/deliveryInvoice")
+                .url(getString(R.string.baseurl)+"deliveryInvoice")
                 .post(body)
                 .build();
         okHttpClient.newCall(request).enqueue(new Callback() {
@@ -748,7 +761,7 @@ public class GiveDelivery extends AppCompatActivity {
         RequestBody body = RequestBody.create(MEDIA_TYPE,postdat.toString());
         Log.e("finishjoborder",postdat.toString());
         final Request request = new Request.Builder()
-                .url("http://52.172.191.222/isthree/index.php/services/finishJobOrder")
+                .url(getString(R.string.baseurl)+"finishJobOrder")
                 .post(body)
                 .build();
         okHttpClient.newCall(request).enqueue(new Callback() {
@@ -914,7 +927,7 @@ public class GiveDelivery extends AppCompatActivity {
 
         Log.e("body",body.toString());
         final Request request = new Request.Builder()
-                .url("http://52.172.191.222/isthree/index.php/services/updateJobStatus")
+                .url(getString(R.string.baseurl)+"updateJobStatus")
                 .post(body)
                 .build();
         okHttpClient.newCall(request).enqueue(new Callback() {
