@@ -174,6 +174,7 @@ public class GiveDelivery extends AppCompatActivity {
                     TextView dialogTextContent = (TextView)openDialog.findViewById(R.id.dialog_text);
                    // dialogTextContent.setText("Something Went Wrong");
                     final EditText editText = (EditText)openDialog.findViewById(R.id.editText);
+                    editText.setText(String.valueOf(amountpayable));
                     ImageView dialogImage = (ImageView)openDialog.findViewById(R.id.dialog_image);
                     Button dialogCloseButton = (Button)openDialog.findViewById(R.id.dialog_button);
   //                  dialogCloseButton.setVisibility(View.GONE);
@@ -221,7 +222,6 @@ public class GiveDelivery extends AppCompatActivity {
         getjoborder();
 
     }
-
     private void getjoborder() {
 
         pd = new ProgressDialog(GiveDelivery.this);
@@ -328,36 +328,36 @@ public class GiveDelivery extends AppCompatActivity {
 
  //                               Log.e("Paymentmode",paymentmode);
 
-                                if (paymentmode == null) {
-
-                                   // Toast.makeText(GiveDelivery.this, "Empty", Toast.LENGTH_SHORT).show();
-
-                                    home.setVisibility(View.GONE);
-
-
-                                    final Dialog openDialog = new Dialog(GiveDelivery.this);
-                                    openDialog.setContentView(R.layout.alert);
-                                    openDialog.setTitle("Payment");
-                                    TextView dialogTextContent = (TextView)openDialog.findViewById(R.id.dialog_text);
-                                    dialogTextContent.setText("Please request your customer to initiate payment");
-                                    ImageView dialogImage = (ImageView)openDialog.findViewById(R.id.dialog_image);
-                                    Button dialogCloseButton = (Button)openDialog.findViewById(R.id.dialog_button);
-                                    dialogCloseButton.setVisibility(View.GONE);
-                                    Button dialogno = (Button)openDialog.findViewById(R.id.cancel);
-                                    dialogno.setText("OK");
-                                    dialogno.setOnClickListener(new View.OnClickListener() {
-                                        @Override
-                                        public void onClick(View v) {
-                                            openDialog.dismiss();
-
-//                                                //                                          Toast.makeText(GiveDelivery.this, jsonResponse.getString("status"), Toast.LENGTH_SHORT).show();
-                                                Intent intent = new Intent(GiveDelivery.this,Deliverylist.class);
-                                                startActivity(intent);
-                                        }
-                                    });
-                                    openDialog.show();
-                                    // doSomething
-                                }
+//                                if (paymentmode == null) {
+//
+//                                   // Toast.makeText(GiveDelivery.this, "Empty", Toast.LENGTH_SHORT).show();
+//
+//                                    home.setVisibility(View.GONE);
+//
+//
+//                                    final Dialog openDialog = new Dialog(GiveDelivery.this);
+//                                    openDialog.setContentView(R.layout.alert);
+//                                    openDialog.setTitle("Payment");
+//                                    TextView dialogTextContent = (TextView)openDialog.findViewById(R.id.dialog_text);
+//                                    dialogTextContent.setText("Please request your customer to initiate payment");
+//                                    ImageView dialogImage = (ImageView)openDialog.findViewById(R.id.dialog_image);
+//                                    Button dialogCloseButton = (Button)openDialog.findViewById(R.id.dialog_button);
+//                                    dialogCloseButton.setVisibility(View.GONE);
+//                                    Button dialogno = (Button)openDialog.findViewById(R.id.cancel);
+//                                    dialogno.setText("OK");
+//                                    dialogno.setOnClickListener(new View.OnClickListener() {
+//                                        @Override
+//                                        public void onClick(View v) {
+//                                            openDialog.dismiss();
+//
+////                                                //                                          Toast.makeText(GiveDelivery.this, jsonResponse.getString("status"), Toast.LENGTH_SHORT).show();
+//                                                Intent intent = new Intent(GiveDelivery.this,Deliverylist.class);
+//                                                startActivity(intent);
+//                                        }
+//                                    });
+//                                    openDialog.show();
+//                                    // doSomething
+//                                }
 
                                 amountpayable = Double.parseDouble(modelsignin.get(j).getPayableAmount());
                                 amountcollected = Double.parseDouble(modelsignin.get(j).getPayableAmount());
@@ -367,7 +367,7 @@ public class GiveDelivery extends AppCompatActivity {
 
                                    // finishjobstatus();
 
-                                    home.setText("ADD MONEY TO USER WALLET");
+                                    home.setText("ENTER AMOUNT RECEIVED");
                                 }
                                 else {
 
@@ -442,10 +442,6 @@ public class GiveDelivery extends AppCompatActivity {
             }
         });
     }
-
-
-
-
     public class DataFish2 {
         public String item;
         public String noofpieces;
@@ -462,7 +458,6 @@ public class GiveDelivery extends AppCompatActivity {
         }
 
     }
-
     public class AdapterFish extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         List<DataFish2> data2 = Collections.emptyList();
         int currentPos = 0;
@@ -545,7 +540,6 @@ public class GiveDelivery extends AppCompatActivity {
 
 
     }
-
     private void Invoice() {
 
 
@@ -828,7 +822,7 @@ public class GiveDelivery extends AppCompatActivity {
                                     openDialog.setContentView(R.layout.alert);
                                     openDialog.setTitle("status");
                                     TextView dialogTextContent = (TextView)openDialog.findViewById(R.id.dialog_text);
-                                    dialogTextContent.setText("Please try again");
+                                    dialogTextContent.setText("Entered Amount is less than Balance to Pay.");
                                     ImageView dialogImage = (ImageView)openDialog.findViewById(R.id.dialog_image);
                                     dialogImage.setBackgroundResource(R.drawable.failure);
                                     dialogImage.setBackgroundDrawable(getApplicationContext().getResources().getDrawable(R.drawable.failure));
@@ -904,7 +898,6 @@ public class GiveDelivery extends AppCompatActivity {
             }
         });
     }
-
     private void Submitstatus() {
 
 
@@ -1070,7 +1063,6 @@ public class GiveDelivery extends AppCompatActivity {
             }
         });
     }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
