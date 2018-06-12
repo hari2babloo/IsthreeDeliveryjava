@@ -22,28 +22,37 @@
         android:gravity="center"
         android:text="Hello" />
 
-    <Button
-        android:id="@+id/dialog_button"
-        android:layout_width="wrap_content"
-        android:layout_height="30dp"
-        android:layout_below="@+id/dialog_text"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:orientation="horizontal">
 
 
-        android:layout_marginBottom="5dp"
-        android:background="@drawable/bbkg"
-        android:paddingLeft="5dp"
-        android:paddingRight="5dp"
-        android:text="OK"
-        android:textColor="@color/cardview_light_background" />
 
-    <Button
-        android:id="@+id/cancel"
-        android:layout_width="wrap_content"
-        android:layout_height="30dp"
-        android:layout_below="@+id/dialog_text"
+        <Button
+            android:id="@+id/cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_below="@+id/dialog_text"
 
 
-        android:background="@drawable/bbkg"
-        android:text="Cancel"
-        android:textColor="@color/cardview_light_background" />
+            android:layout_margin="5dp"
+            android:background="@drawable/bbkg"
+            android:text="Cancel"
+            android:textColor="@color/cardview_light_background" />
+        <Button
+            android:id="@+id/dialog_button"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_below="@+id/dialog_text"
+
+
+            android:layout_margin="5dp"
+
+            android:background="@drawable/bbkg"
+            android:text="OK"
+            android:textColor="@color/cardview_light_background" />
+    </LinearLayout>
 </LinearLayout>

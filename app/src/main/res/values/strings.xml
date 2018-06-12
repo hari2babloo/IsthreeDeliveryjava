@@ -1,5 +1,5 @@
 <resources>
     <string name="app_name">IS3 LOGISTICS</string>
     <string name="rupee">₹</string>
-    <string name="baseurl">http://52.172.191.222/isthree/index.php/services/</string>
+    <string name="baseurl">http://52.172.191.222/isthreetest/index.php/services/</string>
 </resources>

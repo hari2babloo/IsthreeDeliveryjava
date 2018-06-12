@@ -71,24 +71,15 @@ String mMessage;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.deliverylist);
-
         count = (TextView)findViewById(R.id.count);
         tinyDB = new TinyDB(this);
         spinner = (Spinner)findViewById(R.id.spinner);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
         mRVFishPrice = (RecyclerView)findViewById(R.id.fishPriceList);
-
-
-
         gson = new Gson();
-
         getdata();
     }
-
     private void getdata() {
-
-
         pd = new ProgressDialog(Deliverylist.this);
         pd.setMessage("Getting Details");
         pd.setCancelable(false);

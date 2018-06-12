@@ -474,17 +474,14 @@ ProgressDialog pd;
 
         String timeStamp2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Calendar.getInstance().getTime());
         try {
-
             postdat.put("count",String.valueOf(Math.round(garmentscount)));
             postdat.put("status", "PICKUP-CONFIRMED");
             postdat.put("customerId", jobOrder.getCustomerId());
             postdat.put("grandTotal",s);
             postdat.put("gstPercentage", jobOrder.getGSTPercentage());
             postdat.put("invoiceDateTime", timeStamp2);
-
             //  postdat.put("itemType",);
             postdat.put("quantity",quantity);
-
             postdat.put("subTotal",subTotal);
             postdat.put("unitPrice",unitPrice);
             postdat.put("itemType",itemType);

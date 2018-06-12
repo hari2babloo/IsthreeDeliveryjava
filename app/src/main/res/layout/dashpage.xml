@@ -1,78 +1,171 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="match_parent"
-
-    android:layout_margin="10dp"
-    android:background="#FFFFFF"
-    android:orientation="vertical"
+    android:id="@+id/swipe_container"
+    android:layout_marginBottom="10dp"
     tools:context=".Dashpage">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center">
-
-        <ImageView
-            android:id="@+id/imageView3"
-            android:layout_width="180dp"
-            android:layout_height="180dp"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="75dp"
-            android:background="@drawable/logo" />
-
-    </LinearLayout>
-
-
     <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentBottom="true"
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent">
 
-        android:gravity="bottom|center">
-
-        <View
-            android:id="@+id/id"
-            android:layout_width="fill_parent"
-            android:layout_height="1dp"
-            android:background="#FFDADADA" />
-
-        <TableRow
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
 
-            android:layout_below="@+id/id"
-            android:layout_marginBottom="20dp"
-            android:gravity="center">
+            android:layout_margin="10dp"
+            android:background="#FFFFFF"
+            android:gravity="top|center"
+            android:orientation="vertical">
 
-            <ImageButton
-                android:id="@+id/pickup"
-                android:layout_width="150dp"
-                android:layout_height="150dp"
-                android:scaleType="fitCenter"
-                android:theme="@style/AppTheme.GreenRipple"
-                app:srcCompat="@drawable/pickup"
-                android:background="?selectableItemBackground"
-                />
+            <ImageView
+                android:id="@+id/imageView3"
+                android:layout_width="180dp"
+                android:layout_height="180dp"
+                android:layout_alignParentTop="false"
+                android:layout_centerHorizontal="false"
+                android:layout_marginTop="50dp"
+                android:background="@drawable/logo" />
+
+        </LinearLayout>
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentBottom="true"
+
+            android:gravity="bottom|center">
 
             <View
-                android:layout_width="1dp"
-                android:layout_height="150dp"
+                android:id="@+id/id"
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
                 android:background="#FFDADADA" />
 
-            <ImageButton
-                android:id="@+id/delivery"
-                android:layout_width="150dp"
-                android:layout_height="150dp"
-                android:scaleType="fitCenter"
-                android:theme="@style/AppTheme.GreenRipple"
-                app:srcCompat="@drawable/deliver"
-                android:background="?selectableItemBackground" />
+            <TableRow
+                android:id="@+id/tiles"
+                android:layout_width="match_parent"
 
-        </TableRow>
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/id"
+                android:gravity="center">
+
+                <ImageButton
+                    android:id="@+id/pickup"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:background="?selectableItemBackground"
+                    android:scaleType="fitCenter"
+                    android:theme="@style/AppTheme.GreenRipple"
+                    app:srcCompat="@drawable/pickup" />
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="150dp"
+                    android:background="#FFDADADA" />
+
+                <ImageButton
+                    android:id="@+id/delivery"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:background="?selectableItemBackground"
+                    android:scaleType="fitCenter"
+                    android:theme="@style/AppTheme.GreenRipple"
+                    app:srcCompat="@drawable/deliver" />
+
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/text"
+                android:layout_width="match_parent"
+
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tiles"
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/pickupcount"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:background="?selectableItemBackground"
+                    android:gravity="center"
+                    android:scaleType="fitCenter"
+                    android:text="PICKEDUP: 00"
+                    android:textColor="@color/bluee"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    android:theme="@style/AppTheme.GreenRipple"
+                    app:srcCompat="@drawable/pickup" />
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="20dp"
+                    android:background="#FFDADADA" />
+
+                <TextView
+                    android:id="@+id/finishcount"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:background="?selectableItemBackground"
+                    android:gravity="center"
+                    android:scaleType="fitCenter"
+                    android:text="DELIVERED: 00"
+                    android:textColor="@color/bluee"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    android:theme="@style/AppTheme.GreenRipple"
+                    app:srcCompat="@drawable/deliver" />
+
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/text2"
+                android:layout_width="match_parent"
+
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/text"
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/pickuppendingcount"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:background="?selectableItemBackground"
+                    android:gravity="center"
+                    android:scaleType="fitCenter"
+                    android:text="PENDING: 00"
+                    android:textColor="@color/bluee"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    android:theme="@style/AppTheme.GreenRipple"
+                    app:srcCompat="@drawable/pickup" />
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="20dp"
+                    android:background="#FFDADADA" />
+
+                <TextView
+                    android:id="@+id/deliverypendingcount"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:background="?selectableItemBackground"
+                    android:gravity="center"
+                    android:scaleType="fitCenter"
+                    android:text="PENDING: 00"
+                    android:textColor="@color/bluee"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    android:theme="@style/AppTheme.GreenRipple"
+                    app:srcCompat="@drawable/deliver" />
+
+            </TableRow>
+        </RelativeLayout>
+
     </RelativeLayout>
 
-</RelativeLayout>
+</android.support.v4.widget.SwipeRefreshLayout>

@@ -177,6 +177,7 @@ public class GiveDelivery extends AppCompatActivity {
                     editText.setText(String.valueOf(amountpayable));
                     ImageView dialogImage = (ImageView)openDialog.findViewById(R.id.dialog_image);
                     Button dialogCloseButton = (Button)openDialog.findViewById(R.id.dialog_button);
+                    dialogCloseButton.setText("PROCEED");
   //                  dialogCloseButton.setVisibility(View.GONE);
                     Button dialogno = (Button)openDialog.findViewById(R.id.cancel);
                     //dialogno.setText("OK");
@@ -184,10 +185,59 @@ public class GiveDelivery extends AppCompatActivity {
                         @Override
                         public void onClick(View v) {
 
+                            if (editText.getText().toString().isEmpty()){
 
-                         amountcollected = Double.parseDouble(editText.getText().toString());
-                         finishjobstatus();
-                            openDialog.dismiss();
+                                Toast.makeText(GiveDelivery.this, "Enter Valid Amount", Toast.LENGTH_SHORT).show();
+                            }
+
+
+                            else {
+
+
+                                amountcollected = Double.parseDouble(editText.getText().toString());
+                                openDialog.dismiss();
+                                if (amountcollected < amountpayable) {
+
+                                    final Dialog openDialog = new Dialog(GiveDelivery.this);
+                                    openDialog.setContentView(R.layout.alert);
+                                    openDialog.setTitle("status");
+                                    TextView dialogTextContent = (TextView) openDialog.findViewById(R.id.dialog_text);
+                                    dialogTextContent.setText("Entered Amount is less than Balance to Pay.");
+                                    ImageView dialogImage = (ImageView) openDialog.findViewById(R.id.dialog_image);
+                                    dialogImage.setBackgroundResource(R.drawable.failure);
+                                    dialogImage.setBackgroundDrawable(getApplicationContext().getResources().getDrawable(R.drawable.failure));
+                                    Button dialogCloseButton = (Button) openDialog.findViewById(R.id.dialog_button);
+
+                                    dialogCloseButton.setVisibility(View.GONE);
+                                    Button dialogno = (Button) openDialog.findViewById(R.id.cancel);
+                                    dialogno.setText("OK");
+                                    dialogno.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            openDialog.dismiss();
+
+//                                                //                                          Toast.makeText(Puckup.this, jsonResponse.getString("status"), Toast.LENGTH_SHORT).show();
+//                                            Intent intent = new Intent(GiveDelivery.this,Dashpage.class);
+//                                            startActivity(intent);
+                                        }
+                                    });
+
+
+                                    openDialog.show();
+
+
+                                } else {
+
+                                    openDialog.dismiss();
+
+                                    ConfirmDialog();
+                                }
+
+
+                            }
+
+                        // finishjobstatus();
+
 //                                                //                                          Toast.makeText(GiveDelivery.this, jsonResponse.getString("status"), Toast.LENGTH_SHORT).show();
 //                                                Intent intent = new Intent(GiveDelivery.this,Dashpage.class);
 //                                                startActivity(intent);
@@ -222,6 +272,59 @@ public class GiveDelivery extends AppCompatActivity {
         getjoborder();
 
     }
+
+    private void ConfirmDialog() {
+
+
+        final Dialog openDialog = new Dialog(GiveDelivery.this);
+        openDialog.setContentView(R.layout.addmoney);
+        openDialog.setTitle("Confirm Amount Received");
+        TextView dialogTextContent = (TextView)openDialog.findViewById(R.id.dialog_text);
+
+
+        dialogTextContent.setText("Received Amount of  "+getResources().getString(R.string.rupee)+String.valueOf(amountcollected)+ "  from the Customer?");
+        // dialogTextContent.setText("Something Went Wrong");
+        final EditText editText = (EditText)openDialog.findViewById(R.id.editText);
+        editText.setText(String.valueOf(amountpayable));
+        editText.setVisibility(View.GONE);
+        ImageView dialogImage = (ImageView)openDialog.findViewById(R.id.dialog_image);
+
+        TextView msg = (TextView)openDialog.findViewById(R.id.msg);
+        msg.setVisibility(View.GONE);
+        Button dialogCloseButton = (Button)openDialog.findViewById(R.id.dialog_button);
+        dialogCloseButton.setText("CONFIRM");
+        //                  dialogCloseButton.setVisibility(View.GONE);
+        Button dialogno = (Button)openDialog.findViewById(R.id.cancel);
+        //dialogno.setText("OK");
+        dialogCloseButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+               // amountcollected = Double.parseDouble(editText.getText().toString());
+
+
+                finishjobstatus();
+                openDialog.dismiss();
+
+                //ConfirmDialog();
+//                                                //                                          Toast.makeText(GiveDelivery.this, jsonResponse.getString("status"), Toast.LENGTH_SHORT).show();
+//                                                Intent intent = new Intent(GiveDelivery.this,Dashpage.class);
+//                                                startActivity(intent);
+            }
+        });
+
+        dialogno.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openDialog.dismiss();
+            }
+        });
+
+
+        openDialog.show();
+    }
+
     private void getjoborder() {
 
         pd = new ProgressDialog(GiveDelivery.this);
