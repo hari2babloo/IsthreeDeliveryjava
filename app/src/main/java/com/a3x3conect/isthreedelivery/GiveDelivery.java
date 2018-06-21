@@ -224,6 +224,7 @@ public class GiveDelivery extends AppCompatActivity {
 
 
                                     openDialog.show();
+                                    openDialog.setCancelable(false);
 
 
                                 } else {
@@ -253,6 +254,7 @@ public class GiveDelivery extends AppCompatActivity {
 
 
                     openDialog.show();
+                    openDialog.setCancelable(false);
 
 
                 }
@@ -323,6 +325,7 @@ public class GiveDelivery extends AppCompatActivity {
 
 
         openDialog.show();
+        openDialog.setCancelable(false);
     }
 
     private void getjoborder() {
@@ -380,6 +383,7 @@ public class GiveDelivery extends AppCompatActivity {
                             }
                         });
                         openDialog.show();
+                        openDialog.setCancelable(false);
                     }
                 });
 
@@ -720,6 +724,7 @@ public class GiveDelivery extends AppCompatActivity {
                         });
 
                         openDialog.show();
+                        openDialog.setCancelable(false);
 
                     }
                 });
@@ -773,6 +778,7 @@ public class GiveDelivery extends AppCompatActivity {
 
 
 
+                                        openDialog.setCancelable(false);
                                         openDialog.show();
 
                                     }
@@ -802,7 +808,7 @@ public class GiveDelivery extends AppCompatActivity {
                                             }
                                         });
 
-
+                                        openDialog.setCancelable(false);
 
                                         openDialog.show();
                                     }
@@ -895,6 +901,7 @@ public class GiveDelivery extends AppCompatActivity {
                         });
 
                         openDialog.show();
+                        openDialog.setCancelable(false);
 
                     }
                 });
@@ -948,6 +955,7 @@ public class GiveDelivery extends AppCompatActivity {
 
 
                                     openDialog.show();
+                                    openDialog.setCancelable(false);
 
                                 }
 
@@ -983,6 +991,7 @@ public class GiveDelivery extends AppCompatActivity {
 
 
                                     openDialog.show();
+                                    openDialog.setCancelable(false);
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();
@@ -1062,6 +1071,7 @@ public class GiveDelivery extends AppCompatActivity {
 
 
                         openDialog.show();
+                        openDialog.setCancelable(false);
 
                     }
                 });
@@ -1112,6 +1122,7 @@ public class GiveDelivery extends AppCompatActivity {
 
 
                                     openDialog.show();
+                                    openDialog.setCancelable(false);
 
                                 }
 
@@ -1143,6 +1154,7 @@ public class GiveDelivery extends AppCompatActivity {
 
 
                                     openDialog.show();
+                                    openDialog.setCancelable(false);
                                 }
 
 

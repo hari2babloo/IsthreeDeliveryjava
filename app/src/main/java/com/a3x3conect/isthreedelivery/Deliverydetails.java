@@ -303,6 +303,7 @@ public class Deliverydetails extends AppCompatActivity {
 
 
                         openDialog.show();
+                        openDialog.setCancelable(false);
 
                     }
                 });
@@ -353,6 +354,7 @@ public class Deliverydetails extends AppCompatActivity {
 
 
                                     openDialog.show();
+                                    openDialog.setCancelable(false);
 
                                 }
 
@@ -384,6 +386,7 @@ public class Deliverydetails extends AppCompatActivity {
 
 
                                     openDialog.show();
+                                    openDialog.setCancelable(false);
                                 }
 
 

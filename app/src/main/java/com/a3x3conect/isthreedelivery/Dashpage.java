@@ -139,11 +139,13 @@ swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener
                             public void onClick(View v) {
                                 openDialog.dismiss();
 
+
 //                                                //                                          Toast.makeText(Puckup.this, jsonResponse.getString("status"), Toast.LENGTH_SHORT).show();
 //                                                Intent intent = new Intent(Puckup.this,Dashpage.class);
 //                                                startActivity(intent);
                             }
                         });
+                        openDialog.setCancelable(false);
                         openDialog.show();
                     }
                 });
@@ -293,6 +295,7 @@ swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener
         });
 
         openDialog.show();
+        openDialog.setCancelable(false);
     }
 
 

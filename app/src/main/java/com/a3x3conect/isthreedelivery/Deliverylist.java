@@ -165,6 +165,7 @@ String mMessage;
 
 
                                         openDialog.show();
+                                        openDialog.setCancelable(false);
 
                                         Log.e("No Delivery","No delivery");
 
@@ -352,6 +353,7 @@ String mMessage;
 
 
                         openDialog.show();
+                        openDialog.setCancelable(false);
 
                     }
                 });

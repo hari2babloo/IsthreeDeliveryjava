@@ -144,6 +144,7 @@ public class Signin extends AppCompatActivity {
 
 
                         openDialog.show();
+                        openDialog.setCancelable(false);
 
                     }
                 });
@@ -226,6 +227,7 @@ public class Signin extends AppCompatActivity {
 
 
                 openDialog.show();
+                openDialog.setCancelable(false);
 
 
             }
@@ -267,6 +269,7 @@ public class Signin extends AppCompatActivity {
                     });
 
                     openDialog.show();
+                    openDialog.setCancelable(false);
 
                 }
 
@@ -319,5 +322,6 @@ public class Signin extends AppCompatActivity {
         });
 
         openDialog.show();
+        openDialog.setCancelable(false);
     }
 }

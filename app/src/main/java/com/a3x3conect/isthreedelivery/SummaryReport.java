@@ -216,6 +216,7 @@ ProgressDialog pd;
                             }
                         });
                         openDialog.show();
+                        openDialog.setCancelable(false);
                     }
                 });
 
@@ -244,8 +245,13 @@ ProgressDialog pd;
                             try {
                                 JSONObject jsonObject = new JSONObject(mMessage2);
 
-                                Double statuscode = jsonObject.optDouble("statusCode");
+                             //   Double statuscode = jsonObject.optDouble("statusCode");
                                 Double jobid = jsonObject.optDouble("jobid");
+
+                                //tinyDB.putString("custId",jsonObject.getString());
+                               // tinyDB.putString("custId",jobOrder.getCustomerId());
+                                //tinyDB.putString("jobid",jobOrder.getJobid());
+
 
                                 if (jsonObject.optString("statusCode").equalsIgnoreCase("0")){
 
@@ -256,7 +262,7 @@ ProgressDialog pd;
                                     dialogTextContent.setText("Please ask your customer to fill order");
                                     ImageView dialogImage = (ImageView)openDialog.findViewById(R.id.dialog_image);
                                     Button dialogCloseButton = (Button)openDialog.findViewById(R.id.dialog_button);
-                                    dialogCloseButton.setVisibility(View.GONE);
+                                  //  dialogCloseButton.setVisibility(View.GONE);
                                     Button dialogno = (Button)openDialog.findViewById(R.id.cancel);
                                     dialogno.setText("OK");
                                     dialogno.setOnClickListener(new View.OnClickListener() {
@@ -270,9 +276,20 @@ ProgressDialog pd;
                                         }
                                     });
 
+                                    dialogCloseButton.setText("Fill Order");
+                                    dialogCloseButton.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            Intent intent = new Intent(SummaryReport.this,FillOrder.class);
+                                            startActivity(intent);
+
+                                        }
+                                    });
+
 
 
                                     openDialog.show();
+                                    openDialog.setCancelable(false);
 
 
                                 }
@@ -535,6 +552,7 @@ ProgressDialog pd;
 
 
                         openDialog.show();
+                        openDialog.setCancelable(false);
 
                     }
                 });
@@ -590,6 +608,7 @@ ProgressDialog pd;
 
 
                                         openDialog.show();
+                                        openDialog.setCancelable(false);
 
                                     }
 
@@ -621,6 +640,7 @@ ProgressDialog pd;
 
 
                                         openDialog.show();
+                                        openDialog.setCancelable(false);
                                     }
 
 
@@ -707,6 +727,7 @@ ProgressDialog pd;
 
 
                         openDialog.show();
+                        openDialog.setCancelable(false);
 
                     }
                 });
@@ -757,6 +778,7 @@ ProgressDialog pd;
 
 
                                     openDialog.show();
+                                    openDialog.setCancelable(false);
 
                                 }
 
@@ -788,6 +810,7 @@ ProgressDialog pd;
 
 
                                     openDialog.show();
+                                    openDialog.setCancelable(false);
                                 }
 
 

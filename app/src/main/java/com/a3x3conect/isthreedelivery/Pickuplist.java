@@ -144,6 +144,7 @@ public class Pickuplist extends AppCompatActivity {
 
 
                         openDialog.show();
+                        openDialog.setCancelable(false);
 
                     }
                 });
@@ -329,6 +330,7 @@ public class Pickuplist extends AppCompatActivity {
 
                                         openDialog.show();
 
+                                        openDialog.setCancelable(false);
                                         Log.e("No Pickup","No Pickuip");
 
                                     }

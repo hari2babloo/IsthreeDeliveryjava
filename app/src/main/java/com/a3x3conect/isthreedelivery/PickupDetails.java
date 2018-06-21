@@ -211,7 +211,7 @@ public class PickupDetails extends AppCompatActivity {
 //        spinerdata.add("ISSUE NOT LISTED");
 //      //  spinerdata.add("PICKUP-CONFIRMED");
 //        spinerdata.add("PICKUP-CUSTOMER NOT AVAILABLE");
-//        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,R.layout.support_simple_spinner_dropdown_item,spinerdata);
+//        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,R.layout.support_sim_spinner_dropdown_item,spinerdata);
 //        spinner.setAdapter(adapter);
 //        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 //            @Override
@@ -356,6 +356,7 @@ public class PickupDetails extends AppCompatActivity {
 
 
                         openDialog.show();
+                        openDialog.setCancelable(false);
 
                     }
                 });
@@ -524,6 +525,7 @@ public class PickupDetails extends AppCompatActivity {
 
 
                         openDialog.show();
+                        openDialog.setCancelable(false);
 
                     }
                 });
@@ -576,6 +578,7 @@ public class PickupDetails extends AppCompatActivity {
 
 
                                     openDialog.show();
+                                    openDialog.setCancelable(false);
 
                                 }
 
@@ -609,6 +612,7 @@ public class PickupDetails extends AppCompatActivity {
 
 
                                     openDialog.show();
+                                    openDialog.setCancelable(false);
                                 }
 
 

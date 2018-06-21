@@ -23,63 +23,71 @@
         </activity>
         <activity
             android:name=".Signin"
-            android:theme="@style/AppTheme2">
-
-        </activity>
-        <activity android:name=".Signup"
+            android:theme="@style/AppTheme2"></activity>
+        <activity
+            android:name=".Signup"
             android:parentActivityName=".Signin">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Signin" />
         </activity>
         <activity android:name=".VerifyEmail" />
-        <activity android:name=".Dashpage">
-
-
-        </activity>
-        <activity android:name=".Deliverylist"
-
+        <activity android:name=".Dashpage"></activity>
+        <activity
+            android:name=".Deliverylist"
             android:parentActivityName=".Dashpage">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Dashpage" />
         </activity>
-        <activity android:name=".Pickuplist"
+        <activity
+            android:name=".Pickuplist"
             android:parentActivityName=".Dashpage">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Dashpage" />
         </activity>
-        <activity android:name=".PickupDetails"
+        <activity
+            android:name=".PickupDetails"
             android:parentActivityName=".Pickuplist">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Pickuplist" />
         </activity>
-        <activity android:name=".Deliverydetails"
+        <activity
+            android:name=".Deliverydetails"
             android:parentActivityName=".Deliverylist">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Deliverylist" />
         </activity>
-        <activity android:name=".PickupInvoice"
+        <activity
+            android:name=".PickupInvoice"
             android:parentActivityName=".Dashpage">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Dashpage" />
         </activity>
-        <activity android:name=".SummaryReport"
+        <activity
+            android:name=".SummaryReport"
             android:parentActivityName=".Pickuplist">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Pickuplist" />
         </activity>
-        <activity android:name=".GiveDelivery"
-                    android:parentActivityName=".Deliverylist">
-        <meta-data
-            android:name="android.support.PARENT_ACTIVITY"
-            android:value=".Deliverylist" />
-    </activity>
+        <activity
+            android:name=".GiveDelivery"
+            android:parentActivityName=".Deliverylist">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Deliverylist" />
+        </activity>
+        <activity android:name=".FillOrder"
+            android:parentActivityName=".Pickuplist">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Pickuplist" />
+        </activity>
     </application>
 
 </manifest>

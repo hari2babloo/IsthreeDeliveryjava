@@ -102,7 +102,10 @@ tinyDB = new TinyDB(PickupInvoice.this);
 
 
 
+
                         openDialog.show();
+                        openDialog.setCancelable(false);
+
 
                     }
                 });
