@@ -39,7 +39,7 @@ public class Dashpage extends AppCompatActivity {
 
     ImageButton pick,delivery;
     ProgressDialog pd;
-    TextView pickupcount,deliverycount,pickupspendingcount,deliverypendingcount;
+    TextView pickupcount,deliverycount,pickupspendingcount,deliverypendingcount,pickupcancelcount,deliverycancelcount;
     String mMessage;
     SwipeRefreshLayout swipeRefreshLayout;
     public static final MediaType MEDIA_TYPE =
@@ -55,6 +55,8 @@ public class Dashpage extends AppCompatActivity {
         deliverycount = (TextView)findViewById(R.id.finishcount);
         pickupspendingcount = (TextView)findViewById(R.id.pickuppendingcount);
         deliverypendingcount = (TextView)findViewById(R.id.deliverypendingcount);
+        pickupcancelcount = (TextView)findViewById(R.id.pickupcanceledcount);
+       // deliverycancelcount = (TextView)findViewById(R.id.deliverycancelcount);
 
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_container);
 //        swipeRefreshLayout.setOnRefreshListener((SwipeRefreshLayout.OnRefreshListener) Dashpage.this);
@@ -168,6 +170,7 @@ swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener
                                 JSONObject jsonObject = new JSONObject(mMessage);
                                 pickupcount.setText("PICKEDUP: "+jsonObject.optString("currentDatePickupsConfirmedCount"));
                                 pickupspendingcount.setText("PENDING: "+jsonObject.optString("pickupRequestsCount"));
+                                pickupcancelcount.setText("CANCELED: "+jsonObject.optString("currentDatePickupsCancelledCount"));
                                 deliverycount.setText("DELIVERED: "+jsonObject.optString("currentDateDeliveryOrdersCount"));
                                 deliverypendingcount.setText("PENDING: "+jsonObject.optString("pendingDeliveryOrdersCount"));
                             } catch (JSONException e) {

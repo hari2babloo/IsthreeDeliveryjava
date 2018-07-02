@@ -127,6 +127,48 @@
                 android:layout_width="match_parent"
 
                 android:layout_height="wrap_content"
+                android:layout_below="@+id/text2"
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/pickupcanceledcount"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:background="?selectableItemBackground"
+                    android:gravity="center"
+                    android:scaleType="fitCenter"
+                    android:text="CANCELED: 00"
+                    android:textColor="@color/bluee"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    android:theme="@style/AppTheme.GreenRipple"
+                    app:srcCompat="@drawable/pickup" />
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="20dp"
+                    android:background="#FFDADADA" />
+
+                <TextView
+                    android:id="@+id/deliverycancelcount"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:background="?selectableItemBackground"
+                    android:gravity="center"
+                    android:scaleType="fitCenter"
+                    android:textColor="@color/bluee"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    android:theme="@style/AppTheme.GreenRipple"
+                    app:srcCompat="@drawable/deliver" />
+
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/text2"
+                android:layout_width="match_parent"
+
+                android:layout_height="wrap_content"
                 android:layout_below="@+id/text"
                 android:gravity="center">
 
