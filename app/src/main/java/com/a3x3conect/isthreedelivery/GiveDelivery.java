@@ -159,12 +159,10 @@ public class GiveDelivery extends AppCompatActivity {
       //          radiostatus = "JOB-FINISHED";
 
                 if(home.getText().toString().equalsIgnoreCase("FINISH"))
-
-
                 {
-
                     finishjobstatus();
                 }
+
                 else {
 
 
