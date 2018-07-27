@@ -59,6 +59,7 @@ public class Pickuplist extends AppCompatActivity {
     String areacount;
     Spinner spinner;
     TinyDB tinyDB;
+    String url;
     String spinnertext,pickupzone;
     TextView count;
     ArrayList<prizes> dataModels = new ArrayList<>();
@@ -80,7 +81,9 @@ public class Pickuplist extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.pickuplist);
+
         tinyDB = new TinyDB(this);
+        url = tinyDB.getString("keypickup");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mRVFishPrice = (RecyclerView)findViewById(R.id.fishPriceList);
         spinner = (Spinner)findViewById(R.id.spinner);
@@ -153,7 +156,7 @@ public class Pickuplist extends AppCompatActivity {
             @Override
             public void onResponse(Response response) throws IOException {
 
-               final String mMessage2 = response.body().string();
+                final String mMessage2 = response.body().string();
                 pd.cancel();
                 pd.dismiss();
 
@@ -218,7 +221,7 @@ public class Pickuplist extends AppCompatActivity {
                 pickupzone = location.get(position);
                 Log.e("selected item", location.get(position));
 
-               // Adapter.notifyDataSetChanged();
+                // Adapter.notifyDataSetChanged();
 
 //        Adapter.data.clear();
 
@@ -228,7 +231,7 @@ public class Pickuplist extends AppCompatActivity {
                 filterdata.clear();
                 filterdata2.clear();
 
-                        TraverseData();
+                TraverseData();
 
 
 
@@ -264,7 +267,7 @@ public class Pickuplist extends AppCompatActivity {
         Log.e("postdata",postdat.toString());
 
         final Request request = new Request.Builder()
-                .url(getString(R.string.baseurl)+"getPickupRequests")
+                .url(getString(R.string.baseurl)+url)
                 .post(body)
                 .build();
 
@@ -281,7 +284,7 @@ public class Pickuplist extends AppCompatActivity {
             @Override
             public void onResponse(final Response response) throws IOException {
 
-                 mMessage = response.body().string();
+                mMessage = response.body().string();
 
                 pd.dismiss();
                 pd.cancel();
@@ -398,13 +401,13 @@ public class Pickuplist extends AppCompatActivity {
 
             if (pickupzone.equalsIgnoreCase("All Locations")){
 
-              //  Adapter.notifyDataSetChanged();
+                //  Adapter.notifyDataSetChanged();
 
                 filterdata.add(tarif.get(k));
                 filterdata2.add(tarif.get(k));
-               // count.setText("Pickups Count at "+pickupzone+ "  :"+filterdata.size());
+                // count.setText("Pickups Count at "+pickupzone+ "  :"+filterdata.size());
 
- //               Log.e("eee", String.valueOf(filterdata.get(k)));
+                //               Log.e("eee", String.valueOf(filterdata.get(k)));
 
 
 
@@ -419,7 +422,7 @@ public class Pickuplist extends AppCompatActivity {
 
 
                 Log.e("filtersize", String.valueOf(filterdata.size()));
-             //   count.setText("Pickups Count at "+pickupzone+ "  "+filterdata.size());
+                //   count.setText("Pickups Count at "+pickupzone+ "  "+filterdata.size());
 
 //                Log.e("eee", String.valueOf(filterdata.get(k)));
 
@@ -430,10 +433,10 @@ public class Pickuplist extends AppCompatActivity {
 
             else {
 
-           //     filterdata2.clear();
-            //    filterdata.clear();
+                //     filterdata2.clear();
+                //    filterdata.clear();
                 Adapter.notifyDataSetChanged();
-              //  count.setText("No Pickups Available");
+                //  count.setText("No Pickups Available");
 
 
             }
@@ -513,6 +516,20 @@ public class Pickuplist extends AppCompatActivity {
             final modelPickuplist current = data.get(position);
 
 
+
+            if(current.getExpressDelivery() != null && !current.getExpressDelivery().isEmpty()){
+
+
+            if (current.getExpressDelivery().equalsIgnoreCase("1")){
+
+                //myHolder.itemView.setBackgroundColor(Color.GRAY);
+                myHolder.one.setTextColor(Color.parseColor("#d20670"));
+                myHolder.two.setTextColor(Color.parseColor("#d20670"));
+                myHolder.three.setTextColor(Color.parseColor("#d20670"));
+            }
+
+            }
+
             myHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -526,7 +543,7 @@ public class Pickuplist extends AppCompatActivity {
 //                    Toast.makeText(context, position, Toast.LENGTH_SHORT).show();
                 }
             });
-           // final modelPickuplist current = data.get(position);
+            // final modelPickuplist current = data.get(position);
             //  holder.getLayoutPosition();
             //    setHasStableIds(true);
             myHolder.one.setText(current.getCustomerId());
@@ -534,7 +551,7 @@ public class Pickuplist extends AppCompatActivity {
             myHolder.three.setText(current.getPickupScheduledAt());
             myHolder.location.setText(current.getPickupZone());
             myHolder.location.setVisibility(View.GONE);
-           // myHolder.section.setText(String.valueOf( position+1)+ "/"+String.valueOf(filterdata2.size()));
+            // myHolder.section.setText(String.valueOf( position+1)+ "/"+String.valueOf(filterdata2.size()));
 
 
             int couintt = Collections.frequency(pickupzones,current.getPickupZone());
@@ -557,18 +574,18 @@ public class Pickuplist extends AppCompatActivity {
 //
 //
 //            }
-           Log.e("position", String.valueOf(position)+filterdata.get(position).getPickupZone());
+            Log.e("position", String.valueOf(position)+filterdata.get(position).getPickupZone());
 
-           if (position==0){
+            if (position==0){
 
-               myHolder.pickupzone.setText(current.getPickupZone() +": " + areacount);
+                myHolder.pickupzone.setText(current.getPickupZone() +": " + areacount);
 
-               myHolder.pickupzone.setVisibility(View.VISIBLE);
-               myHolder.line.setVisibility(View.VISIBLE);
+                myHolder.pickupzone.setVisibility(View.VISIBLE);
+                myHolder.line.setVisibility(View.VISIBLE);
 
-           }
+            }
 
-           else
+            else
 
 
             if (filterdata.get(0).getPickupZone().equalsIgnoreCase(current.getPickupZone())){
@@ -579,7 +596,7 @@ public class Pickuplist extends AppCompatActivity {
             }
 
 
-           else if (filterdata.get(position-1).getPickupZone().equalsIgnoreCase(current.getPickupZone())){
+            else if (filterdata.get(position-1).getPickupZone().equalsIgnoreCase(current.getPickupZone())){
 
                 myHolder.pickupzone.setVisibility(View.GONE);
 
@@ -587,13 +604,13 @@ public class Pickuplist extends AppCompatActivity {
             }
 
 
-           else {
+            else {
 
-               myHolder.pickupzone.setText(current.getPickupZone() +": " + areacount);
+                myHolder.pickupzone.setText(current.getPickupZone() +": " + areacount);
 
                 myHolder.line.setVisibility(View.VISIBLE);
                 myHolder.pickupzone.setVisibility(View.VISIBLE);
-           }
+            }
 //           else if (filterdata.get(position-1).getPickupZone().equalsIgnoreCase(filterdata.get(position).getPickupZone())){
 //
 //
@@ -601,7 +618,7 @@ public class Pickuplist extends AppCompatActivity {
 //
 //           }
 
-         //  if (position>0&&  )
+            //  if (position>0&&  )
 
 //            if (myHolder.pickupzone.getText().toString().equalsIgnoreCase()){
 //
@@ -614,7 +631,7 @@ public class Pickuplist extends AppCompatActivity {
 //            }
 
 //            myHolder.location.setText(filterdata.size());
-           // myHolder.location.setVisibility(View.GONE);
+            // myHolder.location.setVisibility(View.GONE);
 
 //            myHolder.three.setText("City"+current.getCity() +" " +current.getCountry());
 //            myHolder.four.setText("Name"+current.getDisplayName());

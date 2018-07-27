@@ -210,6 +210,8 @@
                 android:nestedScrollingEnabled="false">
 
 
+
+
                 <TableRow
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -224,6 +226,22 @@
                         android:text="Amount"
                         android:textColor="@color/bluee"
                         android:textSize="15sp" />
+
+                </TableRow>
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentBottom="true"
+                    android:gravity="center">
+
+                    <TextView
+                        android:id="@+id/expresmsg"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="Express Charges"
+                        android:textColor="@color/bluee"
+                        android:textSize="10sp" />
 
                 </TableRow>
 

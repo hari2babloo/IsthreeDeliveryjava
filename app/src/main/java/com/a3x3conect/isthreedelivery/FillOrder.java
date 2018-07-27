@@ -23,6 +23,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -84,16 +85,19 @@ public class FillOrder extends AppCompatActivity {
     String mMessage;
     Button pay;
     TinyDB tinyDB;
-    double s;
+    double s=0,expressDeliveryCharge;
+    String expressDelivery;
     ListView lv_languages;
+    CheckBox checkBox;
 
-    String price,type,quantity,amount,idd;
+    String price,type,quantity,amount,idd,exprsval;
     TextView btmamt,btmtotal;
     TableLayout tableLayout;
     Spinner spinner;
     ListView listView;
     EditText qty;
     Button add,cancel;
+
 
     BottomSheetDialog bottomSheetDialog;
     Integer spinposition;
@@ -105,13 +109,47 @@ public class FillOrder extends AppCompatActivity {
         setContentView(R.layout.fill_order);
         tinyDB = new TinyDB(this);
         pay = (Button)findViewById(R.id.pay);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        checkBox = (CheckBox)findViewById(R.id.checkBox);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+       expressDelivery = getIntent().getStringExtra("expressDelivery");
+
+
+            Log.e("values", String.valueOf(expressDelivery)+String.valueOf(expressDeliveryCharge));
         //listView = new ListView(this);
 
         //  String[] rates = {"shirt","pant",};
 
+        if (expressDelivery.equalsIgnoreCase("1")){
 
+            //  expresscharge=tinyDB.getDouble("expressDeliveryCharge",0);
+            //btmtotal.setText("Total  " +getResources().getString(R.string.rupee)+String.format("%.2f",s+expresscharge));
+            expressDeliveryCharge = getIntent().getDoubleExtra("expressDeliveryCharge",0);
+            checkBox.setChecked(true);
+//            checkBox.setVisibility(View.GONE);
+//            expresstxt.setVisibility(View.GONE);
+        }
+
+        checkBox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (checkBox.isChecked()){
+                    Toast.makeText(FillOrder.this, "Express Delivery Enabled", Toast.LENGTH_SHORT).show();
+                    expressDeliveryCharge = getIntent().getDoubleExtra("expressDeliveryCharge",0);
+                    expressDelivery = "1";
+                    // expresscharge=tinyDB.getDouble("expressDeliveryCharge",0);
+                    btmtotal.setText("Total  " +getResources().getString(R.string.rupee)+String.format("%.2f",s+expressDeliveryCharge));
+                }
+                else {
+
+                    Toast.makeText(FillOrder.this, "Express Delivery Disabled", Toast.LENGTH_SHORT).show();
+
+                    expressDelivery = "0";
+                    expressDeliveryCharge=0;
+                    btmtotal.setText("Total  " +getResources().getString(R.string.rupee)+String.format("%.2f",s+expressDeliveryCharge));
+                }
+            }
+        });
         // listView.setAdapter(adapter);
         ratescard = (TextView)findViewById(R.id.rates);
 
@@ -142,9 +180,10 @@ public class FillOrder extends AppCompatActivity {
         mRVFishPrice2 = (RecyclerView)findViewById(R.id.fishPriceList2);
         btmamt = (TextView)findViewById(R.id.btmamt);
         tableLayout = (TableLayout)findViewById(R.id.tabl);
-        tableLayout.setVisibility(View.GONE);
+       // tableLayout.setVisibility(View.GONE);
         btmtotal = (TextView)findViewById(R.id.btmtotal);
         pay.setVisibility(View.VISIBLE);
+
 
 
         cancel.setOnClickListener(new View.OnClickListener() {
@@ -637,6 +676,9 @@ public class FillOrder extends AppCompatActivity {
                                 }
                             });
 
+
+
+
                             add.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
@@ -828,7 +870,12 @@ public class FillOrder extends AppCompatActivity {
         //  btmamt.setText("Sub Total = " +String.valueOf(sum));
 
         s =  ((0.0/100) *sum)+sum;
-        btmtotal.setText("Total  " +getResources().getString(R.string.rupee)+String.format("%.2f",s));
+
+
+
+            btmtotal.setText("Total  " +getResources().getString(R.string.rupee)+String.format("%.2f",s+expressDeliveryCharge   ));
+
+
 
         pay.setVisibility(View.VISIBLE);
         btmtotal.setVisibility(View.VISIBLE);
@@ -911,7 +958,7 @@ public class FillOrder extends AppCompatActivity {
                     //btmamt.setText("Sub Total = " +String.valueOf(sum));
 
                     double s =  ((0.0/100) *sum)+sum;
-                    btmtotal.setText("Total  " +getResources().getString(R.string.rupee) +String.format("%.2f",s));
+                    btmtotal.setText("Total  " +getResources().getString(R.string.rupee) +String.format("%.2f",s+expressDeliveryCharge));
                 }
             });
             myHolder.plus.setOnClickListener(new View.OnClickListener() {
@@ -959,7 +1006,7 @@ public class FillOrder extends AppCompatActivity {
                                         //  btmamt.setText("Sub Total = " +String.valueOf(sum));
 
                                         double s =  ((0.0/100) *sum)+sum;
-                                        btmtotal.setText("Total  " +getResources().getString(R.string.rupee)+String.format("%.2f",s));
+                                        btmtotal.setText("Total  " +getResources().getString(R.string.rupee)+String.format("%.2f",s+expressDeliveryCharge));
                                         Log.e("rererer", String.format("%.2f",s));
                                     } catch (NumberFormatException e) {
                                         Toast.makeText(context, "Enter only numbers", Toast.LENGTH_SHORT).show();
@@ -1048,11 +1095,17 @@ public class FillOrder extends AppCompatActivity {
             garmentscount+= foo;
             quantity.put(filterdata2.get(i).noofpieces);
         }
+        if (expressDelivery.equalsIgnoreCase("1")){
+
+            s=s+expressDeliveryCharge;
+        }
         String timeStamp2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Calendar.getInstance().getTime());
         String timeStamp = new SimpleDateFormat("yyyyMMddHHmmss").format(Calendar.getInstance().getTime());
         try {
             //  postdat.put("status", "FillOrder-CONFIRMED");
             postdat.put("customerId",tinyDB.getString("custid"));
+            postdat.put("expressDelivery",expressDelivery);
+           // postdat.put("expressDeliveryCharge",expressDeliveryCharge);
             postdat.put("jobId",tinyDB.getString("jobid"));
             postdat.put("jobOrderDateTime",timeStamp2);
             postdat.put("gstPercentage", "0");

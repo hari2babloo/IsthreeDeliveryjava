@@ -53,6 +53,7 @@ public class Deliverylist extends AppCompatActivity {
     String spinnertext,pickupzone;
      List<modelDeliverylist> tarif;
      TextView count;
+     String url;
     String areacount;
 
 
@@ -71,8 +72,11 @@ String mMessage;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.deliverylist);
+
+        //Log.e("url")
         count = (TextView)findViewById(R.id.count);
         tinyDB = new TinyDB(this);
+        url = tinyDB.getString("keydelivery");
         spinner = (Spinner)findViewById(R.id.spinner);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mRVFishPrice = (RecyclerView)findViewById(R.id.fishPriceList);
@@ -85,9 +89,7 @@ String mMessage;
         pd.setCancelable(false);
         pd.show();
         final OkHttpClient client = new OkHttpClient();
-
         JSONObject postdat = new JSONObject();
-
         try {
             //  postdat.put("customerId", tinyDB.getString("custid"));
             postdat.put("agentId", tinyDB.getString("partnerid"));
@@ -96,20 +98,16 @@ String mMessage;
             e.printStackTrace();
         }
         RequestBody body = RequestBody.create(MEDIA_TYPE,postdat.toString());
-
         Log.e("postdata",postdat.toString());
-
         final Request request = new Request.Builder()
-                .url(getString(R.string.baseurl)+"getDeliveryOrders")
+                .url(getString(R.string.baseurl)+url)
                 .post(body)
                 .build();
-
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Request request, IOException e) {
                 pd.dismiss();
                 pd.cancel();
-
                 mMessage = e.getMessage().toString();
                 Log.w("failure Response", mMessage);
             }
@@ -482,6 +480,21 @@ String mMessage;
             //   mRVFishPrice.scrollToPosition(position);
             //    holder.setIsRecyclable(true);
             final modelDeliverylist current = data.get(position);
+
+            if(current.getExpressDelivery() != null && !current.getExpressDelivery().isEmpty()) {
+
+                if (current.getExpressDelivery().equalsIgnoreCase("1")) {
+
+
+                    myHolder.one.setTextColor(Color.parseColor("#d20670"));
+                    myHolder.two.setTextColor(Color.parseColor("#d20670"));
+                    myHolder.three.setTextColor(Color.parseColor("#d20670"));
+
+
+                }
+
+            }
+
             myHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

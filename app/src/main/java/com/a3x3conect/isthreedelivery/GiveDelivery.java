@@ -6,13 +6,11 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -27,7 +25,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.a3x3conect.isthreedelivery.Models.JobOrder;
-import com.a3x3conect.isthreedelivery.Models.Sigin;
 import com.a3x3conect.isthreedelivery.Models.TinyDB;
 import com.a3x3conect.isthreedelivery.Models.getJobSummary;
 import com.google.gson.Gson;
@@ -57,12 +54,12 @@ public class GiveDelivery extends AppCompatActivity {
     ProgressDialog pd;
     RecyclerView mRVFishPrice;
     TableLayout tableLayout;
-    TextView btmtotal,grdtotal,baltopay,amtpaid,date,custid,status,jobidtxt;;
+    TextView btmtotal,grdtotal,baltopay,amtpaid,date,custid,status,jobidtxt,expresscharges;;
     List<DataFish2> filterdata2=new ArrayList<DataFish2>();
     private AdapterFish Adapter;
     Button home,cancel;
     String radiostatus,paymentmode;
-    double s,amountpayable,amountcollected;
+    double s,amountpayable,amountcollected,expresschargesamt;
     TinyDB tinyDB;
     String mMessage2,mMessage;
     JobOrder jobOrder;
@@ -89,6 +86,7 @@ public class GiveDelivery extends AppCompatActivity {
         jobidtxt =  (TextView)findViewById(R.id.jobid);
         custid =  (TextView)findViewById(R.id.custid);
         date =  (TextView)findViewById(R.id.date);
+        expresscharges = (TextView)findViewById(R.id.expresscharges);
 
         cancel = (Button)findViewById(R.id.cancel);
 
@@ -466,7 +464,7 @@ public class GiveDelivery extends AppCompatActivity {
 
                                 amountpayable = Double.parseDouble(modelsignin.get(j).getPayableAmount());
                                 amountcollected = Double.parseDouble(modelsignin.get(j).getPayableAmount());
-
+                                expresschargesamt = Double.parseDouble(modelsignin.get(j).getExpressDeliveryCharge());
                                 Log.e("psdsaaf", String.valueOf(amountpayable));
                                 if (amountpayable>0.0){
 
@@ -513,6 +511,7 @@ public class GiveDelivery extends AppCompatActivity {
                             btmtotal.setText(getResources().getString(R.string.rupee)+String.format("%.2f",s));
                            // btmtotal.setText();
                             grdtotal.setText(String.valueOf(Math.round(garmentscount)));
+                            expresscharges.setText(getResources().getString(R.string.rupee)+expresschargesamt);
 
                             Adapter = new AdapterFish(GiveDelivery.this, filterdata2);
                             Adapter.setHasStableIds(false);

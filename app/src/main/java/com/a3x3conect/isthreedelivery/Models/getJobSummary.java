@@ -66,6 +66,38 @@ public class getJobSummary {
     @Expose
     private String balanceAmountToPay;
 
+    @SerializedName("expressDelivery")
+    @Expose
+    private String expressDelivery;
+
+    @SerializedName("expressDeliveryCharge")
+    @Expose
+    private String expressDeliveryCharge;
+
+    public String getgSTPercentage() {
+        return gSTPercentage;
+    }
+
+    public void setgSTPercentage(String gSTPercentage) {
+        this.gSTPercentage = gSTPercentage;
+    }
+
+    public String getExpressDelivery() {
+        return expressDelivery;
+    }
+
+    public void setExpressDelivery(String expressDelivery) {
+        this.expressDelivery = expressDelivery;
+    }
+
+    public String getExpressDeliveryCharge() {
+        return expressDeliveryCharge;
+    }
+
+    public void setExpressDeliveryCharge(String expressDeliveryCharge) {
+        this.expressDeliveryCharge = expressDeliveryCharge;
+    }
+
     public String getId() {
         return id;
     }

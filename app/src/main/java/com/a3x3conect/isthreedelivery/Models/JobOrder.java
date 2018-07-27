@@ -17,6 +17,16 @@ public class JobOrder {
     @SerializedName("shift")
     @Expose
     private Object shift;
+
+    @SerializedName("expressDelivery")
+    @Expose
+    private String expressDelivery;
+    @SerializedName("expressDeliveryCharge")
+    @Expose
+    private String expressDeliveryCharge;
+
+
+
     @SerializedName("date")
     @Expose
     private String date;
@@ -130,6 +140,28 @@ public class JobOrder {
         this.jobStatus = jobStatus;
     }
 
+    public String getExpressDelivery() {
+        return expressDelivery;
+    }
 
+    public void setExpressDelivery(String expressDelivery) {
+        this.expressDelivery = expressDelivery;
+    }
+
+    public String getExpressDeliveryCharge() {
+        return expressDeliveryCharge;
+    }
+
+    public void setExpressDeliveryCharge(String expressDeliveryCharge) {
+        this.expressDeliveryCharge = expressDeliveryCharge;
+    }
+
+    public String getgSTPercentage() {
+        return gSTPercentage;
+    }
+
+    public void setgSTPercentage(String gSTPercentage) {
+        this.gSTPercentage = gSTPercentage;
+    }
 
 }

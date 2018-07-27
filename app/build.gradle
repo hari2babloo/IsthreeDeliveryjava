@@ -6,8 +6,8 @@ android {
         applicationId "com.a3x3conect.isthreedelivery"
         minSdkVersion 15
         targetSdkVersion 26
-        versionCode 23
-        versionName "23.0"
+        versionCode 25
+        versionName "25.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {

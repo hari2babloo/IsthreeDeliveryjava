@@ -37,7 +37,7 @@ import java.util.List;
 
 public class Dashpage extends AppCompatActivity {
 
-    ImageButton pick,delivery;
+    ImageButton pick,delivery,myorders,expressorders;
     ProgressDialog pd;
     TextView pickupcount,deliverycount,pickupspendingcount,deliverypendingcount,pickupcancelcount,deliverycancelcount;
     String mMessage;
@@ -56,7 +56,10 @@ public class Dashpage extends AppCompatActivity {
         pickupspendingcount = (TextView)findViewById(R.id.pickuppendingcount);
         deliverypendingcount = (TextView)findViewById(R.id.deliverypendingcount);
         pickupcancelcount = (TextView)findViewById(R.id.pickupcanceledcount);
-       // deliverycancelcount = (TextView)findViewById(R.id.deliverycancelcount);
+        myorders = (ImageButton) findViewById(R.id.myorders);
+        expressorders=(ImageButton)findViewById(R.id.expressorders);
+
+        // deliverycancelcount = (TextView)findViewById(R.id.deliverycancelcount);
 
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_container);
 //        swipeRefreshLayout.setOnRefreshListener((SwipeRefreshLayout.OnRefreshListener) Dashpage.this);
@@ -72,17 +75,28 @@ swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener
         swipeRefreshLayout.setRefreshing(false);
     }
 });
+
+
         //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 //        Bundle bundle = getIntent().getExtras();
         tinydb = new TinyDB(this);
         pick = (ImageButton)findViewById(R.id.pickup);
         delivery = (ImageButton)findViewById(R.id.delivery);
+        expressorders.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent in = new Intent(Dashpage.this,ExpressOrders.class);
+                startActivity(in);
+            }
+        });
         pick.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
 
                 Intent intent = new Intent(Dashpage.this, Pickuplist.class);
+                tinydb.putString("keypickup","getPickupRequests");
+                //intent.putExtra("keypickup","getPickupRequests");
                 startActivity(intent);
             }
         });
@@ -92,6 +106,15 @@ swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener
 
 
                 Intent intent = new Intent(Dashpage.this, Deliverylist.class);
+                tinydb.putString("keydelivery","getDeliveryOrders");
+              //  intent.putExtra("keydelivery","getDeliveryOrders");
+                startActivity(intent);
+            }
+        });
+        myorders.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Dashpage.this, PickupDeliverylist.class);
                 startActivity(intent);
             }
         });

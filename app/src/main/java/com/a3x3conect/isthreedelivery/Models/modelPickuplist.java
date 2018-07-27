@@ -9,6 +9,7 @@ import com.google.gson.annotations.SerializedName;
 
 public class modelPickuplist {
 
+
     @SerializedName("id")
     @Expose
     private String id;
@@ -18,6 +19,12 @@ public class modelPickuplist {
     @SerializedName("customerId")
     @Expose
     private String customerId;
+    @SerializedName("expressDelivery")
+    @Expose
+    private String expressDelivery;
+    @SerializedName("expressDeliveryCharge")
+    @Expose
+    private String expressDeliveryCharge;
     @SerializedName("pickupScheduledAt")
     @Expose
     private String pickupScheduledAt;
@@ -29,13 +36,13 @@ public class modelPickuplist {
     private String status;
     @SerializedName("count")
     @Expose
-    private String count;
+    private Object count;
     @SerializedName("grandTotal")
     @Expose
-    private String grandTotal;
+    private Object grandTotal;
     @SerializedName("paymentMode")
     @Expose
-    private String paymentMode;
+    private Object paymentMode;
     @SerializedName("displayName")
     @Expose
     private String displayName;
@@ -97,6 +104,22 @@ public class modelPickuplist {
         this.customerId = customerId;
     }
 
+    public String getExpressDelivery() {
+        return expressDelivery;
+    }
+
+    public void setExpressDelivery(String expressDelivery) {
+        this.expressDelivery = expressDelivery;
+    }
+
+    public String getExpressDeliveryCharge() {
+        return expressDeliveryCharge;
+    }
+
+    public void setExpressDeliveryCharge(String expressDeliveryCharge) {
+        this.expressDeliveryCharge = expressDeliveryCharge;
+    }
+
     public String getPickupScheduledAt() {
         return pickupScheduledAt;
     }
@@ -121,27 +144,27 @@ public class modelPickuplist {
         this.status = status;
     }
 
-    public String getCount() {
+    public Object getCount() {
         return count;
     }
 
-    public void setCount(String count) {
+    public void setCount(Object count) {
         this.count = count;
     }
 
-    public String getGrandTotal() {
+    public Object getGrandTotal() {
         return grandTotal;
     }
 
-    public void setGrandTotal(String grandTotal) {
+    public void setGrandTotal(Object grandTotal) {
         this.grandTotal = grandTotal;
     }
 
-    public String getPaymentMode() {
+    public Object getPaymentMode() {
         return paymentMode;
     }
 
-    public void setPaymentMode(String paymentMode) {
+    public void setPaymentMode(Object paymentMode) {
         this.paymentMode = paymentMode;
     }
 

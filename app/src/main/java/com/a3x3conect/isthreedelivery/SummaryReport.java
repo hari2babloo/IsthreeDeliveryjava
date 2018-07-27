@@ -6,6 +6,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
@@ -47,10 +48,10 @@ import java.util.List;
 public class SummaryReport extends AppCompatActivity {
 
 
-ProgressDialog pd;
+    ProgressDialog pd;
     RecyclerView mRVFishPrice;
     TableLayout tableLayout;
-    TextView btmtotal;
+    TextView btmtotal,expresmsg;
     List<DataFish2> filterdata2=new ArrayList<DataFish2>();
     private AdapterFish Adapter;
     Button home,cancelorder;
@@ -65,7 +66,8 @@ ProgressDialog pd;
     TextView grdtotal,date,custid,status,jobidtxt;
     public static final MediaType MEDIA_TYPE =
             MediaType.parse("application/json");
-    
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,60 +77,46 @@ ProgressDialog pd;
         home =  (Button)findViewById(R.id.home);
         cancelorder = (Button)findViewById(R.id.cancel);
         grdtotal = (TextView)findViewById(R.id.grdtotal);
-
         jobidtxt =  (TextView)findViewById(R.id.jobid);
         custid =  (TextView)findViewById(R.id.custid);
         date =  (TextView)findViewById(R.id.date);
-      //  status = (TextView)findViewById(R.id.delstatus);
-
+        //  status = (TextView)findViewById(R.id.delstatus);
+        expresmsg = (TextView)findViewById(R.id.expresmsg);
         cancelorder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 final String[] items = {"Address does not exist","Phone number not reachable","Customer does not exist","Customer not at home","Issue not listed"};
                 final AlertDialog.Builder builder = new AlertDialog.Builder(SummaryReport.this);//ERROR ShowDialog cannot be resolved to a type
                 builder.setTitle("Select a Status");
                 builder.setSingleChoiceItems(items, -1,
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int item) {
-
                                 radiostatus = items[item];
-
                                 //  Toast.makeText(getApplicationContext(), items[item], Toast.LENGTH_SHORT).show();
                             }
                         });
 
                 builder.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-
-
                         dialog.dismiss();
                         dialog.cancel();
 
                     }
                 });
-
                 builder.setPositiveButton("SUBMIT", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 
 
                         if (radiostatus!=null && !radiostatus.isEmpty()){
-
                             Submitstatus();
                             dialog.dismiss();
                             dialog.cancel();
-
-
                         }
                         else {
 
                             builder.show();
-
-
                             Toast.makeText(SummaryReport.this, "Select a Status", Toast.LENGTH_SHORT).show();
-
-
                         }
 
 
@@ -154,10 +142,10 @@ ProgressDialog pd;
         tableLayout = (TableLayout)findViewById(R.id.tabl);
         btmtotal = (TextView)findViewById(R.id.btmtotal);
 
-     //   filterdata2 =   (ArrayList<DataFish2>)getIntent().getSerializableExtra("FILES_TO_SEND");
-        
-       getjoborder();
-       
+        //   filterdata2 =   (ArrayList<DataFish2>)getIntent().getSerializableExtra("FILES_TO_SEND");
+
+        getjoborder();
+
     }
 
     private void getjoborder() {
@@ -231,7 +219,7 @@ ProgressDialog pd;
                 pd.cancel();
                 pd.dismiss();
                 mMessage2 = response.body().string();
-              //  home.setEnabled(true);
+                //  home.setEnabled(true);
                 if (response.isSuccessful()){
                     runOnUiThread(new Runnable() {
                         @Override
@@ -243,17 +231,20 @@ ProgressDialog pd;
                             //   TraverseData();
 
                             try {
-                                JSONObject jsonObject = new JSONObject(mMessage2);
+                                final JSONObject jsonObject = new JSONObject(mMessage2);
 
-                             //   Double statuscode = jsonObject.optDouble("statusCode");
+                                //   Double statuscode = jsonObject.optDouble("statusCode");
                                 Double jobid = jsonObject.optDouble("jobid");
 
                                 //tinyDB.putString("custId",jsonObject.getString());
-                               // tinyDB.putString("custId",jobOrder.getCustomerId());
+                                // tinyDB.putString("custId",jobOrder.getCustomerId());
                                 //tinyDB.putString("jobid",jobOrder.getJobid());
 
 
                                 if (jsonObject.optString("statusCode").equalsIgnoreCase("0")){
+
+                                    final String expressDelivery = jsonObject.getString("expressDelivery");
+                                    final double expressDeliveryCharge = jsonObject.getDouble("expressDeliveryCharge");
 
                                     final Dialog openDialog = new Dialog(SummaryReport.this);
                                     openDialog.setContentView(R.layout.alert);
@@ -262,7 +253,7 @@ ProgressDialog pd;
                                     dialogTextContent.setText("Please ask your customer to fill order");
                                     ImageView dialogImage = (ImageView)openDialog.findViewById(R.id.dialog_image);
                                     Button dialogCloseButton = (Button)openDialog.findViewById(R.id.dialog_button);
-                                  //  dialogCloseButton.setVisibility(View.GONE);
+                                    //  dialogCloseButton.setVisibility(View.GONE);
                                     Button dialogno = (Button)openDialog.findViewById(R.id.cancel);
                                     dialogno.setText("OK");
                                     dialogno.setOnClickListener(new View.OnClickListener() {
@@ -271,8 +262,8 @@ ProgressDialog pd;
                                             openDialog.dismiss();
 
 //                                                //                                          Toast.makeText(Puckup.this, jsonResponse.getString("status"), Toast.LENGTH_SHORT).show();
-                                                Intent intent = new Intent(SummaryReport.this,Dashpage.class);
-                                                startActivity(intent);
+                                            Intent intent = new Intent(SummaryReport.this,Dashpage.class);
+                                            startActivity(intent);
                                         }
                                     });
 
@@ -281,6 +272,10 @@ ProgressDialog pd;
                                         @Override
                                         public void onClick(View v) {
                                             Intent intent = new Intent(SummaryReport.this,FillOrder.class);
+                                            intent.putExtra("expressDelivery",expressDelivery);
+                                            intent.putExtra("expressDeliveryCharge",expressDeliveryCharge);
+
+                                            Log.e("expressDelivery",expressDelivery);
                                             startActivity(intent);
 
                                         }
@@ -296,18 +291,30 @@ ProgressDialog pd;
 
 
 
-                            else {
+                                else {
 
 
                                     Gson gson = new Gson();
 
-                                     jobOrder = gson.fromJson(mMessage2,JobOrder.class);
+                                    jobOrder = gson.fromJson(mMessage2,JobOrder.class);
 
 
-                                     jobidtxt.setText(jobOrder.getJobid());
-                                     custid.setText(jobOrder.getCustomerId());
-                                     date.setText(jobOrder.getDate());
+                                    jobidtxt.setText(jobOrder.getJobid());
+                                    custid.setText(jobOrder.getCustomerId());
+                                    date.setText(jobOrder.getDate());
 
+
+
+                                    if (jobOrder.getExpressDelivery().equalsIgnoreCase("1")){
+
+                                        expresmsg.setText("Express Delivery Charges of " +getResources().getString(R.string.rupee)+" "+jobOrder.getExpressDeliveryCharge() + " applied.");
+
+                                    }
+
+                                    else {
+
+                                        expresmsg.setVisibility(View.GONE);
+                                    }
 
 //                                String s = jobOrder.getCustomerId();
 
@@ -316,7 +323,7 @@ ProgressDialog pd;
                                     for (int i= 0; i<jobOrder.getCategory().size(); i++){
 
 
-                                        DataFish2 ss = new DataFish2("item","qty","price","total");
+                                      //  DataFish2 ss = new DataFish2("item","qty","price","total");
 
                                         Float ss2 = Float.parseFloat(jobOrder.getPrice().get(i));
 
@@ -343,7 +350,18 @@ ProgressDialog pd;
                                     btmtotal.setText(String.valueOf(Math.round(garmentscount)));
 
                                     s =  ((0/100) *sum)+sum;
-                                    grdtotal.setText("Total " +getResources().getString(R.string.rupee)+String.valueOf(s));
+
+                                    if (jobOrder.getExpressDelivery().equalsIgnoreCase("1")){
+
+                                     //  s= s+Double.valueOf(jobOrder.getExpressDeliveryCharge());
+
+                                        grdtotal.setText("Total " +getResources().getString(R.string.rupee)+String.valueOf(s+Double.valueOf(jobOrder.getExpressDeliveryCharge())));
+                                    }
+                                    else {
+
+                                        grdtotal.setText("Total " +getResources().getString(R.string.rupee)+String.valueOf(s));
+                                    }
+
                                     Adapter = new AdapterFish(SummaryReport.this, filterdata2);
                                     Adapter.setHasStableIds(false);
                                     mRVFishPrice.setAdapter(Adapter);
@@ -379,6 +397,7 @@ ProgressDialog pd;
         public String noofpieces;
         public String cost;
         public String amt;
+
 
 
         public DataFish2(String item,String noofpieces,String cost,String amt){
@@ -489,6 +508,11 @@ ProgressDialog pd;
         JSONArray subTotal = new JSONArray(jobOrder.getSubTotal());
         JSONArray quantity = new JSONArray(jobOrder.getQuantity());
 
+        if (jobOrder.getExpressDelivery().equalsIgnoreCase("1")){
+
+            s=s+Double.valueOf(jobOrder.getExpressDeliveryCharge());
+        }
+
         String timeStamp2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Calendar.getInstance().getTime());
         try {
             postdat.put("count",String.valueOf(Math.round(garmentscount)));
@@ -498,6 +522,8 @@ ProgressDialog pd;
             postdat.put("gstPercentage", jobOrder.getGSTPercentage());
             postdat.put("invoiceDateTime", timeStamp2);
             //  postdat.put("itemType",);
+            postdat.put("expressDelivery",jobOrder.getExpressDelivery());
+            postdat.put("expressDeliveryCharge",jobOrder.getExpressDeliveryCharge());
             postdat.put("quantity",quantity);
             postdat.put("subTotal",subTotal);
             postdat.put("unitPrice",unitPrice);
@@ -521,7 +547,7 @@ ProgressDialog pd;
                 pd.cancel();
                 pd.dismiss();
 
- //               home.setEnabled(true);
+                //               home.setEnabled(true);
                 String mMessage = e.getMessage().toString();
                 Log.e("resyul reer",mMessage);
 

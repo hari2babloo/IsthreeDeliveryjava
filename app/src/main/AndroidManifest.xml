@@ -23,7 +23,7 @@
         </activity>
         <activity
             android:name=".Signin"
-            android:theme="@style/AppTheme2"></activity>
+            android:theme="@style/AppTheme2" />
         <activity
             android:name=".Signup"
             android:parentActivityName=".Signin">
@@ -32,7 +32,7 @@
                 android:value=".Signin" />
         </activity>
         <activity android:name=".VerifyEmail" />
-        <activity android:name=".Dashpage"></activity>
+        <activity android:name=".Dashpage" />
         <activity
             android:name=".Deliverylist"
             android:parentActivityName=".Dashpage">
@@ -82,11 +82,26 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Deliverylist" />
         </activity>
-        <activity android:name=".FillOrder"
-            android:parentActivityName=".Pickuplist">
+        <activity
+            android:name=".FillOrder"
+            android:parentActivityName=".Dashpage">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".Pickuplist" />
+                android:value=".Dashpage" />
+        </activity>
+        <activity
+            android:name=".PickupDeliverylist"
+            android:parentActivityName=".Dashpage">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Dashpage" />
+        </activity>
+        <activity android:name=".SummaryPickupDelivery" />
+        <activity android:name=".ExpressOrders"
+            android:parentActivityName=".Dashpage">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Dashpage" />
         </activity>
     </application>
 

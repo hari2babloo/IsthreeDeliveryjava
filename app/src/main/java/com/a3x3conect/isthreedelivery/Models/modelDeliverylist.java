@@ -79,6 +79,31 @@ public class modelDeliverylist {
     @Expose
     private String pickupZone;
 
+    @SerializedName("expressDelivery")
+    @Expose
+    private String expressDelivery;
+
+    public String getExpressDelivery() {
+        return expressDelivery;
+    }
+
+    public void setExpressDelivery(String expressDelivery) {
+        this.expressDelivery = expressDelivery;
+    }
+
+    public String getExpressDeliveryCharge() {
+        return expressDeliveryCharge;
+    }
+
+    public void setExpressDeliveryCharge(String expressDeliveryCharge) {
+        this.expressDeliveryCharge = expressDeliveryCharge;
+    }
+
+    @SerializedName("expressDeliveryCharge")
+    @Expose
+
+    private String expressDeliveryCharge;
+
     public String getPickupZone() {
         return pickupZone;
     }

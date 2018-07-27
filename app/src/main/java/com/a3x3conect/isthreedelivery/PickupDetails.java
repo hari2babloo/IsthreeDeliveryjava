@@ -78,72 +78,72 @@ public class PickupDetails extends AppCompatActivity {
 
 
         cancel.setOnClickListener(new View.OnClickListener() {
-                                      @Override
-                                      public void onClick(View v) {
+            @Override
+            public void onClick(View v) {
 
 
 
-                                          final String[] items = {"Address does not exist","Phone number not reachable","Customer does not exist","Customer not at home","Issue not listed"};
-                                          final AlertDialog.Builder builder = new AlertDialog.Builder(PickupDetails.this);//ERROR ShowDialog cannot be resolved to a type
-                                          builder.setTitle("Select a Status");
-                                          builder.setSingleChoiceItems(items, -1,
-                                                  new DialogInterface.OnClickListener() {
-                                                      public void onClick(DialogInterface dialog, int item) {
+                final String[] items = {"Address does not exist","Phone number not reachable","Customer does not exist","Customer not at home","Issue not listed"};
+                final AlertDialog.Builder builder = new AlertDialog.Builder(PickupDetails.this);//ERROR ShowDialog cannot be resolved to a type
+                builder.setTitle("Select a Status");
+                builder.setSingleChoiceItems(items, -1,
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int item) {
 
-                                                          radiostatus = items[item];
+                                radiostatus = items[item];
 
-                                                        //  Toast.makeText(getApplicationContext(), items[item], Toast.LENGTH_SHORT).show();
-                                                      }
-                                                  });
+                                //  Toast.makeText(getApplicationContext(), items[item], Toast.LENGTH_SHORT).show();
+                            }
+                        });
 
-                                          builder.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
-                                              public void onClick(DialogInterface dialog, int id) {
-
-
-                                            dialog.dismiss();
-                                            dialog.cancel();
-
-                                              }
-                                          });
-
-                                          builder.setPositiveButton("SUBMIT", new DialogInterface.OnClickListener() {
-                                              @Override
-                                              public void onClick(DialogInterface dialog, int which) {
+                builder.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
 
 
-                                                  if (radiostatus!=null && !radiostatus.isEmpty()){
+                        dialog.dismiss();
+                        dialog.cancel();
 
-                                                         CancelStatus();
-                                                      dialog.dismiss();
-                                                      dialog.cancel();
+                    }
+                });
 
-
-                                                  }
-                                                  else {
-
-                                                      builder.show();
+                builder.setPositiveButton("SUBMIT", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
 
 
-                                                      Toast.makeText(PickupDetails.this, "Select a Status", Toast.LENGTH_SHORT).show();
+                        if (radiostatus!=null && !radiostatus.isEmpty()){
+
+                            CancelStatus();
+                            dialog.dismiss();
+                            dialog.cancel();
 
 
-                                                  }
+                        }
+                        else {
+
+                            builder.show();
 
 
-                                              }
-                                          });
-
-                                          builder.show();
+                            Toast.makeText(PickupDetails.this, "Select a Status", Toast.LENGTH_SHORT).show();
 
 
-                                      }
-                                  });
+                        }
+
+
+                    }
+                });
+
+                builder.show();
+
+
+            }
+        });
 
         map = (ImageButton) findViewById(R.id.directions);
         call = (ImageButton) findViewById(R.id.call);
         spinner = (Spinner)findViewById(R.id.spinner);
         submit = (Button) findViewById(R.id.submit);
-       // joborder = (Button)findViewById(R.id.submit);
+        // joborder = (Button)findViewById(R.id.submit);
 
 
 
@@ -159,8 +159,8 @@ public class PickupDetails extends AppCompatActivity {
             pickupdate.setText(mm.getPickupScheduledAt());
             tinyDB.putString("custid",mm.getCustomerId());
             tinyDB.putString("jobid",mm.getJobid());
- //           Log.e("custid",mm.getCustomerId());
-   //         Log.e("job" ,mm.getJobid());
+            //           Log.e("custid",mm.getCustomerId());
+            //         Log.e("job" ,mm.getJobid());
 ////
 //            if (mm.getStatus().equalsIgnoreCase("PICKUP-INITIATED")){
 //
@@ -288,7 +288,7 @@ public class PickupDetails extends AppCompatActivity {
 
 
 
-   //             }
+                //             }
 
 
 
@@ -450,7 +450,7 @@ public class PickupDetails extends AppCompatActivity {
                                 e.printStackTrace();
                             }
                             // Toast.makeText(Signin.this, mMessage, Toast.LENGTH_SHORT).show();
-                           // TraverseData();
+                            // TraverseData();
 
                         }
                     });
@@ -570,8 +570,8 @@ public class PickupDetails extends AppCompatActivity {
                                             openDialog.dismiss();
 
 //                                                //                                          Toast.makeText(Puckup.this, jsonResponse.getString("status"), Toast.LENGTH_SHORT).show();
-                                                Intent intent = new Intent(PickupDetails.this,Dashpage.class);
-                                                startActivity(intent);
+                                            Intent intent = new Intent(PickupDetails.this,Dashpage.class);
+                                            startActivity(intent);
                                         }
                                     });
 
@@ -601,11 +601,11 @@ public class PickupDetails extends AppCompatActivity {
                                             openDialog.dismiss();
 
 //                                                //                                          Toast.makeText(Puckup.this, jsonResponse.getString("status"), Toast.LENGTH_SHORT).show();
-                                                Intent intent = new Intent(PickupDetails.this,Dashpage.class);
- //                                           TinyDB tinyDB = new TinyDB(PickupDetails.this);
+                                            Intent intent = new Intent(PickupDetails.this,Dashpage.class);
+                                            //                                           TinyDB tinyDB = new TinyDB(PickupDetails.this);
 //                                            tinyDB.putString("customerId",mm.getCustomerId());
 //                                            tinyDB.putString("jobId",mm.getJobid());
-                                                startActivity(intent);
+                                            startActivity(intent);
                                         }
                                     });
 

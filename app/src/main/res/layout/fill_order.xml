@@ -69,7 +69,7 @@
             android:layout_marginLeft="5dp"
             android:layout_weight="1.5"
             android:ems="8"
-            android:hint="Quantity"
+            android:hint="Qty"
             android:inputType="number" />
 
         <Button
@@ -163,7 +163,7 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/fishPriceList2"
         android:layout_width="match_parent"
-        android:layout_height="220dp"
+        android:layout_height="200dp"
 
         android:layout_below="@+id/v4"></android.support.v7.widget.RecyclerView>
 
@@ -219,14 +219,33 @@
         </TableLayout>
 
 
+        <CheckBox
+            android:id="@+id/checkBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:text="Express Delivery *"
+            android:textColor="@color/colorAccent" />
+
+        <TextView
+            android:id="@+id/expresstxt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="10dp"
+            android:text="@string/expressdeliverytext"
+            android:textColor="@color/bluee"
+            android:textSize="10sp" />
+
+
     </LinearLayout>
 
 
     <LinearLayout
-        android:id="@+id/btns"
         android:layout_width="match_parent"
-
         android:layout_height="match_parent"
+
+        android:layout_alignParentBottom="true"
         android:layout_below="@+id/total"
         android:layout_margin="10dp"
         android:orientation="horizontal">
@@ -240,6 +259,7 @@
             android:background="@drawable/roundcorner"
             android:text="Cancel Order"
             android:textColor="@color/cardview_light_background" />
+
         <Button
             android:id="@+id/pay"
             android:layout_width="wrap_content"
@@ -247,25 +267,22 @@
             android:layout_margin="10dp"
             android:layout_weight="1"
             android:background="@drawable/bbkg"
-            android:text="Submit Order"
-            android:textColor="@color/cardview_light_background"/>
+            android:text="Confirm Order"
+            android:textColor="@color/cardview_light_background" />
 
 
     </LinearLayout>
+    <!--</LinearLayout>-->
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/thursdaymsg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="10dp"
-        android:layout_weight="1"
-        android:text="Note: You cannot update this order after submitting."
-        android:textColor="@color/red" />
-    <!--</LinearLayout>-->
-
-
+        android:padding="5dp"
+        android:text="Note: Pickups Scheduled before 9:00 am will be delivered on same day for express delivery."
+        android:textColor="@color/red"
+        android:textSize="10sp" />
 </RelativeLayout>
 
 
