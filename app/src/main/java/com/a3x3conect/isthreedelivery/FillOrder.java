@@ -112,6 +112,7 @@ public class FillOrder extends AppCompatActivity {
 
         checkBox = (CheckBox)findViewById(R.id.checkBox);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("Order Form");
        expressDelivery = getIntent().getStringExtra("expressDelivery");
 
 

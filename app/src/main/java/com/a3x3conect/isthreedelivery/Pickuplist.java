@@ -503,7 +503,14 @@ public class Pickuplist extends AppCompatActivity {
 
             return holder;
         }
-
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+        @Override
+        public int getItemViewType(int position) {
+            return position;
+        }
 
         // Bind data
         @Override

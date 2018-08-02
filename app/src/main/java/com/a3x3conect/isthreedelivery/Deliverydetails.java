@@ -60,6 +60,7 @@ public class Deliverydetails extends AppCompatActivity {
         setContentView(R.layout.deliverydetails);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("Customer Details");
         Bundle bundle = getIntent().getExtras();
         String message = bundle.getString("message");
         final Integer pos = bundle.getInt("position");

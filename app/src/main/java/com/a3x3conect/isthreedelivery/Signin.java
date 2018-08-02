@@ -64,38 +64,28 @@ public class Signin extends AppCompatActivity {
             Intent intent = new Intent(Signin.this,Dashpage.class);
             startActivity(intent);
         }
-
         signin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
                 if (userid.getText().toString().isEmpty()){
-
                     userid.setError("Please Enter User ID");
                 }
                 else if (pass.getText().toString().isEmpty()){
-
                     pass.setError("Please Enter Your Password");
-
                 }
                 else {
                     Validate();
                 }
             }
         });
-
     }
-
     private void Validate() {
         pd = new ProgressDialog(Signin.this);
         pd.setMessage("Signing in..");
         pd.setCancelable(false);
         pd.show();
-
         final OkHttpClient okHttpClient = new OkHttpClient();
         JSONObject postdat = new JSONObject();
-
         try {
             postdat.put("userName", userid.getText().toString());
             postdat.put("password", pass.getText().toString());
@@ -111,12 +101,10 @@ public class Signin extends AppCompatActivity {
         okHttpClient.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Request request, IOException e) {
-
                 pd.cancel();
                 pd.dismiss();
                 String mMessage = e.getMessage().toString();
                 Log.e("resyul reer",mMessage);
-
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -140,23 +128,13 @@ public class Signin extends AppCompatActivity {
 //                                                startActivity(intent);
                             }
                         });
-
-
-
                         openDialog.show();
                         openDialog.setCancelable(false);
-
                     }
                 });
-
-
-
             }
-
             @Override
             public void onResponse(Response response) throws IOException {
-
-
                 pd.cancel();
                 pd.dismiss();
                 mMessage = response.body().string();
@@ -164,19 +142,15 @@ public class Signin extends AppCompatActivity {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-
                             Log.e("Resy",mMessage);
                             // Toast.makeText(Signin.this, mMessage, Toast.LENGTH_SHORT).show();
                             TraverseData();
-
                         }
                     });
                 }
                 else runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-
-
                     }
                 });
             }
@@ -184,19 +158,13 @@ public class Signin extends AppCompatActivity {
     }
 
     private void TraverseData() {
-
         Gson gson = new Gson();
         Type listType = new TypeToken<List<Sigin>>(){}.getType();
         modelsignin = (List<Sigin>)  gson.fromJson(mMessage,listType);
-
         for(int j = 0; j < modelsignin.size(); j++){
-
-
             Integer status = modelsignin.get(j).getStatus();
             //  modelsignin.get(j).getStatus();
-
             if (status.equals(0)){
-
                 final Dialog openDialog = new Dialog(Signin.this);
                 openDialog.setContentView(R.layout.alert);
                 openDialog.setTitle("");
@@ -209,41 +177,28 @@ public class Signin extends AppCompatActivity {
                 Button dialogCloseButton = (Button)openDialog.findViewById(R.id.dialog_button);
                 dialogCloseButton.setVisibility(View.GONE);
                 Button dialogno = (Button)openDialog.findViewById(R.id.cancel);
-
                 dialogno.setText("OK");
-
-
                 dialogno.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         openDialog.dismiss();
-
 //                                                //                                          Toast.makeText(Puckup.this, jsonResponse.getString("status"), Toast.LENGTH_SHORT).show();
 //                                                Intent intent = new Intent(Puckup.this,Dashpage.class);
 //                                                startActivity(intent);
                     }
                 });
-
-
-
                 openDialog.show();
                 openDialog.setCancelable(false);
-
-
             }
             else if (status.equals(1)){
-
-
-
                 if (modelsignin.get(j).getUserType().equalsIgnoreCase("Partner")){
-
                     Intent intent = new Intent(Signin.this,Dashpage.class);
 //              intent.putExtra("custid",modelsignin.get(j).getUserName());
                     tinyDB.putString("partnerid",modelsignin.get(j).getUserName());
                     startActivity(intent);
                 }
-
-                else{
+                else
+                    {
                     final Dialog openDialog = new Dialog(Signin.this);
                     openDialog.setContentView(R.layout.alert);
                     openDialog.setTitle("");
@@ -256,33 +211,19 @@ public class Signin extends AppCompatActivity {
                     Button dialogCloseButton = (Button)openDialog.findViewById(R.id.dialog_button);
                     dialogCloseButton.setVisibility(View.GONE);
                     Button dialogno = (Button)openDialog.findViewById(R.id.cancel);
-
                     dialogno.setText("OK");
-
-
                     dialogno.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             openDialog.dismiss();
-
                         }
                     });
-
                     openDialog.show();
                     openDialog.setCancelable(false);
-
                 }
-
                 //  Log.e("status", String.valueOf(modelsignin.get(j).getStatus()));
-
             }
-
-
         }
-
-
-
-
     }
 
     @Override
@@ -295,12 +236,10 @@ public class Signin extends AppCompatActivity {
         ImageView dialogImage = (ImageView)openDialog.findViewById(R.id.dialog_image);
         Button dialogCloseButton = (Button)openDialog.findViewById(R.id.dialog_button);
         Button dialogno = (Button)openDialog.findViewById(R.id.cancel);
-
         dialogCloseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 openDialog.dismiss();
-
                 Intent homeIntent = new Intent(Intent.ACTION_MAIN);
                 homeIntent.addCategory( Intent.CATEGORY_HOME );
                 homeIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -313,14 +252,12 @@ public class Signin extends AppCompatActivity {
 //                                                startActivity(intent);
             }
         });
-
         dialogno.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 openDialog.dismiss();
             }
         });
-
         openDialog.show();
         openDialog.setCancelable(false);
     }

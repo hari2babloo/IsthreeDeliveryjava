@@ -22,9 +22,10 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
             android:orientation="horizontal"
             android:padding="5dp"
-            android:weightSum="2">
+            android:weightSum="3">
 
 
             <TextView
@@ -41,11 +42,18 @@
                 android:id="@+id/status"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1.5"
+                android:layout_weight="2"
                 android:text="Status"
                 android:textAllCaps="true"
                 android:textColor="@color/bluee"
                 android:textSize="14sp" />
+
+            <ImageView
+                android:id="@+id/expresimg"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_weight="0.5"
+                app2:srcCompat="@drawable/expresscar" />
 
 
         </LinearLayout>

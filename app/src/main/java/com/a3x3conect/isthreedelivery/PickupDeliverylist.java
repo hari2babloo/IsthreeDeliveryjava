@@ -18,6 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -256,6 +257,14 @@ public class PickupDeliverylist extends AppCompatActivity {
 
             return holder;
         }
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+        @Override
+        public int getItemViewType(int position) {
+            return position;
+        }
 
 
         // Bind data
@@ -290,6 +299,12 @@ public class PickupDeliverylist extends AppCompatActivity {
             myHolder.custid.setText(current.getCustomerId());
             myHolder.createdate.setText( "Created on: "+current.getCreatedAt());
                             myHolder.status.setText(current.getStatus());
+
+
+                            if (current.getExpressDelivery().equalsIgnoreCase("0")){
+
+                                myHolder.expresimg.setVisibility(View.GONE);
+                            }
             switch (current.getStatus()){
 
 
@@ -355,6 +370,7 @@ public class PickupDeliverylist extends AppCompatActivity {
 
         class MyHolder extends RecyclerView.ViewHolder {
             TextView custid,status,createdate,misdate;
+            ImageView expresimg;
             View line;
             // create constructor to get widget reference
             public MyHolder(View itemView) {
@@ -363,6 +379,7 @@ public class PickupDeliverylist extends AppCompatActivity {
                 status = (TextView)itemView.findViewById(R.id.status);
                 createdate = (TextView) itemView.findViewById(R.id.createdate);
                 misdate = (TextView)itemView.findViewById(R.id.misdate);
+                expresimg = (ImageView)itemView.findViewById(R.id.expresimg);
 
 
 

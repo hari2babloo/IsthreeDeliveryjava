@@ -79,6 +79,7 @@ String mMessage;
         url = tinyDB.getString("keydelivery");
         spinner = (Spinner)findViewById(R.id.spinner);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("Delivery List");
         mRVFishPrice = (RecyclerView)findViewById(R.id.fishPriceList);
         gson = new Gson();
         getdata();
@@ -470,7 +471,14 @@ String mMessage;
             return holder;
         }
 
-
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+        @Override
+        public int getItemViewType(int position) {
+            return position;
+        }
         // Bind data
         @Override
         public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {

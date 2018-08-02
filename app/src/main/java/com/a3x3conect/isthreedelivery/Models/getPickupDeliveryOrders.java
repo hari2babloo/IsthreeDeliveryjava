@@ -57,6 +57,12 @@ public class getPickupDeliveryOrders {
     @Expose
     private String jobFinishedDate;
 
+
+
+    @SerializedName("expressDelivery")
+    @Expose
+    private String expressDelivery;
+
     public String getId() {
         return id;
     }
@@ -103,6 +109,14 @@ public class getPickupDeliveryOrders {
 
     public void setPickupConfirmedDate(String pickupConfirmedDate) {
         this.pickupConfirmedDate = pickupConfirmedDate;
+    }
+
+    public String getExpressDelivery() {
+        return expressDelivery;
+    }
+
+    public void setExpressDelivery(String expressDelivery) {
+        this.expressDelivery = expressDelivery;
     }
 
     public String getStatus() {
