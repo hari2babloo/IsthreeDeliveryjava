@@ -38,6 +38,7 @@ import java.util.List;
 public class Dashpage extends AppCompatActivity {
 
     ImageButton pick,delivery,myorders,expressorders;
+    Button managertransactions;
     ProgressDialog pd;
     TextView pickupcount,deliverycount,pickupspendingcount,deliverypendingcount,pickupcancelcount,deliverycancelcount;
     String mMessage;
@@ -58,6 +59,9 @@ public class Dashpage extends AppCompatActivity {
         pickupcancelcount = (TextView)findViewById(R.id.pickupcanceledcount);
         myorders = (ImageButton) findViewById(R.id.myorders);
         expressorders=(ImageButton)findViewById(R.id.expressorders);
+        managertransactions = (Button)findViewById(R.id.managertransactions);
+
+
 
         // deliverycancelcount = (TextView)findViewById(R.id.deliverycancelcount);
 
@@ -80,6 +84,16 @@ swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener
         //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 //        Bundle bundle = getIntent().getExtras();
         tinydb = new TinyDB(this);
+
+        if (tinydb.getString("partnerid").equalsIgnoreCase("p0049")){
+
+            managertransactions.setVisibility(View.VISIBLE);
+        }
+
+        else {
+
+            managertransactions.setVisibility(View.GONE);
+        }
         pick = (ImageButton)findViewById(R.id.pickup);
         delivery = (ImageButton)findViewById(R.id.delivery);
         expressorders.setOnClickListener(new View.OnClickListener() {
@@ -115,6 +129,13 @@ swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Dashpage.this, PickupDeliverylist.class);
+                startActivity(intent);
+            }
+        });
+        managertransactions.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Dashpage.this, ManagerWalletTransactions.class);
                 startActivity(intent);
             }
         });

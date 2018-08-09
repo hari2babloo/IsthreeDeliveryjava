@@ -5,7 +5,6 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.Typeface;
 import android.support.v4.app.NavUtils;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -18,14 +17,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.a3x3conect.isthreedelivery.Models.Modelmanagertransactions;
 import com.a3x3conect.isthreedelivery.Models.TinyDB;
 import com.a3x3conect.isthreedelivery.Models.getPickupDeliveryOrders;
-import com.a3x3conect.isthreedelivery.Models.modelPickuplist;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.squareup.okhttp.Callback;
@@ -41,13 +38,12 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class PickupDeliverylist extends AppCompatActivity {
+public class ManagerWalletTransactions extends AppCompatActivity {
 
-    
+
     ProgressDialog pd;
     TinyDB tinyDB;
     String mMessage;
@@ -55,26 +51,19 @@ public class PickupDeliverylist extends AppCompatActivity {
     SwipeRefreshLayout swipeRefreshLayout;
     Gson gson;
     RecyclerView mRVFishPrice;
-    List<getPickupDeliveryOrders> filterdata=new ArrayList<getPickupDeliveryOrders>();
-    List<getPickupDeliveryOrders> filterdata2=new ArrayList<getPickupDeliveryOrders>();
-
-    //getPickupDeliveryOrders data = new getPickupDeliveryOrders();
-    final ArrayList<String> dd = new ArrayList<>();
-    List<getPickupDeliveryOrders> tarif;
+    List<Modelmanagertransactions> tarif;
     public static final MediaType MEDIA_TYPE =
             MediaType.parse("application/json");
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_pickup_deliverylist);
+        setContentView(R.layout.manager_wallet_transactions);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("Today's Orders");
-
+        getSupportActionBar().setTitle("Manager Transactions");
         swipeRefreshLayout = (SwipeRefreshLayout)findViewById(R.id.swipe_container);
         mRVFishPrice = (RecyclerView)findViewById(R.id.fishPriceList);
         tinyDB = new TinyDB(this);
         gson = new Gson();
-
 
         swipeRefreshLayout.setColorScheme(android.R.color.holo_green_dark,
                 android.R.color.holo_blue_dark,
@@ -89,33 +78,34 @@ public class PickupDeliverylist extends AppCompatActivity {
             }
         });
         getdata();
-        
     }
 
     private void getdata() {
 
 
-        pd = new ProgressDialog(PickupDeliverylist.this);
+        pd = new ProgressDialog(ManagerWalletTransactions.this);
         pd.setMessage("Getting Details");
         pd.setCancelable(false);
         pd.show();
         final OkHttpClient client = new OkHttpClient();
         JSONObject postdat = new JSONObject();
 
-//        try {
-//            //  postdat.put("customerId", tinyDB.getString("custid"));
-//            postdat.put("agentId", tinyDB.getString("partnerid"));
-//        } catch(JSONException e){
-//            // TODO Auto-generated catch block
-//            e.printStackTrace();
-//        }
-//        RequestBody body = RequestBody.create(MEDIA_TYPE,postdat.toString());
+        try {
+            //  postdat.put("customerId", tinyDB.getString("custid"));
+            postdat.put("userId", tinyDB.getString("partnerid"));
+          //  postdat.put("userId", "c0023");
+        } catch(JSONException e){
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+//
+ RequestBody body = RequestBody.create(MEDIA_TYPE,postdat.toString());
 
-       // Log.e("postdata",postdat.toString());
+        // Log.e("postdata",postdat.toString());
 
         final Request request = new Request.Builder()
-                .url(getString(R.string.baseurl)+"getPickupDeliveryOrders")
-                .get()
+                .url(getString(R.string.baseurl)+"getManagerWalletTransactions")
+                .post(body)
                 .build();
 
         client.newCall(request).enqueue(new Callback() {
@@ -141,10 +131,10 @@ public class PickupDeliverylist extends AppCompatActivity {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                          //  Getlocations();
+                            //  Getlocations();
 
-                            Type listType = new TypeToken<List<getPickupDeliveryOrders>>(){}.getType();
-                            tarif = (List<getPickupDeliveryOrders>)  gson.fromJson(mMessage,listType);
+                            Type listType = new TypeToken<List<Modelmanagertransactions>>(){}.getType();
+                            tarif = (List<Modelmanagertransactions>)  gson.fromJson(mMessage,listType);
 
                             try {
                                 JSONArray jj = new JSONArray(mMessage);
@@ -155,11 +145,11 @@ public class PickupDeliverylist extends AppCompatActivity {
 
                                     if (jsonObject.optString("statusCode").equalsIgnoreCase("0")){
 
-                                        final Dialog openDialog = new Dialog(PickupDeliverylist.this);
+                                        final Dialog openDialog = new Dialog(ManagerWalletTransactions.this);
                                         openDialog.setContentView(R.layout.alert);
                                         openDialog.setTitle("No Pickups");
                                         TextView dialogTextContent = (TextView)openDialog.findViewById(R.id.dialog_text);
-                                        dialogTextContent.setText("No List Available at this moment");
+                                        dialogTextContent.setText("Transaction List is Empty.");
                                         ImageView dialogImage = (ImageView)openDialog.findViewById(R.id.dialog_image);
                                         Button dialogCloseButton = (Button)openDialog.findViewById(R.id.dialog_button);
                                         dialogCloseButton.setVisibility(View.GONE);
@@ -171,7 +161,7 @@ public class PickupDeliverylist extends AppCompatActivity {
                                                 openDialog.dismiss();
 
 //                                                //                                          Toast.makeText(Puckup.this, jsonResponse.getString("status"), Toast.LENGTH_SHORT).show();
-                                                Intent intent = new Intent(PickupDeliverylist.this,Dashpage.class);
+                                                Intent intent = new Intent(ManagerWalletTransactions.this,Dashpage.class);
                                                 startActivity(intent);
                                             }
                                         });
@@ -227,24 +217,23 @@ public class PickupDeliverylist extends AppCompatActivity {
 
     }
 
+
     private void TraverseData() {
 
-        Adapter = new AdapterFish(PickupDeliverylist.this, tarif);
+        Adapter = new AdapterFish(ManagerWalletTransactions.this, tarif);
         Adapter.setHasStableIds(false);
         mRVFishPrice.setAdapter(Adapter);
         mRVFishPrice.scrollToPosition(0);
         mRVFishPrice.setHasFixedSize(false);
-        mRVFishPrice.setLayoutManager(new LinearLayoutManager(PickupDeliverylist.this,LinearLayoutManager.VERTICAL,false));
+        mRVFishPrice.setLayoutManager(new LinearLayoutManager(ManagerWalletTransactions.this,LinearLayoutManager.VERTICAL,false));
     }
-
-
     public class AdapterFish extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-        List<getPickupDeliveryOrders> data = Collections.emptyList();
+        List<Modelmanagertransactions> data = Collections.emptyList();
         int currentPos = 0;
         private Context context;
         private LayoutInflater inflater;
         // create constructor to innitilize context and data sent from MainActivity
-        public AdapterFish(Context context, List<getPickupDeliveryOrders> data) {
+        public AdapterFish(Context context, List<Modelmanagertransactions> data) {
             this.context = context;
             inflater = LayoutInflater.from(context);
             this.data = data;
@@ -275,7 +264,7 @@ public class PickupDeliverylist extends AppCompatActivity {
             final AdapterFish.MyHolder myHolder = (AdapterFish.MyHolder) holder;
             //   mRVFishPrice.scrollToPosition(position);
             //    holder.setIsRecyclable(true);
-            final getPickupDeliveryOrders current = data.get(position);
+            final Modelmanagertransactions current = data.get(position);
 
 
             myHolder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -296,68 +285,17 @@ public class PickupDeliverylist extends AppCompatActivity {
             //  holder.getLayoutPosition();
             //    setHasStableIds(true);
 
-            myHolder.custid.setText(current.getCustomerId());
-            myHolder.createdate.setText( "Created on: "+current.getCreatedAt());
-                            myHolder.status.setText(current.getStatus());
+            myHolder.custid.setText("Customer Id :  " +current.getCustomerId());
+            myHolder.custid.setTextSize(12);
+
+            myHolder.misdate.setText( "Sent on:   " +current.getTransactionTime());
+            myHolder.createdate.setText("Amount :  " +getResources().getString(R.string.rupee) +current.getTransactionAmount());
+
+            myHolder.status.setVisibility(View.GONE);
+            myHolder.expresimg.setVisibility(View.GONE);
+          //  myHolder.misdate.setText(current.getTransactionAmount());
 
 
-                            if (current.getExpressDelivery().equalsIgnoreCase("0")){
-
-                                myHolder.expresimg.setVisibility(View.GONE);
-                            }
-            switch (current.getStatus()){
-
-
-                case "PICKUP-INITIATED":
-                    myHolder.status.setTextColor(Color.parseColor("#d20670"));
-                    myHolder.status.setText("PICKUP-SCHEDULED");
-                    myHolder.misdate.setText("Initiated on: "+ current.getPickupScheduledAt());
-                    break;
-                case "PICKUP-REQUESTED":
-                    myHolder.status.setTextColor(Color.parseColor("#d20670"));
-                    myHolder.status.setText("PICKUP-SCHEDULED");
-                    myHolder.misdate.setText("Requested on: "+ current.getPickupScheduledAt());
-                    break;
-                case "PICKUP-CONFIRMED":
-                    myHolder.status.setTextColor(Color.parseColor("#008000"));
-                    myHolder.status.setText("PICKED-UP");
-                    myHolder.misdate.setText("Confirmed on: " +current.getPickupConfirmedDate());
-                    break;
-                case "PICKUP-CANCELLED":
-                    myHolder.status.setTextColor(Color.parseColor("#cc0000"));
-                    myHolder.misdate.setText("Cancelled on: "+current.getPickupCancelledDate());
-                    break;
-
-                case "PICKUP-INPROCESS":
-                    myHolder.status.setTextColor(Color.parseColor("#008000"));
-                    myHolder.status.setText("IN-PROCESS");
-                    myHolder.misdate.setText("Processed on: " +current.getOrderProcessedDate());
-
-
-                    break;
-                case "PICKUP-PROCESSED":
-                    myHolder.status.setTextColor(Color.parseColor("#008000"));
-                    myHolder.status.setText("OUT FOR DELIVERY");
-                    myHolder.misdate.setText("Processed on: " +current.getOrderProcessedDate());
-                    if (current.getOrderProcessedDate().toString().contains("1970")){
-                        myHolder.misdate.setText("Date not available ");
-                    }
-
-                    break;
-                case  "JOB-FINISHED":
-                    myHolder.status.setTextColor(Color.parseColor("#008000"));
-                    myHolder.status.setText("DELIVERED");
-                    myHolder.misdate.setText("Job Finished on: "+current.getJobFinishedDate());
-                    break;
-                case  "Address does not exist":
-                case  "Phone number not reachable":
-                case  "Customer does not exist":
-                case  "Customer not at home":
-                    case  "Issue not listed":
-                    myHolder.status.setTextColor(Color.parseColor("#cc0000"));
-                    myHolder.misdate.setText("Cancelled on: "+current.getPickupCancelledDate());
-                    break;
-            }
 
 
         }

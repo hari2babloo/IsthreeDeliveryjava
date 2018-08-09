@@ -97,11 +97,20 @@
                 android:value=".Dashpage" />
         </activity>
         <activity android:name=".SummaryPickupDelivery" />
-        <activity android:name=".ExpressOrders"
+        <activity
+            android:name=".ExpressOrders"
             android:parentActivityName=".Dashpage">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Dashpage" />
+        </activity>
+        <activity android:name=".ManagerWalletTransactions"
+            android:parentActivityName=".Dashpage">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Dashpage" />
+
+
         </activity>
     </application>
 

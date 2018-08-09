@@ -10,16 +10,42 @@
 
     <RelativeLayout
         android:layout_width="fill_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_marginTop="300dp">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@color/cardview_light_background"
+            android:gravity="right">
 
-            android:layout_margin="10dp"
+            <Button
+                android:id="@+id/managertransactions"
+                android:layout_width="wrap_content"
+                android:layout_height="25dp"
+                android:layout_marginTop="2dp"
+                android:background="@drawable/bbkg"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:text="Manager Transactions"
+                android:textColor="@color/cardview_light_background"
+                android:textSize="10sp" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/img"
+            android:layout_width="match_parent"
+
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="28dp"
             android:background="#FFFFFF"
             android:gravity="top|center"
-            android:orientation="vertical">
+            android:orientation="horizontal">
 
             <ImageView
                 android:id="@+id/imageView3"
@@ -27,7 +53,6 @@
                 android:layout_height="150dp"
                 android:layout_alignParentTop="false"
                 android:layout_centerHorizontal="false"
-                android:layout_marginTop="10dp"
                 android:background="@drawable/logo" />
 
         </LinearLayout>
@@ -118,7 +143,6 @@
                     android:scaleType="fitCenter"
                     android:theme="@style/AppTheme.GreenRipple"
                     app:srcCompat="@drawable/deliver" />
-
 
 
             </TableRow>
