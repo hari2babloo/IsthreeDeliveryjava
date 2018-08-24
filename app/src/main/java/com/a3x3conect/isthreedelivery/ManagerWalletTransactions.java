@@ -51,6 +51,9 @@ public class ManagerWalletTransactions extends AppCompatActivity {
     SwipeRefreshLayout swipeRefreshLayout;
     Gson gson;
     RecyclerView mRVFishPrice;
+    TextView walletbalancetxt;
+
+    String walletbalancestring;
     List<Modelmanagertransactions> tarif;
     public static final MediaType MEDIA_TYPE =
             MediaType.parse("application/json");
@@ -64,6 +67,8 @@ public class ManagerWalletTransactions extends AppCompatActivity {
         mRVFishPrice = (RecyclerView)findViewById(R.id.fishPriceList);
         tinyDB = new TinyDB(this);
         gson = new Gson();
+        walletbalancetxt  = (TextView)findViewById(R.id.wallet);
+
 
         swipeRefreshLayout.setColorScheme(android.R.color.holo_green_dark,
                 android.R.color.holo_blue_dark,
@@ -92,7 +97,10 @@ public class ManagerWalletTransactions extends AppCompatActivity {
 
         try {
             //  postdat.put("customerId", tinyDB.getString("custid"));
+
+          //  postdat.put("userId","C0111");
             postdat.put("userId", tinyDB.getString("partnerid"));
+           // postdat.put("userId", "c0049");
           //  postdat.put("userId", "c0023");
         } catch(JSONException e){
             // TODO Auto-generated catch block
@@ -141,7 +149,12 @@ public class ManagerWalletTransactions extends AppCompatActivity {
 
                                 for (int i=0;i<jj.length();i++){
 
-                                    JSONObject jsonObject =jj.getJSONObject(i);
+                                    final JSONObject jsonObject =jj.getJSONObject(i);
+
+
+                                    walletbalancetxt.setText("Wallet Balance : " +jsonObject.getString("managerWalletBalance").toString());
+
+
 
                                     if (jsonObject.optString("statusCode").equalsIgnoreCase("0")){
 
@@ -158,11 +171,15 @@ public class ManagerWalletTransactions extends AppCompatActivity {
                                         dialogno.setOnClickListener(new View.OnClickListener() {
                                             @Override
                                             public void onClick(View v) {
+                                               // openDialog.dismiss();
+
                                                 openDialog.dismiss();
+                                                openDialog.cancel();
+
 
 //                                                //                                          Toast.makeText(Puckup.this, jsonResponse.getString("status"), Toast.LENGTH_SHORT).show();
-                                                Intent intent = new Intent(ManagerWalletTransactions.this,Dashpage.class);
-                                                startActivity(intent);
+//                                                Intent intent = new Intent(ManagerWalletTransactions.this,Dashpage.class);
+//                                                startActivity(intent);
                                             }
                                         });
 

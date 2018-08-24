@@ -2,14 +2,33 @@
 <android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/swipe_container"
     android:layout_width="fill_parent"
     android:layout_height="match_parent"
-    android:id="@+id/swipe_container"
     android:layout_marginBottom="10dp"
+    android:orientation="vertical"
     tools:context=".PickupDeliverylist">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_height="wrap_content">
+
+
+        <TextView
+            android:id="@+id/wallet"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="Wallet Balance"
+            android:textColor="@color/bluee" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/fishPriceList"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="wrap_content" />
+
+    </LinearLayout>
 </android.support.v4.widget.SwipeRefreshLayout>

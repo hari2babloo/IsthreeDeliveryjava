@@ -191,6 +191,18 @@ public class Signin extends AppCompatActivity {
                 openDialog.setCancelable(false);
             }
             else if (status.equals(1)){
+
+                if(modelsignin.get(j).getUserName().equalsIgnoreCase("C0049")){
+
+                    Intent intent = new Intent(Signin.this,Dashpage.class);
+//              intent.putExtra("custid",modelsignin.get(j).getUserName());
+                    tinyDB.putString("partnerid",modelsignin.get(j).getUserName());
+                    startActivity(intent);
+                }
+
+                else
+
+
                 if (modelsignin.get(j).getUserType().equalsIgnoreCase("Partner")){
                     Intent intent = new Intent(Signin.this,Dashpage.class);
 //              intent.putExtra("custid",modelsignin.get(j).getUserName());

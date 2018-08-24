@@ -85,7 +85,7 @@ swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener
 //        Bundle bundle = getIntent().getExtras();
         tinydb = new TinyDB(this);
 
-        if (tinydb.getString("partnerid").equalsIgnoreCase("p0049")){
+        if (tinydb.getString("partnerid").equalsIgnoreCase("C0049")){
 
             managertransactions.setVisibility(View.VISIBLE);
         }
