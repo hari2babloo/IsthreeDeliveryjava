@@ -80,6 +80,18 @@ public class modelPickuplist {
     @Expose
     private String pickupZone;
 
+    public String getServiceName() {
+        return serviceName;
+    }
+
+    public void setServiceName(String serviceName) {
+        this.serviceName = serviceName;
+    }
+
+    @SerializedName("serviceName")
+    @Expose
+    private String serviceName;
+
     public String getId() {
         return id;
     }

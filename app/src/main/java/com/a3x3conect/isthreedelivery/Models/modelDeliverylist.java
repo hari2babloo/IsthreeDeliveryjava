@@ -83,6 +83,19 @@ public class modelDeliverylist {
     @Expose
     private String expressDelivery;
 
+    @SerializedName("serviceName")
+    @Expose
+    private String serviceName;
+    public String getServiceName() {
+        return serviceName;
+    }
+
+    public void setServiceName(String serviceName) {
+        this.serviceName = serviceName;
+    }
+
+
+
     public String getExpressDelivery() {
         return expressDelivery;
     }

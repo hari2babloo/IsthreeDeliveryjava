@@ -489,6 +489,35 @@ String mMessage;
             //    holder.setIsRecyclable(true);
             final modelDeliverylist current = data.get(position);
 
+            if(current.getServiceName() != null && !current.getServiceName().isEmpty()) {
+
+                if (current.getServiceName().equalsIgnoreCase("ironing")){
+
+                    myHolder.serviceimg.setText("I");//.setImageResource(R.drawable.iconironing);
+
+                    myHolder.servicename.setText("Ironing");
+                }
+                else if (current.getServiceName().equalsIgnoreCase("washAndPress")){
+                    myHolder.servicename.setText("Wash and Press");
+                    myHolder.serviceimg.setText("W");
+                }
+                else if (current.getServiceName().equalsIgnoreCase("dryCleaning")){
+
+                    myHolder.servicename.setText("Dry Cleaning");
+                    myHolder.serviceimg.setText("D"); //R.drawable.icondry);
+                    // myHolder.serviceimg.setColorFilter(R.color.colorAccent);
+                }
+
+
+
+            }
+            else {
+
+                myHolder.servicename.setText("Ironing");
+                myHolder.serviceimg.setText("I");
+            }
+
+
             if(current.getExpressDelivery() != null && !current.getExpressDelivery().isEmpty()) {
 
                 if (current.getExpressDelivery().equalsIgnoreCase("1")) {
@@ -597,7 +626,8 @@ String mMessage;
 
 
         class MyHolder extends RecyclerView.ViewHolder {
-            TextView one,two,three,location,section,pickupzone;
+            TextView one,two,three,location,section,pickupzone,servicename,serviceimg;
+            ImageView expressimg;
             View line;
             // create constructor to get widget reference
             public MyHolder(View itemView) {
@@ -609,6 +639,9 @@ String mMessage;
                 section = (TextView)itemView.findViewById(R.id.section);
                 pickupzone = (TextView)itemView.findViewById(R.id.pickupzone);
                 line = (View) itemView.findViewById(R.id.line);
+                serviceimg = (TextView) itemView.findViewById(R.id.servicimg);
+                servicename = (TextView)itemView.findViewById(R.id.servicename);
+                expressimg = (ImageView)itemView.findViewById(R.id.expressimg);
 
 
 

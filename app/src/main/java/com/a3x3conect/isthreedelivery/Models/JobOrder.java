@@ -48,9 +48,22 @@ public class JobOrder {
     @SerializedName("grandTotal")
     @Expose
     private String grandTotal;
+
+    public String getServiceName() {
+        return serviceName;
+    }
+
+    public void setServiceName(String serviceName) {
+        this.serviceName = serviceName;
+    }
+
+    @SerializedName("serviceName")
+    @Expose
+    private String serviceName;
     @SerializedName("jobStatus")
     @Expose
     private Object jobStatus;
+
 
     public String getJobid() {
         return jobid;

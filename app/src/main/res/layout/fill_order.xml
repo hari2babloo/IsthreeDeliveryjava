@@ -267,7 +267,7 @@
             android:layout_margin="10dp"
             android:layout_weight="1"
             android:background="@drawable/bbkg"
-            android:text="Confirm Order"
+            android:text="Save Order"
             android:textColor="@color/cardview_light_background" />
 
 

@@ -245,10 +245,11 @@ public class SummaryReport extends AppCompatActivity {
 
                                     final String expressDelivery = jsonObject.getString("expressDelivery");
                                     final double expressDeliveryCharge = jsonObject.getDouble("expressDeliveryCharge");
+                                    final String serviceName = jsonObject.getString("serviceName");
 
                                     final Dialog openDialog = new Dialog(SummaryReport.this);
                                     openDialog.setContentView(R.layout.alert);
-                                    openDialog.setTitle("Select Status");
+                                    openDialog.setTitle("Fill Order");
                                     TextView dialogTextContent = (TextView)openDialog.findViewById(R.id.dialog_text);
                                     dialogTextContent.setText("Please ask your customer to fill order");
                                     ImageView dialogImage = (ImageView)openDialog.findViewById(R.id.dialog_image);
@@ -274,6 +275,7 @@ public class SummaryReport extends AppCompatActivity {
                                             Intent intent = new Intent(SummaryReport.this,FillOrder.class);
                                             intent.putExtra("expressDelivery",expressDelivery);
                                             intent.putExtra("expressDeliveryCharge",expressDeliveryCharge);
+                                            intent.putExtra("serviceName",serviceName);
 
                                             Log.e("expressDelivery",expressDelivery);
                                             startActivity(intent);
@@ -529,6 +531,14 @@ public class SummaryReport extends AppCompatActivity {
             postdat.put("unitPrice",unitPrice);
             postdat.put("itemType",itemType);
             postdat.put("jobid",jobOrder.getJobid());
+
+            if (jobOrder.getServiceName()!=null && !jobOrder.getServiceName().isEmpty()){
+                postdat.put("serviceName",jobOrder.getServiceName());
+            }
+            else {
+                postdat.put("serviceName","ironing");
+            }
+
 
         } catch(JSONException e){
             // TODO Auto-generated catch block

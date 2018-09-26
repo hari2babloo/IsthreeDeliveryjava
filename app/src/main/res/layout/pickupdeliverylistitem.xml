@@ -48,12 +48,20 @@
                 android:textColor="@color/bluee"
                 android:textSize="14sp" />
 
-            <ImageView
-                android:id="@+id/expresimg"
+            <TextView
+                android:id="@+id/servicetypetxt"
                 android:layout_width="25dp"
                 android:layout_height="25dp"
-                android:layout_weight="0.5"
-                app2:srcCompat="@drawable/expresscar" />
+                android:background="@drawable/circle"
+                android:gravity="center"
+                android:paddingBottom="3dp"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:paddingTop="3dp"
+                android:text="W"
+                android:textColor="@color/colorAccent"
+                android:textSize="12sp"
+                android:textStyle="bold" />
 
 
         </LinearLayout>
@@ -85,17 +93,18 @@
                 android:id="@+id/createdate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_weight="0.9"
                 android:text="Created Date"
                 android:textColor="@color/bluee"
                 android:textSize="12sp" />
 
-            <TextView
+            <ImageView
+                android:id="@+id/expresimg"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textColor="@color/bluee"
-                android:textSize="12sp" />
+                android:layout_height="15dp"
+                android:layout_weight="0.4"
+                android:paddingRight="5dp"
+                app2:srcCompat="@drawable/expresscar" />
 
         </LinearLayout>
 

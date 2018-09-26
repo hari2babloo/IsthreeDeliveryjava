@@ -90,7 +90,7 @@ public class FillOrder extends AppCompatActivity {
     ListView lv_languages;
     CheckBox checkBox;
 
-    String price,type,quantity,amount,idd,exprsval;
+    String price,type,quantity,amount,idd,exprsval,serviceName;
     TextView btmamt,btmtotal;
     TableLayout tableLayout;
     Spinner spinner;
@@ -114,6 +114,7 @@ public class FillOrder extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("Order Form");
        expressDelivery = getIntent().getStringExtra("expressDelivery");
+        serviceName = getIntent().getStringExtra("serviceName");
 
 
             Log.e("values", String.valueOf(expressDelivery)+String.valueOf(expressDeliveryCharge));
@@ -560,10 +561,16 @@ public class FillOrder extends AppCompatActivity {
 
         final   OkHttpClient okHttpClient = new OkHttpClient();
         JSONObject postdat = new JSONObject();
+
+        try {
+            postdat.put("serviceName",serviceName);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         RequestBody body = RequestBody.create(MEDIA_TYPE,postdat.toString());
         final Request request = new Request.Builder()
                 .url(getString(R.string.baseurl)+"alltariff")
-                .get()
+                .post(body)
                 .build();
         okHttpClient.newCall(request).enqueue(new Callback() {
             @Override

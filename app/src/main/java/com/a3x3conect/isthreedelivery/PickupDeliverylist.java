@@ -296,6 +296,38 @@ public class PickupDeliverylist extends AppCompatActivity {
             //  holder.getLayoutPosition();
             //    setHasStableIds(true);
 
+
+            if(current.getServiceName() != null && !current.getServiceName().isEmpty()) {
+
+                if (current.getServiceName().equalsIgnoreCase("ironing")){
+
+                   // myHolder.servicename.setImageResource(R.drawable.iconironing);
+
+                    myHolder.servicetypetxt.setText("I");
+                   // myHolder.servicename.setText("Ironing");
+                }
+                else if (current.getServiceName().equalsIgnoreCase("washAndPress")){
+                   // myHolder.servicename.setText("Wash and Press");
+                   // myHolder.servicename.setImageResource(R.drawable.trash);
+                    myHolder.servicetypetxt.setText("W");
+                }
+                else if (current.getServiceName().equalsIgnoreCase("dryCleaning")){
+
+                    //myHolder.servicename.setText("Dry Cleaning");
+                    myHolder.servicetypetxt.setText("D");
+//                    myHolder.servicename.setImageResource(R.drawable.icondry);
+                    // myHolder.serviceimg.setColorFilter(R.color.colorAccent);
+                }
+
+
+
+            }
+            else {
+
+               // myHolder.servicename.setText("Ironing");
+              //  myHolder.servicename.setImageResource(R.drawable.iconironing);
+                myHolder.servicetypetxt.setText("I");
+            }
             myHolder.custid.setText(current.getCustomerId());
             myHolder.createdate.setText( "Created on: "+current.getCreatedAt());
                             myHolder.status.setText(current.getStatus());
@@ -369,8 +401,8 @@ public class PickupDeliverylist extends AppCompatActivity {
 
 
         class MyHolder extends RecyclerView.ViewHolder {
-            TextView custid,status,createdate,misdate;
-            ImageView expresimg;
+            TextView custid,status,createdate,misdate,servicetypetxt;
+            ImageView expresimg,servicename;
             View line;
             // create constructor to get widget reference
             public MyHolder(View itemView) {
@@ -380,6 +412,8 @@ public class PickupDeliverylist extends AppCompatActivity {
                 createdate = (TextView) itemView.findViewById(R.id.createdate);
                 misdate = (TextView)itemView.findViewById(R.id.misdate);
                 expresimg = (ImageView)itemView.findViewById(R.id.expresimg);
+              //  servicename = (ImageView)itemView.findViewById(R.id.servicename);
+                servicetypetxt = (TextView)itemView.findViewById(R.id.servicetypetxt);
 
 
 

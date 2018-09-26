@@ -52,6 +52,48 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:gravity="fill_horizontal|center"
+                android:orientation="horizontal"
+                android:paddingBottom="10dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:weightSum="2">
+
+                <TextView
+                    android:id="@+id/servicename"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:text="TextView"
+                    android:textColor="@android:color/holo_orange_dark"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/servicimg"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:background="@drawable/circle"
+                    android:gravity="center"
+                    android:paddingBottom="3dp"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
+                    android:paddingTop="3dp"
+                    android:text="W"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:id="@+id/expressimg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="15dp" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:gravity="end"
                 android:orientation="horizontal">
 
@@ -93,7 +135,7 @@
                     android:text="TextView"
                     android:textAllCaps="true"
                     android:textColor="@color/bluee"
-                    android:textSize="14sp" />
+                    android:textSize="12sp" />
 
                 <TextView
                     android:id="@+id/two"
@@ -102,7 +144,7 @@
                     android:layout_weight="0.5"
                     android:text="TextView"
                     android:textColor="@color/bluee"
-                    android:textSize="16sp" />
+                    android:textSize="12sp" />
 
                 <TextView
                     android:id="@+id/three"
@@ -111,16 +153,11 @@
                     android:layout_weight="0.5"
                     android:text="TextView"
                     android:textColor="@color/bluee"
-                    android:textSize="16sp" />
-
-                <ImageView
-                    android:id="@+id/imageView5"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/arw" />
+                    android:textSize="10sp" />
 
 
             </LinearLayout>
+
 
         </LinearLayout>
 

@@ -56,6 +56,7 @@ public class PickupDetails extends AppCompatActivity {
     public static final MediaType MEDIA_TYPE =
             MediaType.parse("application/json");
     TinyDB tinyDB;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -235,7 +236,7 @@ public class PickupDetails extends AppCompatActivity {
 //                startActivity(intent);
 //
 //            }
-//        });
+//        });Express Delivery * :  You will be charged Rs.50/- extra.
 
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
