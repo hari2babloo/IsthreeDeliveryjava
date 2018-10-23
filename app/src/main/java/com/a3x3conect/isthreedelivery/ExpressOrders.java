@@ -32,7 +32,7 @@ import java.io.IOException;
 public class ExpressOrders extends AppCompatActivity {
     TinyDB tinydb;
     ImageButton expresspickup,expressdeliverirs;
-    TextView pickupcount,deliverycount,pickupspendingcount,deliverypendingcount,pickupcancelcount,deliverycancelcount;
+    TextView ipickeup,wpickup,dpickup,ipending,wpending,dpending,icanceled,wcanceled,dcanceled,dipending,dwpending,ddpending,didelivered,dwdelivered,dddelivered;
     String mMessage;
     ProgressDialog pd;
     SwipeRefreshLayout swipeRefreshLayout;
@@ -48,12 +48,21 @@ public class ExpressOrders extends AppCompatActivity {
         expresspickup = (ImageButton)findViewById(R.id.exprespickups);
 
         swipeRefreshLayout = (SwipeRefreshLayout)findViewById(R.id.swipe_container);
-
-        pickupcount = (TextView)findViewById(R.id.pickupcount);
-        deliverycount = (TextView)findViewById(R.id.finishcount);
-        pickupspendingcount = (TextView)findViewById(R.id.pickuppendingcount);
-        deliverypendingcount = (TextView)findViewById(R.id.deliverypendingcount);
-        pickupcancelcount = (TextView)findViewById(R.id.pickupcanceledcount);
+        ipickeup = (TextView)findViewById(R.id.ipickup);
+        ipending = (TextView)findViewById(R.id.ipending);
+        icanceled = (TextView)findViewById(R.id.icancel);
+        wpickup = (TextView)findViewById(R.id.wpickup);
+        wpending = (TextView)findViewById(R.id.wpending);
+        wcanceled = (TextView)findViewById(R.id.wcancel);
+        dpickup = (TextView)findViewById(R.id.dpickup);
+        dpending = (TextView)findViewById(R.id.dpendind);
+        dcanceled = (TextView)findViewById(R.id.dcancel);
+        dipending = (TextView)findViewById(R.id.dipending);
+        didelivered = (TextView)findViewById(R.id.dideliverd);
+        dwpending = (TextView)findViewById(R.id.dwpending);
+        dwdelivered = (TextView)findViewById(R.id.dwdelivered);
+        ddpending = (TextView)findViewById(R.id.ddpending);
+        dddelivered = (TextView)findViewById(R.id.dddelivered);
 
         // deliverycancelcount = (TextView)findViewById(R.id.deliverycancelcount);
 
@@ -170,11 +179,25 @@ public class ExpressOrders extends AppCompatActivity {
                             Log.e("Express values",mMessage);
                             try {
                                 JSONObject jsonObject = new JSONObject(mMessage);
-                                pickupcount.setText("PICKEDUP: "+jsonObject.optString("currentDateExpressPickupsConfirmedCount"));
-                                pickupspendingcount.setText("PENDING: "+jsonObject.optString("expressPickupRequestsCount"));
-                                pickupcancelcount.setText("CANCELED: "+jsonObject.optString("currentDateExpressPickupsCancelledCount"));
-                                deliverycount.setText("DELIVERED: "+jsonObject.optString("currentDateExpressDeliveryOrdersCount"));
-                                deliverypendingcount.setText("PENDING: "+jsonObject.optString("pendingExpressDeliveryOrdersCount"));
+                                ipickeup.setText(jsonObject.optString("ironingExpressPickupsConfirmedCount"));
+                                wpickup.setText(jsonObject.optString("washAndPressExpressPickupsConfirmedCount"));
+                                dpickup.setText(jsonObject.optString("dryCleaningExpressPickupsConfirmedCount"));
+
+                                ipending.setText(jsonObject.optString("ironingExpressRequestsCount"));
+                                wpending.setText(jsonObject.optString("washAndPressExpressRequestsCount"));
+                                dpending.setText(jsonObject.optString("dryCleaningExpressRequestsCount"));
+
+                                icanceled.setText(jsonObject.optString("ironingExpressPickupsCancelledCount"));
+                                wcanceled.setText(jsonObject.optString("washAndPressExpressPickupsCancelledCount"));
+                                dcanceled.setText(jsonObject.optString("dryCleaningExpressPickupsCancelledCount"));
+
+                                dipending.setText(jsonObject.optString("ironingPendingExpressDeliveryOrdersCount"));
+                                dwpending.setText(jsonObject.optString("washAndPressPendingExpressDeliveryOrdersCount"));
+                                ddpending.setText(jsonObject.optString("dryCleaningPendingExpressDeliveryOrdersCount"));
+
+                                didelivered.setText(jsonObject.optString("ironingExpressDeliveryOrdersCount"));
+                                dwdelivered.setText(jsonObject.optString("washAndPressExpressDeliveryOrdersCount"));
+                                dddelivered.setText(jsonObject.optString("dryCleaningExpressDeliveryOrdersCount"));
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }

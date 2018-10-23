@@ -60,6 +60,18 @@ public class JobOrder {
     @SerializedName("serviceName")
     @Expose
     private String serviceName;
+
+    public String getDeliverOnHanger() {
+        return deliverOnHanger;
+    }
+
+    public void setDeliverOnHanger(String deliverOnHanger) {
+        this.deliverOnHanger = deliverOnHanger;
+    }
+
+    @SerializedName("deliverOnHanger")
+    @Expose
+    private String deliverOnHanger;
     @SerializedName("jobStatus")
     @Expose
     private Object jobStatus;

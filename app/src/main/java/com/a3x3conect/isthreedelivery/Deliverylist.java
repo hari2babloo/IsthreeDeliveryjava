@@ -4,6 +4,8 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -18,6 +20,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -480,6 +483,7 @@ String mMessage;
             return position;
         }
         // Bind data
+        @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
         @Override
         public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
 
@@ -496,14 +500,17 @@ String mMessage;
                     myHolder.serviceimg.setText("I");//.setImageResource(R.drawable.iconironing);
 
                     myHolder.servicename.setText("Ironing");
+                    myHolder.strip.setBackground(getResources().getDrawable(R.drawable.cardshapei));
                 }
                 else if (current.getServiceName().equalsIgnoreCase("washAndPress")){
                     myHolder.servicename.setText("Wash and Press");
+                    myHolder.strip.setBackground(getResources().getDrawable(R.drawable.cardshapew));
                     myHolder.serviceimg.setText("W");
                 }
                 else if (current.getServiceName().equalsIgnoreCase("dryCleaning")){
 
                     myHolder.servicename.setText("Dry Cleaning");
+                    myHolder.strip.setBackground(getResources().getDrawable(R.drawable.cardshaped));
                     myHolder.serviceimg.setText("D"); //R.drawable.icondry);
                     // myHolder.serviceimg.setColorFilter(R.color.colorAccent);
                 }
@@ -515,6 +522,7 @@ String mMessage;
 
                 myHolder.servicename.setText("Ironing");
                 myHolder.serviceimg.setText("I");
+                myHolder.strip.setBackground(getResources().getDrawable(R.drawable.cardshapei));
             }
 
 
@@ -628,6 +636,7 @@ String mMessage;
         class MyHolder extends RecyclerView.ViewHolder {
             TextView one,two,three,location,section,pickupzone,servicename,serviceimg;
             ImageView expressimg;
+            LinearLayout strip;
             View line;
             // create constructor to get widget reference
             public MyHolder(View itemView) {
@@ -642,6 +651,7 @@ String mMessage;
                 serviceimg = (TextView) itemView.findViewById(R.id.servicimg);
                 servicename = (TextView)itemView.findViewById(R.id.servicename);
                 expressimg = (ImageView)itemView.findViewById(R.id.expressimg);
+                strip = (LinearLayout)itemView.findViewById(R.id.strip);
 
 
 

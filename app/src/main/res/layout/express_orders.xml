@@ -2,10 +2,11 @@
 <android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/swipe_container"
     android:layout_width="fill_parent"
     android:layout_height="match_parent"
-    android:id="@+id/swipe_container"
     android:layout_marginBottom="10dp"
+    android:background="@color/cardview_light_background"
     tools:context=".ExpressOrders">
 
     <RelativeLayout
@@ -23,8 +24,8 @@
 
             <ImageView
                 android:id="@+id/imageView3"
-                android:layout_width="150dp"
-                android:layout_height="150dp"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
                 android:layout_alignParentTop="false"
                 android:layout_centerHorizontal="false"
                 android:layout_marginTop="10dp"
@@ -38,138 +39,601 @@
             android:layout_height="match_parent"
 
             android:layout_alignParentBottom="true"
-            android:gravity="bottom|center">
+            android:gravity="center">
 
 
-            <TableRow
-                android:id="@+id/text"
+            <LinearLayout
+                android:id="@+id/linear"
                 android:layout_width="match_parent"
-
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/id23"
-                android:gravity="center">
+                android:gravity="center_horizontal">
 
-                <TextView
-                    android:id="@+id/pickupcount"
+
+                <LinearLayout
                     android:layout_width="150dp"
                     android:layout_height="wrap_content"
-                    android:background="?selectableItemBackground"
-                    android:gravity="center"
-                    android:paddingTop="10dp"
-                    android:scaleType="fitCenter"
-                    android:text="PICKEDUP: 00"
-                    android:textColor="@color/bluee"
-                    android:textSize="12sp"
-                    android:textStyle="bold"
-                    android:theme="@style/AppTheme.GreenRipple"
-                    app:srcCompat="@drawable/pickup" />
+
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="5dp"
+                    android:orientation="vertical">
+
+                    <TableRow
+                        android:id="@+id/text"
+                        android:layout_width="150dp"
+
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/tiles">
+
+                        <TextView
+                            android:id="@+id/pickupcount"
+                            android:layout_width="70dp"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/bluee"
+                            android:textSize="10sp"
+                            android:textStyle="bold"
+                            android:theme="@style/AppTheme.GreenRipple" />
+
+                        <TextView
+                            android:id="@+id/servicimg"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:layout_marginLeft="1dp"
+                            android:background="@drawable/circle"
+                            android:gravity="center"
+                            android:paddingBottom="3dp"
+                            android:paddingLeft="5dp"
+                            android:paddingRight="5dp"
+                            android:paddingTop="3dp"
+                            android:text="I"
+                            android:textColor="@color/colorAccent"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/servicimg"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:layout_marginLeft="1dp"
+                            android:background="@drawable/circle"
+                            android:gravity="center"
+                            android:paddingBottom="3dp"
+                            android:paddingLeft="5dp"
+                            android:paddingRight="5dp"
+                            android:paddingTop="3dp"
+                            android:text="W"
+                            android:textColor="@color/colorAccent"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/servicimg"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:layout_marginLeft="1dp"
+                            android:background="@drawable/circle"
+                            android:gravity="center"
+                            android:paddingBottom="3dp"
+                            android:paddingLeft="5dp"
+                            android:paddingRight="5dp"
+                            android:paddingTop="3dp"
+                            android:text="D"
+                            android:textColor="@color/colorAccent"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+
+                    </TableRow>
+
+
+                    <TableRow
+                        android:id="@+id/text2"
+                        android:layout_width="150dp"
+
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/text3">
+
+                        <TextView
+                            android:id="@+id/pickupcount2"
+                            android:layout_width="70dp"
+                            android:layout_height="wrap_content"
+                            android:scaleType="fitCenter"
+                            android:text="PENDING"
+                            android:textColor="@color/bluee"
+                            android:textSize="10sp"
+                            android:textStyle="bold"
+                            android:theme="@style/AppTheme.GreenRipple" />
+
+                        <View
+                            android:id="@+id/view6"
+                            android:layout_width="1dp"
+                            android:layout_height="25dp"
+                            android:background="#FFDADADA" />
+
+                        <TextView
+                            android:id="@+id/ipending"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:gravity="center"
+                            android:paddingBottom="3dp"
+                            android:paddingLeft="5dp"
+                            android:paddingRight="5dp"
+                            android:paddingTop="3dp"
+                            android:text="00"
+                            android:textColor="@color/colorAccent"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+
+                        <View
+                            android:id="@+id/view7"
+                            android:layout_width="1dp"
+                            android:layout_height="25dp"
+                            android:background="#FFDADADA" />
+
+                        <TextView
+                            android:id="@+id/wpending"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:gravity="center"
+                            android:paddingBottom="3dp"
+                            android:paddingLeft="5dp"
+                            android:paddingRight="5dp"
+                            android:paddingTop="3dp"
+                            android:text="00"
+                            android:textColor="@color/colorAccent"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+
+                        <View
+                            android:id="@+id/view8"
+                            android:layout_width="1dp"
+                            android:layout_height="25dp"
+                            android:background="#FFDADADA" />
+
+                        <TextView
+                            android:id="@+id/dpendind"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:gravity="center"
+                            android:paddingBottom="3dp"
+                            android:paddingLeft="5dp"
+                            android:paddingRight="5dp"
+                            android:paddingTop="3dp"
+                            android:text="00"
+                            android:textColor="@color/colorAccent"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+
+                        <View
+                            android:id="@+id/view12"
+                            android:layout_width="1dp"
+                            android:layout_height="25dp"
+                            android:background="#FFDADADA" />
+                    </TableRow>
+
+
+                    <TableRow
+                        android:id="@+id/text"
+                        android:layout_width="150dp"
+
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/tiles">
+
+                        <TextView
+                            android:id="@+id/pickupcount"
+                            android:layout_width="70dp"
+                            android:layout_height="wrap_content"
+                            android:text="PICKEDUP"
+                            android:textColor="@color/bluee"
+                            android:textSize="10sp"
+                            android:textStyle="bold"
+                            android:theme="@style/AppTheme.GreenRipple" />
+
+                        <View
+                            android:layout_width="1dp"
+                            android:layout_height="25dp"
+                            android:background="#FFDADADA" />
+
+                        <TextView
+                            android:id="@+id/ipickup"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:gravity="center"
+                            android:paddingBottom="3dp"
+                            android:paddingLeft="5dp"
+                            android:paddingRight="5dp"
+                            android:paddingTop="3dp"
+                            android:text="00"
+                            android:textColor="@color/colorAccent"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+
+                        <View
+                            android:id="@+id/view4"
+                            android:layout_width="1dp"
+                            android:layout_height="25dp"
+                            android:background="#FFDADADA" />
+
+                        <TextView
+                            android:id="@+id/wpickup"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:gravity="center"
+                            android:paddingBottom="3dp"
+                            android:paddingLeft="5dp"
+                            android:paddingRight="5dp"
+                            android:paddingTop="3dp"
+                            android:text="00"
+                            android:textColor="@color/colorAccent"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+
+                        <View
+                            android:id="@+id/view5"
+                            android:layout_width="1dp"
+                            android:layout_height="25dp"
+                            android:background="#FFDADADA" />
+
+                        <TextView
+                            android:id="@+id/dpickup"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:gravity="center"
+                            android:paddingBottom="3dp"
+                            android:paddingLeft="5dp"
+                            android:paddingRight="5dp"
+                            android:paddingTop="3dp"
+                            android:text="00"
+                            android:textColor="@color/colorAccent"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+
+                        <View
+                            android:id="@+id/view13"
+                            android:layout_width="1dp"
+                            android:layout_height="25dp"
+                            android:background="#FFDADADA" />
+
+                    </TableRow>
+
+                    <TableRow
+                        android:id="@+id/text3"
+                        android:layout_width="150dp"
+
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/text">
+
+                        <TextView
+                            android:id="@+id/pickupcount3"
+                            android:layout_width="70dp"
+                            android:layout_height="wrap_content"
+                            android:text="CANCELLED"
+                            android:textColor="@color/bluee"
+                            android:textSize="10sp"
+                            android:textStyle="bold"
+                            android:theme="@style/AppTheme.GreenRipple" />
+
+                        <View
+                            android:id="@+id/view9"
+                            android:layout_width="1dp"
+                            android:layout_height="25dp"
+                            android:background="#FFDADADA" />
+
+                        <TextView
+                            android:id="@+id/icancel"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:gravity="center"
+                            android:paddingBottom="3dp"
+                            android:paddingLeft="5dp"
+                            android:paddingRight="5dp"
+                            android:paddingTop="3dp"
+                            android:text="00"
+                            android:textColor="@color/colorAccent"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+
+                        <View
+                            android:id="@+id/view10"
+                            android:layout_width="1dp"
+                            android:layout_height="25dp"
+                            android:background="#FFDADADA" />
+
+                        <TextView
+                            android:id="@+id/wcancel"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:gravity="center"
+                            android:paddingBottom="3dp"
+                            android:paddingLeft="5dp"
+                            android:paddingRight="5dp"
+                            android:paddingTop="3dp"
+                            android:text="00"
+                            android:textColor="@color/colorAccent"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+
+                        <View
+                            android:id="@+id/view11"
+                            android:layout_width="1dp"
+                            android:layout_height="25dp"
+                            android:background="#FFDADADA" />
+
+                        <TextView
+                            android:id="@+id/dcancel"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:gravity="center"
+                            android:paddingBottom="3dp"
+                            android:paddingLeft="5dp"
+                            android:paddingRight="5dp"
+                            android:paddingTop="3dp"
+                            android:text="00"
+                            android:textColor="@color/colorAccent"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+
+                        <View
+                            android:id="@+id/view14"
+                            android:layout_width="1dp"
+                            android:layout_height="25dp"
+                            android:background="#FFDADADA" />
+                    </TableRow>
+
+                </LinearLayout>
 
                 <View
+                    android:id="@+id/view15"
                     android:layout_width="1dp"
-                    android:layout_height="30dp"
+                    android:layout_height="120dp"
                     android:background="#FFDADADA" />
 
-                <TextView
-                    android:id="@+id/finishcount"
+                <LinearLayout
                     android:layout_width="150dp"
                     android:layout_height="wrap_content"
-                    android:background="?selectableItemBackground"
-                    android:gravity="center"
-                    android:paddingTop="10dp"
-                    android:scaleType="fitCenter"
-                    android:text="DELIVERED: 00"
-                    android:textColor="@color/bluee"
-                    android:textSize="12sp"
-                    android:textStyle="bold"
-                    android:theme="@style/AppTheme.GreenRipple"
-                    app:srcCompat="@drawable/deliver" />
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="5dp"
+                    android:orientation="vertical">
 
-            </TableRow>
+                    <TableRow
+                        android:id="@+id/text"
+                        android:layout_width="match_parent"
 
-            <TableRow
-                android:id="@+id/text2"
-                android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/tiles">
 
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/text3"
-                android:gravity="center">
+                        <TextView
+                            android:id="@+id/pickupcount"
+                            android:layout_width="70dp"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/bluee"
+                            android:textSize="10sp"
+                            android:textStyle="bold"
+                            android:theme="@style/AppTheme.GreenRipple" />
 
-                <TextView
-                    android:id="@+id/pickupcanceledcount"
-                    android:layout_width="150dp"
-                    android:layout_height="wrap_content"
-                    android:background="?selectableItemBackground"
-                    android:gravity="center"
-                    android:scaleType="fitCenter"
-                    android:text="CANCELED: 00"
-                    android:textColor="@color/bluee"
-                    android:textSize="12sp"
-                    android:textStyle="bold"
-                    android:theme="@style/AppTheme.GreenRipple"
-                    app:srcCompat="@drawable/pickup" />
+                        <TextView
+                            android:id="@+id/servicimg"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:layout_marginLeft="1dp"
+                            android:background="@drawable/circle"
+                            android:gravity="center"
+                            android:paddingBottom="3dp"
+                            android:paddingLeft="5dp"
+                            android:paddingRight="5dp"
+                            android:paddingTop="3dp"
+                            android:text="I"
+                            android:textColor="@color/colorAccent"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
 
-                <View
-                    android:layout_width="1dp"
-                    android:layout_height="20dp"
-                    android:background="#FFDADADA" />
+                        <TextView
+                            android:id="@+id/servicimg"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:layout_marginLeft="1dp"
+                            android:background="@drawable/circle"
+                            android:gravity="center"
+                            android:paddingBottom="3dp"
+                            android:paddingLeft="5dp"
+                            android:paddingRight="5dp"
+                            android:paddingTop="3dp"
+                            android:text="W"
+                            android:textColor="@color/colorAccent"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/deliverycancelcount"
-                    android:layout_width="150dp"
-                    android:layout_height="wrap_content"
-                    android:background="?selectableItemBackground"
-                    android:gravity="center"
-                    android:scaleType="fitCenter"
-                    android:textColor="@color/bluee"
-                    android:textSize="12sp"
-                    android:textStyle="bold"
-                    android:theme="@style/AppTheme.GreenRipple"
-                    app:srcCompat="@drawable/deliver" />
+                        <TextView
+                            android:id="@+id/servicimg"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:layout_marginLeft="1dp"
+                            android:background="@drawable/circle"
+                            android:gravity="center"
+                            android:paddingBottom="3dp"
+                            android:paddingLeft="5dp"
+                            android:paddingRight="5dp"
+                            android:paddingTop="3dp"
+                            android:text="D"
+                            android:textColor="@color/colorAccent"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
 
-            </TableRow>
+                    </TableRow>
 
-            <TableRow
-                android:id="@+id/text3"
-                android:layout_width="match_parent"
+                    <TableRow
+                        android:id="@+id/text2"
+                        android:layout_width="match_parent"
 
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/text"
-                android:gravity="center">
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/text3">
 
-                <TextView
-                    android:id="@+id/pickuppendingcount"
-                    android:layout_width="150dp"
-                    android:layout_height="wrap_content"
-                    android:background="?selectableItemBackground"
-                    android:gravity="center"
-                    android:scaleType="fitCenter"
-                    android:text="PENDING: 00"
-                    android:textColor="@color/bluee"
-                    android:textSize="12sp"
-                    android:textStyle="bold"
-                    android:theme="@style/AppTheme.GreenRipple"
-                    app:srcCompat="@drawable/pickup" />
+                        <TextView
+                            android:id="@+id/pickupcount2"
+                            android:layout_width="70dp"
+                            android:layout_height="wrap_content"
+                            android:scaleType="fitCenter"
+                            android:text="PENDING"
+                            android:textColor="@color/bluee"
+                            android:textSize="10sp"
+                            android:textStyle="bold"
+                            android:theme="@style/AppTheme.GreenRipple" />
 
-                <View
-                    android:layout_width="1dp"
-                    android:layout_height="20dp"
-                    android:background="#FFDADADA" />
+                        <View
+                            android:id="@+id/view6"
+                            android:layout_width="1dp"
+                            android:layout_height="25dp"
+                            android:background="#FFDADADA" />
 
-                <TextView
-                    android:id="@+id/deliverypendingcount"
-                    android:layout_width="150dp"
-                    android:layout_height="wrap_content"
-                    android:background="?selectableItemBackground"
-                    android:gravity="center"
-                    android:scaleType="fitCenter"
-                    android:text="PENDING: 00"
-                    android:textColor="@color/bluee"
-                    android:textSize="12sp"
-                    android:textStyle="bold"
-                    android:theme="@style/AppTheme.GreenRipple"
-                    app:srcCompat="@drawable/deliver" />
+                        <TextView
+                            android:id="@+id/dipending"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:gravity="center"
+                            android:paddingBottom="3dp"
+                            android:paddingLeft="5dp"
+                            android:paddingRight="5dp"
+                            android:paddingTop="3dp"
+                            android:text="00"
+                            android:textColor="@color/colorAccent"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
 
-            </TableRow>
+                        <View
+                            android:id="@+id/view7"
+                            android:layout_width="1dp"
+                            android:layout_height="25dp"
+                            android:background="#FFDADADA" />
+
+                        <TextView
+                            android:id="@+id/dwpending"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:gravity="center"
+                            android:paddingBottom="3dp"
+                            android:paddingLeft="5dp"
+                            android:paddingRight="5dp"
+                            android:paddingTop="3dp"
+                            android:text="00"
+                            android:textColor="@color/colorAccent"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+
+                        <View
+                            android:id="@+id/view8"
+                            android:layout_width="1dp"
+                            android:layout_height="25dp"
+                            android:background="#FFDADADA" />
+
+                        <TextView
+                            android:id="@+id/ddpending"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:gravity="center"
+                            android:paddingBottom="3dp"
+                            android:paddingLeft="5dp"
+                            android:paddingRight="5dp"
+                            android:paddingTop="3dp"
+                            android:text="00"
+                            android:textColor="@color/colorAccent"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+
+                        <View
+                            android:id="@+id/view12"
+                            android:layout_width="1dp"
+                            android:layout_height="25dp"
+                            android:background="#FFDADADA" />
+                    </TableRow>
+
+                    <TableRow
+                        android:id="@+id/text3"
+                        android:layout_width="match_parent"
+
+                        android:layout_height="match_parent"
+                        android:layout_below="@+id/text">
+
+                        <TextView
+                            android:id="@+id/pickupcount3"
+                            android:layout_width="70dp"
+                            android:layout_height="wrap_content"
+                            android:text="DELIVERED"
+                            android:textColor="@color/bluee"
+                            android:textSize="10sp"
+                            android:textStyle="bold"
+                            android:theme="@style/AppTheme.GreenRipple" />
+
+                        <View
+                            android:id="@+id/view9"
+                            android:layout_width="1dp"
+                            android:layout_height="25dp"
+                            android:background="#FFDADADA" />
+
+                        <TextView
+                            android:id="@+id/dideliverd"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:gravity="center"
+                            android:paddingBottom="3dp"
+                            android:paddingLeft="5dp"
+                            android:paddingRight="5dp"
+                            android:paddingTop="3dp"
+                            android:text="00"
+                            android:textColor="@color/colorAccent"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+
+                        <View
+                            android:id="@+id/view10"
+                            android:layout_width="1dp"
+                            android:layout_height="25dp"
+                            android:background="#FFDADADA" />
+
+                        <TextView
+                            android:id="@+id/dwdelivered"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:gravity="center"
+                            android:paddingBottom="3dp"
+                            android:paddingLeft="5dp"
+                            android:paddingRight="5dp"
+                            android:paddingTop="3dp"
+                            android:text="00"
+                            android:textColor="@color/colorAccent"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+
+                        <View
+                            android:id="@+id/view11"
+                            android:layout_width="1dp"
+                            android:layout_height="25dp"
+                            android:background="#FFDADADA" />
+
+                        <TextView
+                            android:id="@+id/dddelivered"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:gravity="center"
+                            android:paddingBottom="3dp"
+                            android:paddingLeft="5dp"
+                            android:paddingRight="5dp"
+                            android:paddingTop="3dp"
+                            android:text="00"
+                            android:textColor="@color/colorAccent"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+
+                        <View
+                            android:id="@+id/view14"
+                            android:layout_width="1dp"
+                            android:layout_height="25dp"
+                            android:background="#FFDADADA" />
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
+                </LinearLayout>
+            </LinearLayout>
 
             <View
                 android:id="@+id/view2"
@@ -187,8 +651,9 @@
 
                 <ImageButton
                     android:id="@+id/exprespickups"
-                    android:layout_width="150dp"
-                    android:layout_height="150dp"
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    android:layout_marginBottom="5dp"
                     android:background="?selectableItemBackground"
                     android:scaleType="fitCenter"
                     android:theme="@style/AppTheme.GreenRipple"
@@ -197,13 +662,14 @@
                 <View
                     android:id="@+id/view3"
                     android:layout_width="1dp"
-                    android:layout_height="150dp"
+                    android:layout_height="140dp"
                     android:background="#FFDADADA" />
 
                 <ImageButton
                     android:id="@+id/expressdeliveries"
-                    android:layout_width="150dp"
-                    android:layout_height="150dp"
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    android:layout_marginBottom="5dp"
                     android:background="?selectableItemBackground"
                     android:scaleType="fitCenter"
                     android:theme="@style/AppTheme.GreenRipple"
@@ -216,6 +682,13 @@
                 android:layout_width="fill_parent"
                 android:layout_height="1dp"
                 android:layout_below="@+id/list"
+                android:background="#FFDADADA" />
+
+            <View
+                android:id="@+id/id5"
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:layout_below="@+id/linear"
                 android:background="#FFDADADA" />
 
         </RelativeLayout>

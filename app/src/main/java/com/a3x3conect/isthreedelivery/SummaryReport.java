@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.opengl.Visibility;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
@@ -18,8 +19,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -51,17 +54,31 @@ public class SummaryReport extends AppCompatActivity {
     ProgressDialog pd;
     RecyclerView mRVFishPrice;
     TableLayout tableLayout;
+    EditText weight;
     TextView btmtotal,expresmsg;
+    String serviceName;
     List<DataFish2> filterdata2=new ArrayList<DataFish2>();
     private AdapterFish Adapter;
+    double expressDeliveryCharge;
     Button home,cancelorder;
+    TextView weighttxt,weightperkg;
     double s;
+    Button washbtn;
     TinyDB tinyDB;
-    String mMessage2,mMessage,radiostatus;
+    String deliveronhangerkey;
+    String mMessage2,mMessage,radiostatus,grandtotaltxt;
 
+
+    Float fweight,frate, amountforweight;
+
+    TextView washingcost,hangerstatus,deliverontxt;
+    String expressDelivery;
     JobOrder jobOrder;
+    LinearLayout layoutweight;
+    TableLayout layouttxt;
     float garmentscount = 0;
     float sum = 0;
+    String rate,s2="0";
 
     TextView grdtotal,date,custid,status,jobidtxt;
     public static final MediaType MEDIA_TYPE =
@@ -80,6 +97,17 @@ public class SummaryReport extends AppCompatActivity {
         jobidtxt =  (TextView)findViewById(R.id.jobid);
         custid =  (TextView)findViewById(R.id.custid);
         date =  (TextView)findViewById(R.id.date);
+        washbtn = (Button)findViewById(R.id.washbtn);
+        weight = (EditText)findViewById(R.id.weight2);
+        //weight.setText("0");
+        weighttxt = (TextView) findViewById(R.id.weighttxt);
+        washingcost = (TextView)findViewById(R.id.washingcost);
+        hangerstatus = (TextView)findViewById(R.id.hangerstatus);
+        deliverontxt = (TextView)findViewById(R.id.deliverontxt);
+        layoutweight = (LinearLayout)findViewById(R.id.weight);
+        layouttxt = (TableLayout)findViewById(R.id.layouttxt);
+        layouttxt.setVisibility(View.GONE);
+        weightperkg = (TextView)findViewById(R.id.weightperkg);
         //  status = (TextView)findViewById(R.id.delstatus);
         expresmsg = (TextView)findViewById(R.id.expresmsg);
         cancelorder.setOnClickListener(new View.OnClickListener() {
@@ -127,13 +155,63 @@ public class SummaryReport extends AppCompatActivity {
             }
         });
 
+
+        washbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (weight.getText().toString().isEmpty() || weight.getText().toString()==null){
+
+
+                    Toast.makeText(SummaryReport.this, "Enter Weight", Toast.LENGTH_SHORT).show();
+                }
+
+                else{
+
+                getwashrates();
+
+                }
+            }
+        });
+
         home.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                home.setEnabled(false);
+               // home.setEnabled(false);
 
 
-                Invoice();
+
+
+                if (jobOrder.getServiceName().equalsIgnoreCase("washAndPress")){
+
+                    if (weight.getText().toString().isEmpty() || weight.getText().toString()==null){
+
+
+                        Toast.makeText(SummaryReport.this, "Enter Weight and Update", Toast.LENGTH_SHORT).show();
+                    }
+                    else if (s2.equalsIgnoreCase("0")){
+
+                        Toast.makeText(SummaryReport.this, "Enter Weight and Update", Toast.LENGTH_SHORT).show();
+                    }
+
+                    else{
+
+                        Invoice();
+
+                    }
+
+                }
+
+
+                else {
+
+                    Invoice();
+                }
+
+
+
+
+
 
 
             }
@@ -145,13 +223,11 @@ public class SummaryReport extends AppCompatActivity {
         //   filterdata2 =   (ArrayList<DataFish2>)getIntent().getSerializableExtra("FILES_TO_SEND");
 
         getjoborder();
-
     }
-
-    private void getjoborder() {
+    private void getwashrates() {
 
         pd = new ProgressDialog(SummaryReport.this);
-        pd.setMessage("Getting Job Orders..");
+        pd.setMessage("Getting Wash rates..");
         pd.setCancelable(false);
         pd.show();
 
@@ -169,17 +245,338 @@ public class SummaryReport extends AppCompatActivity {
 
         Log.e("postdata",postdat.toString());
         final Request request = new Request.Builder()
+                .url(getString(R.string.baseurl)+"getWashingCharge")
+                .get()
+                .build();
+
+        okHttpClient.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Request request, IOException e) {
+
+
+                pd.cancel();
+                pd.dismiss();
+
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        final Dialog openDialog = new Dialog(SummaryReport.this);
+                        openDialog.setContentView(R.layout.alert);
+                        openDialog.setTitle("No Internet");
+                        TextView dialogTextContent = (TextView)openDialog.findViewById(R.id.dialog_text);
+                        dialogTextContent.setText("Something Went Wrong");
+                        ImageView dialogImage = (ImageView)openDialog.findViewById(R.id.dialog_image);
+                        Button dialogCloseButton = (Button)openDialog.findViewById(R.id.dialog_button);
+                        dialogCloseButton.setVisibility(View.GONE);
+                        Button dialogno = (Button)openDialog.findViewById(R.id.cancel);
+                        dialogno.setText("OK");
+                        dialogno.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                openDialog.dismiss();
+
+//                                                //                                          Toast.makeText(SummaryReport.this, jsonResponse.getString("status"), Toast.LENGTH_SHORT).show();
+//                                                Intent intent = new Intent(SummaryReport.this,Dashpage.class);
+//                                                startActivity(intent);
+                            }
+                        });
+                        openDialog.show();
+                        openDialog.setCancelable(false);
+                    }
+                });
+            }
+
+            @Override
+            public void onResponse(Response response) throws IOException {
+
+                pd.cancel();
+                pd.dismiss();
+
+                  rate = response.body().string();
+
+                if (response.isSuccessful()){
+
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+
+
+
+
+
+
+                            //String s =  rate.replaceAll("^\"|\"$", "");
+
+                            s2 =             rate.substring(1,rate.length()-1);
+//                            rate.replace("\"", "");
+                           // Log.e("rate",s);
+                            Log.e("rates",s2);
+
+
+                            weightperkg.setText("Weight per Kg : " +getResources().getString(R.string.rupee)+s2);
+                            weight.clearFocus();
+                            weight.clearComposingText();
+
+                           frate = Float.parseFloat(s2);//.parseInt(rate);
+                           fweight = Float.parseFloat(weight.getText().toString());
+                            Log.e("rates", String.valueOf(frate));
+
+                           weighttxt.setText("Total weight : " +weight.getText().toString() + " Kg(s)");
+
+
+
+                           amountforweight = frate * fweight;
+
+                           washingcost.setText("Washing Charges : " + getResources().getString(R.string.rupee) +String.valueOf(amountforweight) );
+
+                           s=0;
+                            s =  ((0/100) *sum)+sum;
+
+                            if (jobOrder.getExpressDelivery().equalsIgnoreCase("1")){
+
+
+
+
+                                s=amountforweight+ s+Double.valueOf(jobOrder.getExpressDeliveryCharge());
+
+                                  Log.e("total", String.valueOf(s));
+                                grdtotal.setText("Total " +getResources().getString(R.string.rupee)+String.valueOf(s));
+                            }
+                            else {
+
+                                s=amountforweight+s;
+                                grdtotal.setText("Total " +getResources().getString(R.string.rupee)+String.valueOf(s));
+                                Log.e("total", String.valueOf(s));
+                            }
+
+                            layouttxt.setVisibility(View.VISIBLE);
+
+
+
+                            updatejoborder();
+
+
+
+                        }
+                    });
+                }
+
+
+            }
+        });
+    }
+    private void updatejoborder () {
+        pd = new ProgressDialog(SummaryReport.this);
+        pd.setMessage("updating your Order");
+        pd.setCancelable(false);
+        pd.show();
+        final OkHttpClient okHttpClient = new OkHttpClient();
+        JSONObject postdat = new JSONObject();
+        JSONArray itemType = new JSONArray();
+        JSONArray unitPrice = new JSONArray();
+        JSONArray subTotal = new JSONArray();
+        JSONArray quantity = new JSONArray();
+        for (int i=0;i<filterdata2.size();i++){
+            itemType.put(filterdata2.get(i).item);
+        }
+        for (int i=0;i<filterdata2.size();i++){
+            unitPrice.put(filterdata2.get(i).cost);
+        }
+        for (int i=0;i<filterdata2.size();i++){
+            subTotal.put(filterdata2.get(i).amt);
+        }
+        float garmentscount = 0;
+        for (int i=0;i<filterdata2.size();i++){
+            float foo = Float.parseFloat(filterdata2.get(i).noofpieces);
+            garmentscount+= foo;
+            quantity.put(filterdata2.get(i).noofpieces);
+        }
+//        if (expressDelivery.equalsIgnoreCase("1")){
+//            s=s+expressDeliveryCharge;
+//        }
+        String timeStamp2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Calendar.getInstance().getTime());
+        String timeStamp = new SimpleDateFormat("yyyyMMddHHmmss").format(Calendar.getInstance().getTime());
+        try {
+            //  postdat.put("status", "FillOrder-CONFIRMED");
+            postdat.put("customerId",tinyDB.getString("custid"));
+            postdat.put("expressDelivery",expressDelivery);
+            // postdat.put("expressDeliveryCharge",expressDeliveryCharge);
+            postdat.put("jobId",tinyDB.getString("jobid"));
+            postdat.put("jobOrderDateTime",timeStamp2);
+            postdat.put("gstPercentage", "0");
+            postdat.put("grandTotal",String.valueOf(s));
+            postdat.put("garmentsCount",garmentscount);
+            postdat.put("itemType",itemType);
+            postdat.put("unitPrice",unitPrice);
+            postdat.put("quantity",quantity);
+            postdat.put("subTotal",subTotal);
+            if (jobOrder.getServiceName()!=null && !jobOrder.getServiceName().isEmpty()){
+                postdat.put("serviceName",jobOrder.getServiceName());
+            }
+            else {
+                postdat.put("serviceName","ironing");
+            }
+            postdat.put("deliverOnHanger",jobOrder.getDeliverOnHanger());
+            postdat.put("washQuantity",fweight);
+            postdat.put("washServiceCharge",amountforweight);
+        } catch(JSONException e){
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        RequestBody body = RequestBody.create(MEDIA_TYPE,postdat.toString());
+        Log.e("array", String.valueOf(postdat));
+        final Request request = new Request.Builder()
+                .url(getString(R.string.baseurl)+"updateJobOrder")
+                .post(body)
+                .build();
+        okHttpClient.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Request request, IOException e) {
+                String mMessage = e.getMessage().toString();
+                pd.cancel();
+                pd.dismiss();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        final Dialog openDialog = new Dialog(SummaryReport.this);
+                        openDialog.setContentView(R.layout.alert);
+                        openDialog.setTitle("No Internet");
+                        TextView dialogTextContent = (TextView)openDialog.findViewById(R.id.dialog_text);
+                        dialogTextContent.setText("Looks like your device is offline");
+                        ImageView dialogImage = (ImageView)openDialog.findViewById(R.id.dialog_image);
+                        Button dialogCloseButton = (Button)openDialog.findViewById(R.id.dialog_button);
+                        dialogCloseButton.setVisibility(View.GONE);
+                        Button dialogno = (Button)openDialog.findViewById(R.id.cancel);
+                        dialogno.setText("OK");
+                        dialogno.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                openDialog.dismiss();
+//                                                //                                          Toast.makeText(Puckup.this, jsonResponse.getString("status"), Toast.LENGTH_SHORT).show();
+//                                                Intent intent = new Intent(Puckup.this,Dashpage.class);
+//                                                startActivity(intent);
+                            }
+                        });
+                        openDialog.setCancelable(false);
+                        openDialog.show();
+                    }
+                });
+            }
+
+            @Override
+            public void onResponse(Response response) throws IOException {
+                mMessage = response.body().string();
+                pd.cancel();
+                pd.dismiss();
+                Log.e("result",mMessage);
+//                Log.e("resstsy",response.body().string());
+                if (response.isSuccessful()){
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            JSONObject jsonResponse = null;
+                            try {
+                                jsonResponse = new JSONObject(mMessage);
+                                if (jsonResponse.getString("statusCode").equalsIgnoreCase("0")){
+                                    final Dialog openDialog = new Dialog(SummaryReport.this);
+                                    openDialog.setContentView(R.layout.alert);
+                                    openDialog.setTitle("Error");
+                                    TextView dialogTextContent = (TextView)openDialog.findViewById(R.id.dialog_text);
+                                    dialogTextContent.setText(jsonResponse.getString("status"));
+                                    ImageView dialogImage = (ImageView)openDialog.findViewById(R.id.dialog_image);
+                                    Button dialogCloseButton = (Button)openDialog.findViewById(R.id.dialog_button);
+                                    Button dialogno = (Button)openDialog.findViewById(R.id.cancel);
+                                    dialogno.setVisibility(View.GONE);
+                                    dialogCloseButton.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            openDialog.dismiss();
+                                            weight.clearComposingText();
+                                            weight.clearFocus();
+//                                                //                                          Toast.makeText(Puckup.this, jsonResponse.getString("status"), Toast.LENGTH_SHORT).show();
+//                                                Intent intent = new Intent(Puckup.this,Dashpage.class);
+//                                                startActivity(intent);
+                                        }
+                                    });
+                                    openDialog.setCancelable(false);
+                                    openDialog.show();
+                                }
+                                else if (jsonResponse.getString("statusCode").equalsIgnoreCase("1")){
+
+
+
+                                    final Dialog openDialog = new Dialog(SummaryReport.this);
+                                    openDialog.setContentView(R.layout.alert);
+                                    openDialog.setTitle("Success");
+                                    TextView dialogTextContent = (TextView)openDialog.findViewById(R.id.dialog_text);
+                                    dialogTextContent.setText(jsonResponse.getString("status"));
+                                    ImageView dialogImage = (ImageView)openDialog.findViewById(R.id.dialog_image);
+                                    Button dialogCloseButton = (Button)openDialog.findViewById(R.id.dialog_button);
+                                    Button dialogno = (Button)openDialog.findViewById(R.id.cancel);
+                                    dialogno.setVisibility(View.GONE);
+
+                                    dialogCloseButton.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            openDialog.dismiss();
+                                            weight.clearComposingText();
+                                            weight.clearFocus();
+
+                                            //                                          Toast.makeText(Puckup.this, jsonResponse.getString("status"), Toast.LENGTH_SHORT).show();
+//                                            Intent intent = new Intent(SummaryReport.this,SummaryReport.class);
+//                                            startActivity(intent);
+                                        }
+                                    });
+                                    //
+                                    //  Log.e("json",sss);
+                                    openDialog.setCancelable(false);
+                                    openDialog.show();
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+
+                        }
+                    });
+                }
+                else runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+
+                    }
+                });
+            }
+        });
+
+
+    }
+    private void getjoborder() {
+
+        pd = new ProgressDialog(SummaryReport.this);
+        pd.setMessage("Getting Job Orders..");
+        pd.setCancelable(false);
+        pd.show();
+        final OkHttpClient okHttpClient = new OkHttpClient();
+        JSONObject postdat = new JSONObject();
+        try {
+            postdat.put("customerId", tinyDB.getString("custid"));
+            postdat.put("jobId", tinyDB.getString("jobid"));
+        } catch(JSONException e){
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        RequestBody body = RequestBody.create(MEDIA_TYPE,postdat.toString());
+        Log.e("postdata",postdat.toString());
+        final Request request = new Request.Builder()
                 .url(getString(R.string.baseurl)+"getJobOrder")
                 .post(body)
                 .build();
         okHttpClient.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Request request, IOException e) {
-
                 pd.cancel();
                 pd.dismiss();
-
-
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -240,12 +637,15 @@ public class SummaryReport extends AppCompatActivity {
                                 // tinyDB.putString("custId",jobOrder.getCustomerId());
                                 //tinyDB.putString("jobid",jobOrder.getJobid());
 
+                                expressDelivery = jsonObject.getString("expressDelivery");
+                                expressDeliveryCharge = jsonObject.getDouble("expressDeliveryCharge");
+                                serviceName = jsonObject.getString("serviceName");
+                                deliveronhangerkey = jsonObject.getString("deliverOnHanger");
+
+                                Log.e("deliveronhangetkey",serviceName);
 
                                 if (jsonObject.optString("statusCode").equalsIgnoreCase("0")){
 
-                                    final String expressDelivery = jsonObject.getString("expressDelivery");
-                                    final double expressDeliveryCharge = jsonObject.getDouble("expressDeliveryCharge");
-                                    final String serviceName = jsonObject.getString("serviceName");
 
                                     final Dialog openDialog = new Dialog(SummaryReport.this);
                                     openDialog.setContentView(R.layout.alert);
@@ -276,26 +676,31 @@ public class SummaryReport extends AppCompatActivity {
                                             intent.putExtra("expressDelivery",expressDelivery);
                                             intent.putExtra("expressDeliveryCharge",expressDeliveryCharge);
                                             intent.putExtra("serviceName",serviceName);
-
+                                            intent.putExtra("deliverOnHanger",deliveronhangerkey);
                                             Log.e("expressDelivery",expressDelivery);
                                             startActivity(intent);
-
                                         }
                                     });
-
-
 
                                     openDialog.show();
                                     openDialog.setCancelable(false);
 
-
                                 }
+//                                else if (serviceName.equalsIgnoreCase("washAndPress")) {
+//                                    Intent intent = new Intent(SummaryReport.this,FillOrder.class);
+//                                    intent.putExtra("expressDelivery",expressDelivery);
+//                                    intent.putExtra("expressDeliveryCharge",expressDeliveryCharge);
+//                                    intent.putExtra("serviceName",serviceName);
+//                                    intent.putExtra("deliverOnHanger",deliveronhangerkey);
+//                                    Log.e("expressDelivery",expressDelivery);
+//                                    startActivity(intent);
+//                                    }
 
 
 
-                                else {
 
 
+                                    else {
                                     Gson gson = new Gson();
 
                                     jobOrder = gson.fromJson(mMessage2,JobOrder.class);
@@ -306,18 +711,45 @@ public class SummaryReport extends AppCompatActivity {
                                     date.setText(jobOrder.getDate());
 
 
+                                    if (jobOrder.getServiceName().equalsIgnoreCase("washAndPress")){
+
+                                        layoutweight.setVisibility(View.VISIBLE);
+
+
+
+
+                                    }
+
+                                    else {
+
+                                        layouttxt.setVisibility(View.GONE);
+
+                                        layoutweight.setVisibility(View.GONE);
+                                    }
+
+
+                                    if (jobOrder.getDeliverOnHanger().equalsIgnoreCase("0")){
+                                        hangerstatus.setVisibility(View.GONE);
+                                        deliverontxt.setVisibility(View.GONE);
+
+                                    }
+
+                                    else {
+
+                                        hangerstatus.setText("YES");
+                                    }
+
+
 
                                     if (jobOrder.getExpressDelivery().equalsIgnoreCase("1")){
 
                                         expresmsg.setText("Express Delivery Charges of " +getResources().getString(R.string.rupee)+" "+jobOrder.getExpressDeliveryCharge() + " applied.");
 
                                     }
-
                                     else {
 
                                         expresmsg.setVisibility(View.GONE);
                                     }
-
 //                                String s = jobOrder.getCustomerId();
 
 //                                filterdata2.add(jobOrder);
@@ -334,25 +766,18 @@ public class SummaryReport extends AppCompatActivity {
                                         DataFish2 sds = new DataFish2(jobOrder.getCategory().get(i),jobOrder.getQuantity().get(i),jobOrder.getPrice().get(i),String.valueOf(ss4));
                                         filterdata2.add(sds);
                                     }
-
-
                                     for (int i=0;i<filterdata2.size();i++){
-
-
                                         float foo = Float.parseFloat(filterdata2.get(i).noofpieces);
                                         float foo3 = Float.parseFloat(filterdata2.get(i).amt);
-
-
                                         garmentscount+= foo;
                                         sum+=foo3;
-
                                         //   quantity.put(filterdata2.get(i).noofpieces);
                                     }
 
                                     btmtotal.setText(String.valueOf(Math.round(garmentscount)));
 
+                                    grandtotaltxt = jobOrder.getGrandTotal();
                                     s =  ((0/100) *sum)+sum;
-
                                     if (jobOrder.getExpressDelivery().equalsIgnoreCase("1")){
 
                                      //  s= s+Double.valueOf(jobOrder.getExpressDeliveryCharge());
@@ -392,8 +817,6 @@ public class SummaryReport extends AppCompatActivity {
             }
         });
     }
-
-
     public class DataFish2 {
         public String item;
         public String noofpieces;
@@ -411,7 +834,6 @@ public class SummaryReport extends AppCompatActivity {
         }
 
     }
-
     public class AdapterFish extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         List<DataFish2> data2 = Collections.emptyList();
         int currentPos = 0;
@@ -493,7 +915,6 @@ public class SummaryReport extends AppCompatActivity {
 
 
     }
-
     private void Invoice() {
 
 
@@ -510,17 +931,17 @@ public class SummaryReport extends AppCompatActivity {
         JSONArray subTotal = new JSONArray(jobOrder.getSubTotal());
         JSONArray quantity = new JSONArray(jobOrder.getQuantity());
 
-        if (jobOrder.getExpressDelivery().equalsIgnoreCase("1")){
-
-            s=s+Double.valueOf(jobOrder.getExpressDeliveryCharge());
-        }
+//        if (jobOrder.getExpressDelivery().equalsIgnoreCase("1")){
+//
+//            s=s+Double.valueOf(jobOrder.getExpressDeliveryCharge());
+//        }
 
         String timeStamp2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Calendar.getInstance().getTime());
         try {
             postdat.put("count",String.valueOf(Math.round(garmentscount)));
             postdat.put("status", "PICKUP-CONFIRMED");
             postdat.put("customerId", jobOrder.getCustomerId());
-            postdat.put("grandTotal",s);
+            postdat.put("grandTotal",jobOrder.getGrandTotal());
             postdat.put("gstPercentage", jobOrder.getGSTPercentage());
             postdat.put("invoiceDateTime", timeStamp2);
             //  postdat.put("itemType",);
@@ -531,14 +952,17 @@ public class SummaryReport extends AppCompatActivity {
             postdat.put("unitPrice",unitPrice);
             postdat.put("itemType",itemType);
             postdat.put("jobid",jobOrder.getJobid());
-
+            postdat.put("deliverOnHanger",jobOrder.getDeliverOnHanger());
             if (jobOrder.getServiceName()!=null && !jobOrder.getServiceName().isEmpty()){
                 postdat.put("serviceName",jobOrder.getServiceName());
             }
             else {
                 postdat.put("serviceName","ironing");
             }
-
+//            postdat.put("deliverOnHanger",jobOrder.getDeliverOnHanger());
+           // postdat.put("deliverOnHanger",jobOrder.getDeliverOnHanger());
+            postdat.put("washQuantity",fweight);
+            postdat.put("washServiceCharge",amountforweight);
 
         } catch(JSONException e){
             // TODO Auto-generated catch block
@@ -701,9 +1125,6 @@ public class SummaryReport extends AppCompatActivity {
             }
         });
     }
-
-
-
     private void Submitstatus() {
 
 

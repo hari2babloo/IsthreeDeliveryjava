@@ -508,7 +508,7 @@ public class GiveDelivery extends AppCompatActivity {
                                 //   quantity.put(filterdata2.get(i).noofpieces);
                             }
                             s =  ((0/100) *sum)+sum;
-                            btmtotal.setText(getResources().getString(R.string.rupee)+String.format("%.2f",s));
+                            btmtotal.setText(getResources().getString(R.string.rupee)+s);
                            // btmtotal.setText();
                             grdtotal.setText(String.valueOf(Math.round(garmentscount)));
                             expresscharges.setText(getResources().getString(R.string.rupee)+expresschargesamt);

@@ -40,7 +40,7 @@ public class Dashpage extends AppCompatActivity {
     ImageButton pick,delivery,myorders,expressorders;
     Button managertransactions;
     ProgressDialog pd;
-    TextView pickupcount,deliverycount,pickupspendingcount,deliverypendingcount,pickupcancelcount,deliverycancelcount;
+    TextView ipickeup,wpickup,dpickup,ipending,wpending,dpending,icanceled,wcanceled,dcanceled,dipending,dwpending,ddpending,didelivered,dwdelivered,dddelivered;
     String mMessage;
     SwipeRefreshLayout swipeRefreshLayout;
     public static final MediaType MEDIA_TYPE =
@@ -52,14 +52,28 @@ public class Dashpage extends AppCompatActivity {
         setContentView(R.layout.dashpage);
         swipeRefreshLayout = (SwipeRefreshLayout)findViewById(R.id.swipe_container);
 
-        pickupcount = (TextView)findViewById(R.id.pickupcount);
-        deliverycount = (TextView)findViewById(R.id.finishcount);
-        pickupspendingcount = (TextView)findViewById(R.id.pickuppendingcount);
-        deliverypendingcount = (TextView)findViewById(R.id.deliverypendingcount);
-        pickupcancelcount = (TextView)findViewById(R.id.pickupcanceledcount);
+
         myorders = (ImageButton) findViewById(R.id.myorders);
         expressorders=(ImageButton)findViewById(R.id.expressorders);
         managertransactions = (Button)findViewById(R.id.managertransactions);
+
+        ipickeup = (TextView)findViewById(R.id.ipickup);
+        ipending = (TextView)findViewById(R.id.ipending);
+        icanceled = (TextView)findViewById(R.id.icancel);
+        wpickup = (TextView)findViewById(R.id.wpickup);
+        wpending = (TextView)findViewById(R.id.wpending);
+        wcanceled = (TextView)findViewById(R.id.wcancel);
+        dpickup = (TextView)findViewById(R.id.dpickup);
+        dpending = (TextView)findViewById(R.id.dpendind);
+        dcanceled = (TextView)findViewById(R.id.dcancel);
+        dipending = (TextView)findViewById(R.id.dipending);
+        didelivered = (TextView)findViewById(R.id.dideliverd);
+        dwpending = (TextView)findViewById(R.id.dwpending);
+        dwdelivered = (TextView)findViewById(R.id.dwdelivered);
+        ddpending = (TextView)findViewById(R.id.ddpending);
+        dddelivered = (TextView)findViewById(R.id.dddelivered);
+
+
 
 
 
@@ -209,14 +223,29 @@ swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            Log.e("Resy",mMessage);
+                            Log.e("count",mMessage);
                             try {
                                 JSONObject jsonObject = new JSONObject(mMessage);
-                                pickupcount.setText("PICKEDUP: "+jsonObject.optString("currentDatePickupsConfirmedCount"));
-                                pickupspendingcount.setText("PENDING: "+jsonObject.optString("pickupRequestsCount"));
-                                pickupcancelcount.setText("CANCELED: "+jsonObject.optString("currentDatePickupsCancelledCount"));
-                                deliverycount.setText("DELIVERED: "+jsonObject.optString("currentDateDeliveryOrdersCount"));
-                                deliverypendingcount.setText("PENDING: "+jsonObject.optString("pendingDeliveryOrdersCount"));
+                                ipickeup.setText(jsonObject.optString("ironingPickupsConfirmedCount"));
+                                wpickup.setText(jsonObject.optString("washAndPressPickupsConfirmedCount"));
+                                dpickup.setText(jsonObject.optString("dryCleaningPickupsConfirmedCount"));
+
+                                ipending.setText(jsonObject.optString("ironingRequestsCount"));
+                                wpending.setText(jsonObject.optString("washAndPressRequestsCount"));
+                                dpending.setText(jsonObject.optString("dryCleaningRequestsCount"));
+
+                                icanceled.setText(jsonObject.optString("ironingPickupsCancelledCount"));
+                                wcanceled.setText(jsonObject.optString("washAndPressPickupsCancelledCount"));
+                                dcanceled.setText(jsonObject.optString("dryCleaningPickupsCancelledCount"));
+
+                                dipending.setText(jsonObject.optString("ironingPendingDeliveryOrdersCount"));
+                                dwpending.setText(jsonObject.optString("washAndPressPendingDeliveryOrdersCount"));
+                                ddpending.setText(jsonObject.optString("dryCleaningPendingDeliveryOrdersCount"));
+
+                                didelivered.setText(jsonObject.optString("ironingOrdersDeliveredCount"));
+                                dwdelivered.setText(jsonObject.optString("washAndPressOrdersDeliveredCount"));
+                                dddelivered.setText(jsonObject.optString("dryCleaningOrdersDeliveredCount"));
+
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }

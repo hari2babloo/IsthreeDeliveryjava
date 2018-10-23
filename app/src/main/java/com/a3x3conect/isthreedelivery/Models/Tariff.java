@@ -19,6 +19,18 @@ public class Tariff {
     @Expose
     private String price;
 
+    public String getHangerPrice() {
+        return hangerPrice;
+    }
+
+    public void setHangerPrice(String hangerPrice) {
+        this.hangerPrice = hangerPrice;
+    }
+
+    @SerializedName("hangerPrice")
+    @Expose
+    private String hangerPrice;
+
     public String getId() {
         return id;
     }

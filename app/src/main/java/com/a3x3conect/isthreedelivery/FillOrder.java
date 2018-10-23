@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -66,13 +67,19 @@ public class FillOrder extends AppCompatActivity {
     List<Tariff> tarif;
     ProgressDialog pd;
     TextView ratescard;
-    String mMessage2;
+    String mMessage2,hangerprice;
+    float garmentscount = 0;
+    int spinerposition;
     RecyclerView mRVFishPrice,mRVFishPrice2;
+    String  hangeramt;
+    int deliveronhangetkey;
 
     private AdapterFish2 Adapter2;
     ArrayList<DataFish> filterdata=new ArrayList<DataFish>();
     List<DataFish2> filterdata2=new ArrayList<DataFish2>();
 
+    List<DataFish2> hangerlist=new ArrayList<DataFish2>();
+    ArrayList<String> hangerprize = new ArrayList<>();
     ArrayList<String> items = new ArrayList<>();
     ArrayList<String> prize = new ArrayList<>();
     ArrayList<String> items2 = new ArrayList<>();
@@ -85,19 +92,22 @@ public class FillOrder extends AppCompatActivity {
     String mMessage;
     Button pay;
     TinyDB tinyDB;
-    double s=0,expressDeliveryCharge;
-    String expressDelivery;
+    double s=0,expresscharge=0;
+    String expressDelivery,deliverOnHanger;
     ListView lv_languages;
     CheckBox checkBox;
 
-    String price,type,quantity,amount,idd,exprsval,serviceName;
+    String price,type,quantity,amount,idd,serviceName;
     TextView btmamt,btmtotal;
     TableLayout tableLayout;
+    String foldtype = "normal";
+    Snackbar snackbar;
     Spinner spinner;
     ListView listView;
     EditText qty;
     Button add,cancel;
-
+CheckBox chkboxhanger;
+TextView hangertxt;
 
     BottomSheetDialog bottomSheetDialog;
     Integer spinposition;
@@ -109,46 +119,117 @@ public class FillOrder extends AppCompatActivity {
         setContentView(R.layout.fill_order);
         tinyDB = new TinyDB(this);
         pay = (Button)findViewById(R.id.pay);
-
+        btmtotal = (TextView)findViewById(R.id.btmtotal);
         checkBox = (CheckBox)findViewById(R.id.checkBox);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("Order Form");
        expressDelivery = getIntent().getStringExtra("expressDelivery");
+
+
         serviceName = getIntent().getStringExtra("serviceName");
+        deliverOnHanger = getIntent().getStringExtra("deliverOnHanger");
+        expresscharge = getIntent().getDoubleExtra("expressDeliveryCharge",0);
+        chkboxhanger = (CheckBox)findViewById(R.id.chkboxhanger);
+
+        hangertxt = (TextView)findViewById(R.id.hangertxt);
+
+        if (serviceName.equalsIgnoreCase("dryCleaning")){
 
 
-            Log.e("values", String.valueOf(expressDelivery)+String.valueOf(expressDeliveryCharge));
+            chkboxhanger.setVisibility(View.GONE);
+            hangertxt.setVisibility(View.GONE);
+        }
+
+
+            Log.e("values", String.valueOf(expressDelivery)+String.valueOf(expresscharge));
         //listView = new ListView(this);
 
         //  String[] rates = {"shirt","pant",};
 
         if (expressDelivery.equalsIgnoreCase("1")){
 
-            //  expresscharge=tinyDB.getDouble("expressDeliveryCharge",0);
+            //  expresscharge=tinyDB.getDouble("expresscharge",0);
             //btmtotal.setText("Total  " +getResources().getString(R.string.rupee)+String.format("%.2f",s+expresscharge));
-            expressDeliveryCharge = getIntent().getDoubleExtra("expressDeliveryCharge",0);
+
             checkBox.setChecked(true);
 //            checkBox.setVisibility(View.GONE);
 //            expresstxt.setVisibility(View.GONE);
         }
 
+
+        if (expressDelivery.equalsIgnoreCase("1")){
+            checkBox.setChecked(true);
+            //expresscharge=tinyDB.getDouble("expressDeliveryCharge",0);
+            btmtotal.setText("Total " +getResources().getString(R.string.rupee)+String.format("%.2f",s+expresscharge));
+            //            checkBox.setVisibility(View.GONE);
+            //            expresstxt.setVisibility(View.GONE);
+        }
+
+        else {
+
+            expressDelivery = "0";
+            expresscharge=0;
+        }
+
+
         checkBox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (checkBox.isChecked()){
-                    Toast.makeText(FillOrder.this, "Express Delivery Enabled", Toast.LENGTH_SHORT).show();
-                    expressDeliveryCharge = getIntent().getDoubleExtra("expressDeliveryCharge",0);
+                    View parentLayout = findViewById(android.R.id.content);
+                    snackbar = Snackbar.make(parentLayout,"Express Delivery Enabled",Snackbar.LENGTH_SHORT);
+                    snackbar.show();
+                  //  Toast.makeText(FillOrder.this, "Express Delivery Enabled", Toast.LENGTH_SHORT).show();
+                   // expresscharge = getIntent().getDoubleExtra("expressDeliveryCharge",0);
                     expressDelivery = "1";
-                    // expresscharge=tinyDB.getDouble("expressDeliveryCharge",0);
-                    btmtotal.setText("Total  " +getResources().getString(R.string.rupee)+String.format("%.2f",s+expressDeliveryCharge));
+                    // expresscharge=tinyDB.getDouble("expresscharge",0);
+                    btmtotal.setText("Total  " +getResources().getString(R.string.rupee)+String.format("%.2f",s+expresscharge));
                 }
                 else {
+                    View parentLayout = findViewById(android.R.id.content);
+                    snackbar = Snackbar.make(parentLayout,"Express Delivery Disabled",Snackbar.LENGTH_SHORT);
+                    snackbar.show();
 
-                    Toast.makeText(FillOrder.this, "Express Delivery Disabled", Toast.LENGTH_SHORT).show();
+                   // Toast.makeText(FillOrder.this, "Express Delivery Disabled", Toast.LENGTH_SHORT).show();
 
                     expressDelivery = "0";
-                    expressDeliveryCharge=0;
-                    btmtotal.setText("Total  " +getResources().getString(R.string.rupee)+String.format("%.2f",s+expressDeliveryCharge));
+                    expresscharge=0;
+                    btmtotal.setText("Total  " +getResources().getString(R.string.rupee)+String.format("%.2f",s+expresscharge));
+                }
+            }
+        });
+
+        chkboxhanger.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                if (chkboxhanger.isChecked()){
+
+                    //checkBox.setChecked(false);
+                    foldtype =  "hanger";
+                    View parentLayout = findViewById(android.R.id.content);
+                    snackbar = Snackbar.make(parentLayout,"Delivery on Hanger Enabled",Snackbar.LENGTH_SHORT);
+                    snackbar.show();
+                    AddtoList();
+
+                    Log.e("foldtype",foldtype);
+                }
+
+                else{
+
+                    //checkBox.setChecked(true);
+
+
+
+                    foldtype="normal";
+                    View parentLayout = findViewById(android.R.id.content);
+                    snackbar = Snackbar.make(parentLayout,"Delivery on Hanger Disabled",Snackbar.LENGTH_SHORT);
+                    snackbar.show();
+                    AddtoList();
+
+                    Log.e("foldtype",foldtype);
+
                 }
             }
         });
@@ -183,7 +264,7 @@ public class FillOrder extends AppCompatActivity {
         btmamt = (TextView)findViewById(R.id.btmamt);
         tableLayout = (TableLayout)findViewById(R.id.tabl);
        // tableLayout.setVisibility(View.GONE);
-        btmtotal = (TextView)findViewById(R.id.btmtotal);
+
         pay.setVisibility(View.VISIBLE);
 
 
@@ -440,6 +521,7 @@ public class FillOrder extends AppCompatActivity {
         try {
             postdat.put("customerId", tinyDB.getString("custid"));
             postdat.put("jobId", tinyDB.getString("jobid"));
+            postdat.put("serviceName",serviceName);
         } catch (JSONException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -635,7 +717,7 @@ public class FillOrder extends AppCompatActivity {
                             for(int j = 0; j < tarif.size(); j++) {
 
 
-                                DataFish dataFish = new DataFish(tarif.get(j).getId(),tarif.get(j).getType(),tarif.get(j).getPrice());
+                                DataFish dataFish = new DataFish(tarif.get(j).getId(),tarif.get(j).getType(),tarif.get(j).getPrice(),tarif.get(j).getHangerPrice());
                                 filterdata.add(dataFish);
 
                             }
@@ -650,6 +732,7 @@ public class FillOrder extends AppCompatActivity {
                                     rates.add(json_data.getString("category")+" :  "+getResources().getString(R.string.rupee)+json_data.getString("price"));
                                     items.add(json_data.getString("category"));
                                     prize.add(json_data.getString("price"));
+                                    hangerprize.add(json_data.getString("hangerPrice"));
                                     items2.add(json_data.getString("category"));
                                     prize2.add(json_data.getString("price"));
                                     Log.e("Dta",dd.toString());
@@ -669,12 +752,12 @@ public class FillOrder extends AppCompatActivity {
                                     Object item = parent.getItemAtPosition(position);
 
                                     ((TextView) parent.getChildAt(0)).setTextColor(Color.parseColor("#163053"));
-
-                                    price = prize.get(position);
-                                    //  type = items.get(position);
-
-                                    type = filterdata.get(position).Dcategory;
-                                    idd = filterdata.get(position).Did;
+                                    spinerposition = position;
+//                                    price = prize.get(position);
+//                                    //  type = items.get(position);
+//
+//                                    type = filterdata.get(position).Dcategory;
+//                                    idd = filterdata.get(position).Did;
 
 
                                 }
@@ -691,18 +774,30 @@ public class FillOrder extends AppCompatActivity {
                                 @Override
                                 public void onClick(View v) {
                                     quantity = qty.getText().toString();
+                                    type = filterdata.get(spinerposition).Dcategory;
+                                    idd = filterdata.get(spinerposition).Did;
+                                    price = filterdata.get(spinerposition).Dprice;
+                                    hangerprice = filterdata.get(spinerposition).Dhangerprice;
+
 
                                     if (TextUtils.isEmpty(quantity)){
-                                        Toast.makeText(FillOrder.this, "Please Enter Quantity", Toast.LENGTH_SHORT).show();
+                                        View parentLayout = findViewById(android.R.id.content);
+                                        snackbar = Snackbar.make(parentLayout,"Please Enter Quantity",Snackbar.LENGTH_SHORT);
+                                        snackbar.show();
+ //                                       Toast.makeText(FillOrder.this, "Please Enter Quantity", Toast.LENGTH_SHORT).show();
                                         //myHolder.qty.setError("empty");
                                     }
                                     else if (quantity.equalsIgnoreCase("0")){
-                                        Toast.makeText(FillOrder.this, "Please Enter Quantity", Toast.LENGTH_SHORT).show();
-
+                                        //Toast.makeText(FillOrder.this, "Please Enter Quantity", Toast.LENGTH_SHORT).show();
+                                        View parentLayout = findViewById(android.R.id.content);
+                                        snackbar = Snackbar.make(parentLayout,"Please Enter Quantity",Snackbar.LENGTH_SHORT);
+                                        snackbar.show();
                                     }
                                     else if (items.isEmpty()){
-
-                                        Toast.makeText(getApplicationContext(), "List is Empty", Toast.LENGTH_SHORT).show();
+                                        View parentLayout = findViewById(android.R.id.content);
+                                        snackbar = Snackbar.make(parentLayout,"List is Empty",Snackbar.LENGTH_SHORT);
+                                        snackbar.show();
+                                        //Toast.makeText(getApplicationContext(), "List is Empty", Toast.LENGTH_SHORT).show();
                                     }
                                     else
                                     {
@@ -716,8 +811,15 @@ public class FillOrder extends AppCompatActivity {
                                             Float x = foo * fo2;
                                             amount =Float.toString(x);
                                             Log.e(type,quantity+price+amount);
-                                            DataFish2 ss = new DataFish2(type, quantity, price, amount,idd);
+                                            DataFish2 ss = new DataFish2(type, quantity, price, amount,idd,hangerprice);
                                             filterdata2.add(ss);
+                                            Float fo3 = Float.parseFloat(hangerprice);
+                                            Float xy = foo * fo3;
+
+                                            hangeramt = Float.toString(xy);
+
+                                            DataFish2 s2 = new DataFish2(type,quantity,hangerprice,hangeramt,idd,hangerprice);
+                                            hangerlist.add(s2);
 
                                         }
 
@@ -741,13 +843,17 @@ public class FillOrder extends AppCompatActivity {
 
                                                     float sss = foo1+dd2;
 
-
-
-
-
-
-                                                    DataFish2 ss = new DataFish2(type, String.valueOf(Math.round(sss)), price, String.valueOf(s),idd);
+                                                    DataFish2 ss = new DataFish2(type, String.valueOf(Math.round(sss)), price, String.valueOf(s),idd,hangerprice);
                                                     filterdata2.set(i,ss);
+
+                                                    Float fo3 = Float.parseFloat(hangerprice);
+                                                    //  Float dd3 = Float.parseFloat(filterdata2.get(i).noofpieces);
+                                                    s = (foo1+dd2)*fo3;
+
+
+
+                                                    DataFish2 ss2 = new DataFish2(type, String.valueOf(Math.round(sss)), hangerprice, String.valueOf(s),idd,hangerprice);
+                                                    hangerlist.set(i,ss2);
                                                     break;
 
 
@@ -767,8 +873,14 @@ public class FillOrder extends AppCompatActivity {
                                             Float x = foo * fo2;
                                             amount =Float.toString(x);
                                             Log.e(type,quantity+price+amount);
-                                            DataFish2 ss = new DataFish2(type, quantity, price, amount,idd);
+                                            DataFish2 ss = new DataFish2(type, quantity, price, amount,idd,hangerprice);
                                             filterdata2.add(ss);
+                                            Float fo3 = Float.parseFloat(hangerprice);
+                                            Float x2 = foo * fo3;
+                                            amount =Float.toString(x2);
+
+                                            DataFish2 ss2 = new DataFish2(type, quantity, hangerprice, amount,idd,hangerprice);
+                                            hangerlist.add(ss2);
                                             AddtoList();
 
 
@@ -817,12 +929,14 @@ public class FillOrder extends AppCompatActivity {
         public String Did;
         public String Dcategory;
         public String Dprice;
+        public String Dhangerprice;
 
 
-        public DataFish(String did, String dcategory, String dprice) {
+        public DataFish(String did, String dcategory, String dprice,String dhangerprice)  {
             Did = did;
             Dcategory = dcategory;
             Dprice = dprice;
+            Dhangerprice = dhangerprice;
         }
 
 
@@ -835,15 +949,17 @@ public class FillOrder extends AppCompatActivity {
         public String cost;
         public String amt;
         public String id;
+        public String hangerpric;
 
 
-        public DataFish2(String item,String noofpieces,String cost,String amt,String id){
+        public DataFish2(String item,String noofpieces,String cost,String amt,String id,String hangerpric){
 
             this.item = item;
             this.noofpieces = noofpieces;
             this.cost = cost;
             this.amt = amt;
             this.id = id;
+            this.hangerpric = hangerpric;
         }
 
     }
@@ -863,27 +979,69 @@ public class FillOrder extends AppCompatActivity {
 
 
         //   Log.e("ononcontains","oncontains");          // Log.e(u,u);
-        Adapter2 = new AdapterFish2(FillOrder.this,filterdata2);
+        if (foldtype.equalsIgnoreCase("normal")){
+
+            Adapter2 = new AdapterFish2(FillOrder.this,filterdata2);
+            float sum = 0;
+            for (int i = 0; i < filterdata2.size(); i++) {
+
+                Float dd = Float.parseFloat(filterdata2.get(i).amt);
+                sum += dd;
+            }
+
+            //  btmamt.setText("Sub Total = " +String.valueOf(sum));
+
+            s =  ((0.0/100) *sum)+sum;
+            btmtotal.setText("Total  " +getResources().getString(R.string.rupee)+String.format("%.2f",s+expresscharge));
+        }
+        else {
+
+            Adapter2 = new AdapterFish2(FillOrder.this,hangerlist);
+
+            float sum = 0;
+            for (int i = 0; i < hangerlist.size(); i++) {
+
+                Float dd = Float.parseFloat(hangerlist.get(i).amt);
+                sum += dd;
+            }
+
+            //  btmamt.setText("Sub Total = " +String.valueOf(sum));
+
+            s =  ((0.0/100) *sum)+sum;
+            btmtotal.setText("Total  " +getResources().getString(R.string.rupee)+String.format("%.2f",s+expresscharge));
+        }
         Adapter2.setHasStableIds(false);
         mRVFishPrice2.setAdapter(Adapter2);
         mRVFishPrice2.setHasFixedSize(false);
         mRVFishPrice2.setLayoutManager(new LinearLayoutManager(FillOrder.this,LinearLayoutManager.VERTICAL,false));
-        float sum = 0;
-        for (int i = 0; i < filterdata2.size(); i++) {
+//        float sum = 0;
+//        for (int i = 0; i < filterdata2.size(); i++) {
+//
+//            Float dd = Float.parseFloat(filterdata2.get(i).amt);
+//            sum += dd;
+//        }
+//
+//        //  btmamt.setText("Sub Total = " +String.valueOf(sum));
+//
+//        s =  ((0.0/100) *sum)+sum;
+//
+//
+//
+//            btmtotal.setText("Total  " +getResources().getString(R.string.rupee)+String.format("%.2f",s+expresscharge   ));
 
-            Float dd = Float.parseFloat(filterdata2.get(i).amt);
-            sum += dd;
+        if (expressDelivery.equalsIgnoreCase("1")){
+            checkBox.setChecked(true);
+          //  expresscharge=tinyDB.getDouble("expresscharge",0);
+            btmtotal.setText("Total " +getResources().getString(R.string.rupee)+String.format("%.2f",s+expresscharge));
+            //            checkBox.setVisibility(View.GONE);
+            //            expresstxt.setVisibility(View.GONE);
         }
 
-        //  btmamt.setText("Sub Total = " +String.valueOf(sum));
+        else {
 
-        s =  ((0.0/100) *sum)+sum;
-
-
-
-            btmtotal.setText("Total  " +getResources().getString(R.string.rupee)+String.format("%.2f",s+expressDeliveryCharge   ));
-
-
+            expressDelivery = "0";
+            expresscharge=0;
+        }
 
         pay.setVisibility(View.VISIBLE);
         btmtotal.setVisibility(View.VISIBLE);
@@ -944,29 +1102,72 @@ public class FillOrder extends AppCompatActivity {
 //                    setspinner();
 
                     filterdata2.remove(position);
+                    hangerlist.remove(position);
                     fourdour.remove(current.item);
+
+                    if (foldtype.equalsIgnoreCase("normal")){
+
+
+                        Adapter2 = new AdapterFish2(FillOrder.this, filterdata2);
+                        Adapter2.setHasStableIds(false);
+                        mRVFishPrice2.setAdapter(Adapter2);
+                        mRVFishPrice2.setHasFixedSize(false);
+                        mRVFishPrice2.setLayoutManager(new LinearLayoutManager(FillOrder.this,LinearLayoutManager.VERTICAL,false));
+                        float sum = 0;
+                        for (int i = 0; i < filterdata2.size(); i++) {
+
+                            Float dd = Float.parseFloat(filterdata2.get(i).amt);
+                            sum += dd;
+                        }
+                        Log.e("rererer", String.valueOf(sum));
+                        //btmamt.setText("Sub Total = " +String.valueOf(sum));
+
+                        s =  ((0.0/100) *sum)+sum;
+                        btmtotal.setText("Total  " +getResources().getString(R.string.rupee) +String.format("%.2f",s+expresscharge));
+                    }
+
+                    else {
+
+
+                        Adapter2 = new AdapterFish2(FillOrder.this, hangerlist);
+                        Adapter2.setHasStableIds(false);
+                        mRVFishPrice2.setAdapter(Adapter2);
+                        mRVFishPrice2.setHasFixedSize(false);
+                        mRVFishPrice2.setLayoutManager(new LinearLayoutManager(FillOrder.this,LinearLayoutManager.VERTICAL,false));
+                        float sum = 0;
+                        for (int i = 0; i < hangerlist.size(); i++) {
+
+                            Float dd = Float.parseFloat(hangerlist.get(i).amt);
+                            sum += dd;
+                        }
+                        Log.e("rererer", String.valueOf(sum));
+                        //btmamt.setText("Sub Total = " +String.valueOf(sum));
+
+                        s =  ((0.0/100) *sum)+sum;
+                        btmtotal.setText("Total  " +getResources().getString(R.string.rupee) +String.format("%.2f",s+expresscharge));
+                    }
 
 
                     //  dd.add(current.item);
                     //                  tarif.add("fsd","rtt","trer");
                     //                 Adapter.notifyDataSetChanged();
 
-                    Adapter2 = new AdapterFish2(FillOrder.this, filterdata2);
-                    Adapter2.setHasStableIds(false);
-                    mRVFishPrice2.setAdapter(Adapter2);
-                    mRVFishPrice2.setHasFixedSize(false);
-                    mRVFishPrice2.setLayoutManager(new LinearLayoutManager(FillOrder.this,LinearLayoutManager.VERTICAL,false));
-                    float sum = 0;
-                    for (int i = 0; i < filterdata2.size(); i++) {
-
-                        Float dd = Float.parseFloat(filterdata2.get(i).amt);
-                        sum += dd;
-                    }
-                    Log.e("rererer", String.valueOf(sum));
-                    //btmamt.setText("Sub Total = " +String.valueOf(sum));
-
-                    double s =  ((0.0/100) *sum)+sum;
-                    btmtotal.setText("Total  " +getResources().getString(R.string.rupee) +String.format("%.2f",s+expressDeliveryCharge));
+//                    Adapter2 = new AdapterFish2(FillOrder.this, filterdata2);
+//                    Adapter2.setHasStableIds(false);
+//                    mRVFishPrice2.setAdapter(Adapter2);
+//                    mRVFishPrice2.setHasFixedSize(false);
+//                    mRVFishPrice2.setLayoutManager(new LinearLayoutManager(FillOrder.this,LinearLayoutManager.VERTICAL,false));
+//                    float sum = 0;
+//                    for (int i = 0; i < filterdata2.size(); i++) {
+//
+//                        Float dd = Float.parseFloat(filterdata2.get(i).amt);
+//                        sum += dd;
+//                    }
+//                    Log.e("rererer", String.valueOf(sum));
+//                    //btmamt.setText("Sub Total = " +String.valueOf(sum));
+//
+//                    double s =  ((0.0/100) *sum)+sum;
+//                    btmtotal.setText("Total  " +getResources().getString(R.string.rupee) +String.format("%.2f",s+expresscharge));
                 }
             });
             myHolder.plus.setOnClickListener(new View.OnClickListener() {
@@ -989,6 +1190,7 @@ public class FillOrder extends AppCompatActivity {
                                             InputType.TYPE_NUMBER_FLAG_SIGNED);
 //                                    Toast.makeText(context, YouEditTextValue, Toast.LENGTH_SHORT).show();
                                     try {
+
                                         int num = Integer.parseInt(YouEditTextValue);
                                         Log.i("",num+" is a number");
 
@@ -997,27 +1199,51 @@ public class FillOrder extends AppCompatActivity {
                                         Float x = foo * fo2;
                                         String suu =Float.toString(x);
 
+                                        Float fo22 = Float.parseFloat(current.hangerpric);
+                                        Float x2 = foo * fo22;
+                                        String suu2 =Float.toString(x2);
 
-                                        filterdata2.set(position, new DataFish2(current.item,YouEditTextValue,current.cost,suu,current.id));
-                                        Adapter2 = new AdapterFish2(FillOrder.this, filterdata2);
-                                        Adapter2.setHasStableIds(false);
-                                        mRVFishPrice2.setAdapter(Adapter2);
-                                        mRVFishPrice2.setHasFixedSize(false);
-                                        mRVFishPrice2.setLayoutManager(new LinearLayoutManager(FillOrder.this,LinearLayoutManager.VERTICAL,false));
-                                        float sum = 0;
-                                        for (int i = 0; i < filterdata2.size(); i++) {
+                                        hangerlist.set(position,new DataFish2(current.item,YouEditTextValue,current.hangerpric,suu2,current.id,current.hangerpric));
 
-                                            Float dd = Float.parseFloat(filterdata2.get(i).amt);
-                                            sum += dd;
-                                        }
 
-                                        //  btmamt.setText("Sub Total = " +String.valueOf(sum));
 
-                                        double s =  ((0.0/100) *sum)+sum;
-                                        btmtotal.setText("Total  " +getResources().getString(R.string.rupee)+String.format("%.2f",s+expressDeliveryCharge));
+                                        filterdata2.set(position, new DataFish2(current.item,YouEditTextValue,current.cost,suu,current.id,hangerprice));
+
+                                        AddtoList();
+
+//                                        int num = Integer.parseInt(YouEditTextValue);
+//                                        Log.i("",num+" is a number");
+//
+//                                        Float foo = Float.parseFloat(YouEditTextValue);
+//                                        Float fo2 = Float.parseFloat(current.cost);
+//                                        Float x = foo * fo2;
+//                                        String suu =Float.toString(x);
+//
+//
+//                                        filterdata2.set(position, new DataFish2(current.item,YouEditTextValue,current.cost,suu,current.id,hangerprice));
+//                                        Adapter2 = new AdapterFish2(FillOrder.this, filterdata2);
+//                                        Adapter2.setHasStableIds(false);
+//                                        mRVFishPrice2.setAdapter(Adapter2);
+//                                        mRVFishPrice2.setHasFixedSize(false);
+//                                        mRVFishPrice2.setLayoutManager(new LinearLayoutManager(FillOrder.this,LinearLayoutManager.VERTICAL,false));
+//                                        float sum = 0;
+//                                        for (int i = 0; i < filterdata2.size(); i++) {
+//
+//                                            Float dd = Float.parseFloat(filterdata2.get(i).amt);
+//                                            sum += dd;
+//                                        }
+//
+//                                        //  btmamt.setText("Sub Total = " +String.valueOf(sum));
+//
+//                                        double s =  ((0.0/100) *sum)+sum;
+//                                        btmtotal.setText("Total  " +getResources().getString(R.string.rupee)+String.format("%.2f",s+expresscharge));
                                         Log.e("rererer", String.format("%.2f",s));
                                     } catch (NumberFormatException e) {
-                                        Toast.makeText(context, "Enter only numbers", Toast.LENGTH_SHORT).show();
+
+                                        View parentLayout = findViewById(android.R.id.content);
+                                        snackbar = Snackbar.make(parentLayout,"Enter only numbers",Snackbar.LENGTH_SHORT);
+                                        snackbar.show();
+                                       // Toast.makeText(context, "Enter only numbers", Toast.LENGTH_SHORT).show();
                                     }
 
 
@@ -1083,46 +1309,78 @@ public class FillOrder extends AppCompatActivity {
         JSONArray subTotal = new JSONArray();
         JSONArray quantity = new JSONArray();
 
-        for (int i=0;i<filterdata2.size();i++){
 
-            itemType.put(filterdata2.get(i).item);
+        if (foldtype.equalsIgnoreCase("normal")){
+
+            deliveronhangetkey=0;
+            for (int i=0;i<filterdata2.size();i++){
+
+                itemType.put(filterdata2.get(i).item);
+            }
+            for (int i=0;i<filterdata2.size();i++){
+
+                unitPrice.put(filterdata2.get(i).cost);
+            }
+            for (int i=0;i<filterdata2.size();i++){
+
+                subTotal.put(filterdata2.get(i).amt);
+            }
+
+            for (int i=0;i<filterdata2.size();i++){
+
+
+                float foo = Float.parseFloat(filterdata2.get(i).noofpieces);
+                garmentscount+= foo;
+                quantity.put(filterdata2.get(i).noofpieces);
+            }
         }
-        for (int i=0;i<filterdata2.size();i++){
 
-            unitPrice.put(filterdata2.get(i).cost);
+        else {
+
+            deliveronhangetkey=1;
+
+            for (int i=0;i<hangerlist.size();i++){
+
+                itemType.put(hangerlist.get(i).item);
+            }
+            for (int i=0;i<hangerlist.size();i++){
+
+                unitPrice.put(hangerlist.get(i).cost);
+            }
+            for (int i=0;i<hangerlist.size();i++){
+
+                subTotal.put(hangerlist.get(i).amt);
+            }
+
+            for (int i=0;i<hangerlist.size();i++){
+
+
+                float foo = Float.parseFloat(hangerlist.get(i).noofpieces);
+                garmentscount+= foo;
+                quantity.put(hangerlist.get(i).noofpieces);
+            }
+
+
         }
-        for (int i=0;i<filterdata2.size();i++){
 
-            subTotal.put(filterdata2.get(i).amt);
-        }
-        float garmentscount = 0;
-        for (int i=0;i<filterdata2.size();i++){
-
-
-            float foo = Float.parseFloat(filterdata2.get(i).noofpieces);
-            garmentscount+= foo;
-            quantity.put(filterdata2.get(i).noofpieces);
-        }
-        if (expressDelivery.equalsIgnoreCase("1")){
-
-            s=s+expressDeliveryCharge;
-        }
         String timeStamp2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Calendar.getInstance().getTime());
         String timeStamp = new SimpleDateFormat("yyyyMMddHHmmss").format(Calendar.getInstance().getTime());
         try {
             //  postdat.put("status", "FillOrder-CONFIRMED");
             postdat.put("customerId",tinyDB.getString("custid"));
             postdat.put("expressDelivery",expressDelivery);
-           // postdat.put("expressDeliveryCharge",expressDeliveryCharge);
+           // postdat.put("expresscharge",expresscharge);
             postdat.put("jobId",tinyDB.getString("jobid"));
             postdat.put("jobOrderDateTime",timeStamp2);
             postdat.put("gstPercentage", "0");
-            postdat.put("grandTotal",String.valueOf(s));
+            postdat.put("grandTotal",String.format("%.2f",s+expresscharge));
             postdat.put("garmentsCount",garmentscount);
             postdat.put("itemType",itemType);
             postdat.put("unitPrice",unitPrice);
             postdat.put("quantity",quantity);
             postdat.put("subTotal",subTotal);
+            postdat.put("serviceName",serviceName);
+            postdat.put("deliverOnHanger",deliveronhangetkey);
 
 
         } catch(JSONException e){

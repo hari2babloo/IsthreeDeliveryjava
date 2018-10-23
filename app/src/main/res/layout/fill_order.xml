@@ -224,8 +224,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
-            android:text="Express Delivery *"
-            android:textColor="@color/colorAccent" />
+            android:text="Express Delivery "
+            android:textColor="@color/red" />
 
         <TextView
             android:id="@+id/expresstxt"
@@ -236,6 +236,25 @@
             android:text="@string/expressdeliverytext"
             android:textColor="@color/bluee"
             android:textSize="10sp" />
+
+        <CheckBox
+            android:id="@+id/chkboxhanger"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:text="Deliver  on Hanger "
+            android:textColor="@color/red" />
+
+        <TextView
+            android:id="@+id/hangertxt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="10dp"
+            android:text="Clothes will be delivered on hanger with minimum foldings"
+            android:textColor="@color/bluee"
+            android:textSize="10sp" />
+
 
 
     </LinearLayout>
