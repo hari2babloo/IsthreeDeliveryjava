@@ -25,7 +25,8 @@
             android:layout_height="150dp"
             android:layout_below="@+id/spinner"
             android:layout_centerHorizontal="true"
-            app:srcCompat="@drawable/logo" />
+            app:srcCompat="@drawable/logo"
+            android:contentDescription="TODO" />
 
         <TextView
             android:id="@+id/custname"
@@ -53,7 +54,8 @@
             android:id="@+id/imageView6"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:srcCompat="@drawable/location2" />
+            app:srcCompat="@drawable/location2"
+            android:contentDescription="TODO" />
 
         <TextView
             android:id="@+id/adressdata"
@@ -103,7 +105,8 @@
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:layout_marginRight="30dp"
-                android:background="@drawable/nav" />
+                android:background="@drawable/nav"
+                android:contentDescription="TODO" />
 
             <View
                 android:layout_width="1dp"
@@ -116,7 +119,8 @@
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:layout_marginLeft="30dp"
-                android:background="@drawable/call" />
+                android:background="@drawable/call"
+                android:contentDescription="TODO" />
 
         </TableRow>
 

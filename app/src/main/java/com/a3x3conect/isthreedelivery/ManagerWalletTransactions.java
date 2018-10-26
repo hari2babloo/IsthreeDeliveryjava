@@ -3,12 +3,10 @@ package com.a3x3conect.isthreedelivery;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
-import android.graphics.Color;
+import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -22,7 +20,6 @@ import android.widget.TextView;
 
 import com.a3x3conect.isthreedelivery.Models.Modelmanagertransactions;
 import com.a3x3conect.isthreedelivery.Models.TinyDB;
-import com.a3x3conect.isthreedelivery.Models.getPickupDeliveryOrders;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.squareup.okhttp.Callback;
@@ -63,11 +60,11 @@ public class ManagerWalletTransactions extends AppCompatActivity {
         setContentView(R.layout.manager_wallet_transactions);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("Manager Transactions");
-        swipeRefreshLayout = (SwipeRefreshLayout)findViewById(R.id.swipe_container);
-        mRVFishPrice = (RecyclerView)findViewById(R.id.fishPriceList);
+        swipeRefreshLayout = findViewById(R.id.swipe_container);
+        mRVFishPrice = findViewById(R.id.fishPriceList);
         tinyDB = new TinyDB(this);
         gson = new Gson();
-        walletbalancetxt  = (TextView)findViewById(R.id.wallet);
+        walletbalancetxt  = findViewById(R.id.wallet);
 
 
         swipeRefreshLayout.setColorScheme(android.R.color.holo_green_dark,
@@ -142,7 +139,7 @@ public class ManagerWalletTransactions extends AppCompatActivity {
                             //  Getlocations();
 
                             Type listType = new TypeToken<List<Modelmanagertransactions>>(){}.getType();
-                            tarif = (List<Modelmanagertransactions>)  gson.fromJson(mMessage,listType);
+                            tarif = gson.fromJson(mMessage,listType);
 
                             try {
                                 JSONArray jj = new JSONArray(mMessage);
@@ -161,12 +158,12 @@ public class ManagerWalletTransactions extends AppCompatActivity {
                                         final Dialog openDialog = new Dialog(ManagerWalletTransactions.this);
                                         openDialog.setContentView(R.layout.alert);
                                         openDialog.setTitle("No Pickups");
-                                        TextView dialogTextContent = (TextView)openDialog.findViewById(R.id.dialog_text);
+                                        TextView dialogTextContent = openDialog.findViewById(R.id.dialog_text);
                                         dialogTextContent.setText("Transaction List is Empty.");
-                                        ImageView dialogImage = (ImageView)openDialog.findViewById(R.id.dialog_image);
-                                        Button dialogCloseButton = (Button)openDialog.findViewById(R.id.dialog_button);
+                                        ImageView dialogImage = openDialog.findViewById(R.id.dialog_image);
+                                        Button dialogCloseButton = openDialog.findViewById(R.id.dialog_button);
                                         dialogCloseButton.setVisibility(View.GONE);
-                                        Button dialogno = (Button)openDialog.findViewById(R.id.cancel);
+                                        Button dialogno = openDialog.findViewById(R.id.cancel);
                                         dialogno.setText("OK");
                                         dialogno.setOnClickListener(new View.OnClickListener() {
                                             @Override
@@ -330,11 +327,11 @@ public class ManagerWalletTransactions extends AppCompatActivity {
             // create constructor to get widget reference
             public MyHolder(View itemView) {
                 super(itemView);
-                custid = (TextView) itemView.findViewById(R.id.custid);
-                status = (TextView)itemView.findViewById(R.id.status);
-                createdate = (TextView) itemView.findViewById(R.id.createdate);
-                misdate = (TextView)itemView.findViewById(R.id.misdate);
-                expresimg = (ImageView)itemView.findViewById(R.id.expresimg);
+                custid = itemView.findViewById(R.id.custid);
+                status = itemView.findViewById(R.id.status);
+                createdate = itemView.findViewById(R.id.createdate);
+                misdate = itemView.findViewById(R.id.misdate);
+                expresimg = itemView.findViewById(R.id.expresimg);
 
 
 

@@ -54,7 +54,8 @@
                 android:layout_height="120dp"
                 android:layout_alignParentTop="false"
                 android:layout_centerHorizontal="false"
-                android:background="@drawable/logo" />
+                android:background="@drawable/logo"
+                android:contentDescription="TODO" />
 
         </LinearLayout>
 
@@ -89,7 +90,8 @@
                     android:background="?selectableItemBackground"
                     android:scaleType="fitCenter"
                     android:theme="@style/AppTheme.GreenRipple"
-                    app:srcCompat="@drawable/expressorderr" />
+                    app:srcCompat="@drawable/expressorderr"
+                    android:contentDescription="TODO" />
 
                 <View
                     android:id="@+id/view3"
@@ -104,7 +106,8 @@
                     android:background="?selectableItemBackground"
                     android:scaleType="fitCenter"
                     android:theme="@style/AppTheme.GreenRipple"
-                    app:srcCompat="@drawable/todayorders" />
+                    app:srcCompat="@drawable/todayorders"
+                    android:contentDescription="TODO" />
 
             </TableRow>
 
@@ -130,7 +133,8 @@
                     android:background="?selectableItemBackground"
                     android:scaleType="fitCenter"
                     android:theme="@style/AppTheme.GreenRipple"
-                    app:srcCompat="@drawable/pickup" />
+                    app:srcCompat="@drawable/pickup"
+                    android:contentDescription="TODO" />
 
                 <View
                     android:layout_width="1dp"
@@ -144,7 +148,8 @@
                     android:background="?selectableItemBackground"
                     android:scaleType="fitCenter"
                     android:theme="@style/AppTheme.GreenRipple"
-                    app:srcCompat="@drawable/deliver" />
+                    app:srcCompat="@drawable/deliver"
+                    android:contentDescription="TODO" />
 
 
             </TableRow>

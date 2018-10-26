@@ -54,7 +54,7 @@ public class GiveDelivery extends AppCompatActivity {
     ProgressDialog pd;
     RecyclerView mRVFishPrice;
     TableLayout tableLayout;
-    TextView btmtotal,grdtotal,baltopay,amtpaid,date,custid,status,jobidtxt,expresscharges;;
+    TextView btmtotal,grdtotal,baltopay,amtpaid,date,custid,status,jobidtxt,expresscharges;
     List<DataFish2> filterdata2=new ArrayList<DataFish2>();
     private AdapterFish Adapter;
     Button home,cancel;
@@ -79,16 +79,16 @@ public class GiveDelivery extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         tinyDB = new TinyDB(GiveDelivery.this);
-        home =  (Button)findViewById(R.id.home);
-        grdtotal = (TextView)findViewById(R.id.grdtotal);
-        baltopay = (TextView)findViewById(R.id.baltopay);
-        amtpaid = (TextView)findViewById(R.id.amountpaid);
-        jobidtxt =  (TextView)findViewById(R.id.jobid);
-        custid =  (TextView)findViewById(R.id.custid);
-        date =  (TextView)findViewById(R.id.date);
-        expresscharges = (TextView)findViewById(R.id.expresscharges);
+        home = findViewById(R.id.home);
+        grdtotal = findViewById(R.id.grdtotal);
+        baltopay = findViewById(R.id.baltopay);
+        amtpaid = findViewById(R.id.amountpaid);
+        jobidtxt = findViewById(R.id.jobid);
+        custid = findViewById(R.id.custid);
+        date = findViewById(R.id.date);
+        expresscharges = findViewById(R.id.expresscharges);
 
-        cancel = (Button)findViewById(R.id.cancel);
+        cancel = findViewById(R.id.cancel);
 
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -167,15 +167,15 @@ public class GiveDelivery extends AppCompatActivity {
                     final Dialog openDialog = new Dialog(GiveDelivery.this);
                     openDialog.setContentView(R.layout.addmoney);
                     openDialog.setTitle("Enter Money");
-                    TextView dialogTextContent = (TextView)openDialog.findViewById(R.id.dialog_text);
+                    TextView dialogTextContent = openDialog.findViewById(R.id.dialog_text);
                    // dialogTextContent.setText("Something Went Wrong");
-                    final EditText editText = (EditText)openDialog.findViewById(R.id.editText);
+                    final EditText editText = openDialog.findViewById(R.id.editText);
                     editText.setText(String.valueOf(amountpayable));
-                    ImageView dialogImage = (ImageView)openDialog.findViewById(R.id.dialog_image);
-                    Button dialogCloseButton = (Button)openDialog.findViewById(R.id.dialog_button);
+                    ImageView dialogImage = openDialog.findViewById(R.id.dialog_image);
+                    Button dialogCloseButton = openDialog.findViewById(R.id.dialog_button);
                     dialogCloseButton.setText("PROCEED");
   //                  dialogCloseButton.setVisibility(View.GONE);
-                    Button dialogno = (Button)openDialog.findViewById(R.id.cancel);
+                    Button dialogno = openDialog.findViewById(R.id.cancel);
                     //dialogno.setText("OK");
                     dialogCloseButton.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -197,15 +197,15 @@ public class GiveDelivery extends AppCompatActivity {
                                     final Dialog openDialog = new Dialog(GiveDelivery.this);
                                     openDialog.setContentView(R.layout.alert);
                                     openDialog.setTitle("status");
-                                    TextView dialogTextContent = (TextView) openDialog.findViewById(R.id.dialog_text);
+                                    TextView dialogTextContent = openDialog.findViewById(R.id.dialog_text);
                                     dialogTextContent.setText("Entered Amount is less than Balance to Pay.");
-                                    ImageView dialogImage = (ImageView) openDialog.findViewById(R.id.dialog_image);
+                                    ImageView dialogImage = openDialog.findViewById(R.id.dialog_image);
                                     dialogImage.setBackgroundResource(R.drawable.failure);
                                     dialogImage.setBackgroundDrawable(getApplicationContext().getResources().getDrawable(R.drawable.failure));
-                                    Button dialogCloseButton = (Button) openDialog.findViewById(R.id.dialog_button);
+                                    Button dialogCloseButton = openDialog.findViewById(R.id.dialog_button);
 
                                     dialogCloseButton.setVisibility(View.GONE);
-                                    Button dialogno = (Button) openDialog.findViewById(R.id.cancel);
+                                    Button dialogno = openDialog.findViewById(R.id.cancel);
                                     dialogno.setText("OK");
                                     dialogno.setOnClickListener(new View.OnClickListener() {
                                         @Override
@@ -261,9 +261,9 @@ public class GiveDelivery extends AppCompatActivity {
 
             }
         });
-        mRVFishPrice = (RecyclerView)findViewById(R.id.fishPriceList);
-        tableLayout = (TableLayout)findViewById(R.id.tabl);
-        btmtotal = (TextView)findViewById(R.id.btmtotal);
+        mRVFishPrice = findViewById(R.id.fishPriceList);
+        tableLayout = findViewById(R.id.tabl);
+        btmtotal = findViewById(R.id.btmtotal);
 
         //   filterdata2 =   (ArrayList<DataFish2>)getIntent().getSerializableExtra("FILES_TO_SEND");
 
@@ -277,22 +277,22 @@ public class GiveDelivery extends AppCompatActivity {
         final Dialog openDialog = new Dialog(GiveDelivery.this);
         openDialog.setContentView(R.layout.addmoney);
         openDialog.setTitle("Confirm Amount Received");
-        TextView dialogTextContent = (TextView)openDialog.findViewById(R.id.dialog_text);
+        TextView dialogTextContent = openDialog.findViewById(R.id.dialog_text);
 
 
         dialogTextContent.setText("Received Amount of  "+getResources().getString(R.string.rupee)+String.valueOf(amountcollected)+ "  from the Customer?");
         // dialogTextContent.setText("Something Went Wrong");
-        final EditText editText = (EditText)openDialog.findViewById(R.id.editText);
+        final EditText editText = openDialog.findViewById(R.id.editText);
         editText.setText(String.valueOf(amountpayable));
         editText.setVisibility(View.GONE);
-        ImageView dialogImage = (ImageView)openDialog.findViewById(R.id.dialog_image);
+        ImageView dialogImage = openDialog.findViewById(R.id.dialog_image);
 
-        TextView msg = (TextView)openDialog.findViewById(R.id.msg);
+        TextView msg = openDialog.findViewById(R.id.msg);
         msg.setVisibility(View.GONE);
-        Button dialogCloseButton = (Button)openDialog.findViewById(R.id.dialog_button);
+        Button dialogCloseButton = openDialog.findViewById(R.id.dialog_button);
         dialogCloseButton.setText("CONFIRM");
         //                  dialogCloseButton.setVisibility(View.GONE);
-        Button dialogno = (Button)openDialog.findViewById(R.id.cancel);
+        Button dialogno = openDialog.findViewById(R.id.cancel);
         //dialogno.setText("OK");
         dialogCloseButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -361,12 +361,12 @@ public class GiveDelivery extends AppCompatActivity {
                         final Dialog openDialog = new Dialog(GiveDelivery.this);
                         openDialog.setContentView(R.layout.alert);
                         openDialog.setTitle("No Internet");
-                        TextView dialogTextContent = (TextView)openDialog.findViewById(R.id.dialog_text);
+                        TextView dialogTextContent = openDialog.findViewById(R.id.dialog_text);
                         dialogTextContent.setText("Something Went Wrong");
-                        ImageView dialogImage = (ImageView)openDialog.findViewById(R.id.dialog_image);
-                        Button dialogCloseButton = (Button)openDialog.findViewById(R.id.dialog_button);
+                        ImageView dialogImage = openDialog.findViewById(R.id.dialog_image);
+                        Button dialogCloseButton = openDialog.findViewById(R.id.dialog_button);
                         dialogCloseButton.setVisibility(View.GONE);
-                        Button dialogno = (Button)openDialog.findViewById(R.id.cancel);
+                        Button dialogno = openDialog.findViewById(R.id.cancel);
                         dialogno.setText("OK");
                         dialogno.setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -405,7 +405,7 @@ public class GiveDelivery extends AppCompatActivity {
 
                             Gson gson = new Gson();
                             Type listType = new TypeToken<List<getJobSummary>>(){}.getType();
-                            ArrayList<getJobSummary> modelsignin = (ArrayList<getJobSummary>) gson.fromJson(mMessage2,listType);
+                            ArrayList<getJobSummary> modelsignin = gson.fromJson(mMessage2,listType);
 
 
 //                            jobidtxt.setText(jobOrder.getJobid());
@@ -627,13 +627,13 @@ public class GiveDelivery extends AppCompatActivity {
             // create constructor to get widget reference
             public MyHolder(View itemView) {
                 super(itemView);
-                item = (TextView)itemView.findViewById(R.id.item);
-                noofpices = (TextView)itemView.findViewById(R.id.noofpices);
-                cost = (TextView)itemView.findViewById(R.id.cost);
-                amount = (TextView)itemView.findViewById(R.id.total);
-                plus = (Button)itemView.findViewById(R.id.plus);
+                item = itemView.findViewById(R.id.item);
+                noofpices = itemView.findViewById(R.id.noofpices);
+                cost = itemView.findViewById(R.id.cost);
+                amount = itemView.findViewById(R.id.total);
+                plus = itemView.findViewById(R.id.plus);
 //                minus = (ImageButton)itemView.findViewById(R.id.minus);
-                delete = (ImageButton)itemView.findViewById(R.id.del);
+                delete = itemView.findViewById(R.id.del);
 
                 //  id= (TextView)itemView.findViewById(R.id.id);
             }
@@ -702,12 +702,12 @@ public class GiveDelivery extends AppCompatActivity {
                         final Dialog openDialog = new Dialog(GiveDelivery.this);
                         openDialog.setContentView(R.layout.alert);
                         openDialog.setTitle("No Internet");
-                        TextView dialogTextContent = (TextView)openDialog.findViewById(R.id.dialog_text);
+                        TextView dialogTextContent = openDialog.findViewById(R.id.dialog_text);
                         dialogTextContent.setText("Something Went Wrong");
-                        ImageView dialogImage = (ImageView)openDialog.findViewById(R.id.dialog_image);
-                        Button dialogCloseButton = (Button)openDialog.findViewById(R.id.dialog_button);
+                        ImageView dialogImage = openDialog.findViewById(R.id.dialog_image);
+                        Button dialogCloseButton = openDialog.findViewById(R.id.dialog_button);
                         dialogCloseButton.setVisibility(View.GONE);
-                        Button dialogno = (Button)openDialog.findViewById(R.id.cancel);
+                        Button dialogno = openDialog.findViewById(R.id.cancel);
                         dialogno.setText("OK");
                         dialogno.setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -755,12 +755,12 @@ public class GiveDelivery extends AppCompatActivity {
                                         final Dialog openDialog = new Dialog(GiveDelivery.this);
                                         openDialog.setContentView(R.layout.alert);
                                         openDialog.setTitle("status");
-                                        TextView dialogTextContent = (TextView)openDialog.findViewById(R.id.dialog_text);
+                                        TextView dialogTextContent = openDialog.findViewById(R.id.dialog_text);
                                         dialogTextContent.setText(jsonObject.getString("status"));
-                                        ImageView dialogImage = (ImageView)openDialog.findViewById(R.id.dialog_image);
-                                        Button dialogCloseButton = (Button)openDialog.findViewById(R.id.dialog_button);
+                                        ImageView dialogImage = openDialog.findViewById(R.id.dialog_image);
+                                        Button dialogCloseButton = openDialog.findViewById(R.id.dialog_button);
                                         dialogCloseButton.setVisibility(View.GONE);
-                                        Button dialogno = (Button)openDialog.findViewById(R.id.cancel);
+                                        Button dialogno = openDialog.findViewById(R.id.cancel);
                                         dialogno.setText("OK");
                                         dialogno.setOnClickListener(new View.OnClickListener() {
                                             @Override
@@ -784,12 +784,12 @@ public class GiveDelivery extends AppCompatActivity {
                                         final Dialog openDialog = new Dialog(GiveDelivery.this);
                                         openDialog.setContentView(R.layout.alert);
                                         openDialog.setTitle("status");
-                                        TextView dialogTextContent = (TextView)openDialog.findViewById(R.id.dialog_text);
+                                        TextView dialogTextContent = openDialog.findViewById(R.id.dialog_text);
                                         dialogTextContent.setText(jsonObject.getString("status"));
-                                        ImageView dialogImage = (ImageView)openDialog.findViewById(R.id.dialog_image);
-                                        Button dialogCloseButton = (Button)openDialog.findViewById(R.id.dialog_button);
+                                        ImageView dialogImage = openDialog.findViewById(R.id.dialog_image);
+                                        Button dialogCloseButton = openDialog.findViewById(R.id.dialog_button);
                                         dialogCloseButton.setVisibility(View.GONE);
-                                        Button dialogno = (Button)openDialog.findViewById(R.id.cancel);
+                                        Button dialogno = openDialog.findViewById(R.id.cancel);
                                         dialogno.setText("OK");
                                         dialogno.setOnClickListener(new View.OnClickListener() {
                                             @Override
@@ -879,12 +879,12 @@ public class GiveDelivery extends AppCompatActivity {
                         final Dialog openDialog = new Dialog(GiveDelivery.this);
                         openDialog.setContentView(R.layout.alert);
                         openDialog.setTitle("No Internet");
-                        TextView dialogTextContent = (TextView)openDialog.findViewById(R.id.dialog_text);
+                        TextView dialogTextContent = openDialog.findViewById(R.id.dialog_text);
                         dialogTextContent.setText("Something Went Wrong");
-                        ImageView dialogImage = (ImageView)openDialog.findViewById(R.id.dialog_image);
-                        Button dialogCloseButton = (Button)openDialog.findViewById(R.id.dialog_button);
+                        ImageView dialogImage = openDialog.findViewById(R.id.dialog_image);
+                        Button dialogCloseButton = openDialog.findViewById(R.id.dialog_button);
                         dialogCloseButton.setVisibility(View.GONE);
-                        Button dialogno = (Button)openDialog.findViewById(R.id.cancel);
+                        Button dialogno = openDialog.findViewById(R.id.cancel);
                         dialogno.setText("OK");
                         dialogno.setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -928,15 +928,15 @@ public class GiveDelivery extends AppCompatActivity {
                                     final Dialog openDialog = new Dialog(GiveDelivery.this);
                                     openDialog.setContentView(R.layout.alert);
                                     openDialog.setTitle("status");
-                                    TextView dialogTextContent = (TextView)openDialog.findViewById(R.id.dialog_text);
+                                    TextView dialogTextContent = openDialog.findViewById(R.id.dialog_text);
                                     dialogTextContent.setText("Entered Amount is less than Balance to Pay.");
-                                    ImageView dialogImage = (ImageView)openDialog.findViewById(R.id.dialog_image);
+                                    ImageView dialogImage = openDialog.findViewById(R.id.dialog_image);
                                     dialogImage.setBackgroundResource(R.drawable.failure);
                                     dialogImage.setBackgroundDrawable(getApplicationContext().getResources().getDrawable(R.drawable.failure));
-                                    Button dialogCloseButton = (Button)openDialog.findViewById(R.id.dialog_button);
+                                    Button dialogCloseButton = openDialog.findViewById(R.id.dialog_button);
 
                                     dialogCloseButton.setVisibility(View.GONE);
-                                    Button dialogno = (Button)openDialog.findViewById(R.id.cancel);
+                                    Button dialogno = openDialog.findViewById(R.id.cancel);
                                     dialogno.setText("OK");
                                     dialogno.setOnClickListener(new View.OnClickListener() {
                                         @Override
@@ -960,14 +960,14 @@ public class GiveDelivery extends AppCompatActivity {
                                     final Dialog openDialog = new Dialog(GiveDelivery.this);
                                     openDialog.setContentView(R.layout.alert);
                                     openDialog.setTitle("status");
-                                    TextView dialogTextContent = (TextView)openDialog.findViewById(R.id.dialog_text);
+                                    TextView dialogTextContent = openDialog.findViewById(R.id.dialog_text);
                                     dialogTextContent.setText("Please verify order and handover clothes to customer");
-                                    ImageView dialogImage = (ImageView)openDialog.findViewById(R.id.dialog_image);
+                                    ImageView dialogImage = openDialog.findViewById(R.id.dialog_image);
                                     dialogImage.setBackgroundResource(R.drawable.success);
                                     dialogImage.setBackgroundDrawable(getApplicationContext().getResources().getDrawable(R.drawable.success));
-                                    Button dialogCloseButton = (Button)openDialog.findViewById(R.id.dialog_button);
+                                    Button dialogCloseButton = openDialog.findViewById(R.id.dialog_button);
                                     dialogCloseButton.setVisibility(View.GONE);
-                                    Button dialogno = (Button)openDialog.findViewById(R.id.cancel);
+                                    Button dialogno = openDialog.findViewById(R.id.cancel);
 
                                     //dialogno.setBackground(R.drawable.greenroundcorner);
                                     dialogno.setText("OK");
@@ -1047,12 +1047,12 @@ public class GiveDelivery extends AppCompatActivity {
                         final Dialog openDialog = new Dialog(GiveDelivery.this);
                         openDialog.setContentView(R.layout.alert);
                         openDialog.setTitle("No Internet");
-                        TextView dialogTextContent = (TextView)openDialog.findViewById(R.id.dialog_text);
+                        TextView dialogTextContent = openDialog.findViewById(R.id.dialog_text);
                         dialogTextContent.setText("Something Went Wrong");
-                        ImageView dialogImage = (ImageView)openDialog.findViewById(R.id.dialog_image);
-                        Button dialogCloseButton = (Button)openDialog.findViewById(R.id.dialog_button);
+                        ImageView dialogImage = openDialog.findViewById(R.id.dialog_image);
+                        Button dialogCloseButton = openDialog.findViewById(R.id.dialog_button);
                         dialogCloseButton.setVisibility(View.GONE);
-                        Button dialogno = (Button)openDialog.findViewById(R.id.cancel);
+                        Button dialogno = openDialog.findViewById(R.id.cancel);
                         dialogno.setText("OK");
                         dialogno.setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -1098,12 +1098,12 @@ public class GiveDelivery extends AppCompatActivity {
                                     final Dialog openDialog = new Dialog(GiveDelivery.this);
                                     openDialog.setContentView(R.layout.alert);
                                     openDialog.setTitle("status");
-                                    TextView dialogTextContent = (TextView)openDialog.findViewById(R.id.dialog_text);
+                                    TextView dialogTextContent = openDialog.findViewById(R.id.dialog_text);
                                     dialogTextContent.setText(jsonObject.getString("status"));
-                                    ImageView dialogImage = (ImageView)openDialog.findViewById(R.id.dialog_image);
-                                    Button dialogCloseButton = (Button)openDialog.findViewById(R.id.dialog_button);
+                                    ImageView dialogImage = openDialog.findViewById(R.id.dialog_image);
+                                    Button dialogCloseButton = openDialog.findViewById(R.id.dialog_button);
                                     dialogCloseButton.setVisibility(View.GONE);
-                                    Button dialogno = (Button)openDialog.findViewById(R.id.cancel);
+                                    Button dialogno = openDialog.findViewById(R.id.cancel);
                                     dialogno.setText("OK");
                                     dialogno.setOnClickListener(new View.OnClickListener() {
                                         @Override
@@ -1127,12 +1127,12 @@ public class GiveDelivery extends AppCompatActivity {
                                     final Dialog openDialog = new Dialog(GiveDelivery.this);
                                     openDialog.setContentView(R.layout.alert);
                                     openDialog.setTitle("status");
-                                    TextView dialogTextContent = (TextView)openDialog.findViewById(R.id.dialog_text);
+                                    TextView dialogTextContent = openDialog.findViewById(R.id.dialog_text);
                                     dialogTextContent.setText("Your transaction has been succesfully updated");
-                                    ImageView dialogImage = (ImageView)openDialog.findViewById(R.id.dialog_image);
-                                    Button dialogCloseButton = (Button)openDialog.findViewById(R.id.dialog_button);
+                                    ImageView dialogImage = openDialog.findViewById(R.id.dialog_image);
+                                    Button dialogCloseButton = openDialog.findViewById(R.id.dialog_button);
                                     dialogCloseButton.setVisibility(View.GONE);
-                                    Button dialogno = (Button)openDialog.findViewById(R.id.cancel);
+                                    Button dialogno = openDialog.findViewById(R.id.cancel);
                                     dialogno.setText("OK");
                                     dialogno.setOnClickListener(new View.OnClickListener() {
                                         @Override

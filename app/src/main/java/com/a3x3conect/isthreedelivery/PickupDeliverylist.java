@@ -5,11 +5,10 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.Typeface;
+import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -18,21 +17,17 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.a3x3conect.isthreedelivery.Models.TinyDB;
 import com.a3x3conect.isthreedelivery.Models.getPickupDeliveryOrders;
-import com.a3x3conect.isthreedelivery.Models.modelPickuplist;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.squareup.okhttp.Callback;
 import com.squareup.okhttp.MediaType;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
-import com.squareup.okhttp.RequestBody;
 import com.squareup.okhttp.Response;
 
 import org.json.JSONArray;
@@ -70,8 +65,8 @@ public class PickupDeliverylist extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("Today's Orders");
 
-        swipeRefreshLayout = (SwipeRefreshLayout)findViewById(R.id.swipe_container);
-        mRVFishPrice = (RecyclerView)findViewById(R.id.fishPriceList);
+        swipeRefreshLayout = findViewById(R.id.swipe_container);
+        mRVFishPrice = findViewById(R.id.fishPriceList);
         tinyDB = new TinyDB(this);
         gson = new Gson();
 
@@ -144,7 +139,7 @@ public class PickupDeliverylist extends AppCompatActivity {
                           //  Getlocations();
 
                             Type listType = new TypeToken<List<getPickupDeliveryOrders>>(){}.getType();
-                            tarif = (List<getPickupDeliveryOrders>)  gson.fromJson(mMessage,listType);
+                            tarif = gson.fromJson(mMessage,listType);
 
                             try {
                                 JSONArray jj = new JSONArray(mMessage);
@@ -158,12 +153,12 @@ public class PickupDeliverylist extends AppCompatActivity {
                                         final Dialog openDialog = new Dialog(PickupDeliverylist.this);
                                         openDialog.setContentView(R.layout.alert);
                                         openDialog.setTitle("No Pickups");
-                                        TextView dialogTextContent = (TextView)openDialog.findViewById(R.id.dialog_text);
+                                        TextView dialogTextContent = openDialog.findViewById(R.id.dialog_text);
                                         dialogTextContent.setText("No List Available at this moment");
-                                        ImageView dialogImage = (ImageView)openDialog.findViewById(R.id.dialog_image);
-                                        Button dialogCloseButton = (Button)openDialog.findViewById(R.id.dialog_button);
+                                        ImageView dialogImage = openDialog.findViewById(R.id.dialog_image);
+                                        Button dialogCloseButton = openDialog.findViewById(R.id.dialog_button);
                                         dialogCloseButton.setVisibility(View.GONE);
-                                        Button dialogno = (Button)openDialog.findViewById(R.id.cancel);
+                                        Button dialogno = openDialog.findViewById(R.id.cancel);
                                         dialogno.setText("OK");
                                         dialogno.setOnClickListener(new View.OnClickListener() {
                                             @Override
@@ -407,13 +402,13 @@ public class PickupDeliverylist extends AppCompatActivity {
             // create constructor to get widget reference
             public MyHolder(View itemView) {
                 super(itemView);
-                custid = (TextView) itemView.findViewById(R.id.custid);
-                status = (TextView)itemView.findViewById(R.id.status);
-                createdate = (TextView) itemView.findViewById(R.id.createdate);
-                misdate = (TextView)itemView.findViewById(R.id.misdate);
-                expresimg = (ImageView)itemView.findViewById(R.id.expresimg);
+                custid = itemView.findViewById(R.id.custid);
+                status = itemView.findViewById(R.id.status);
+                createdate = itemView.findViewById(R.id.createdate);
+                misdate = itemView.findViewById(R.id.misdate);
+                expresimg = itemView.findViewById(R.id.expresimg);
               //  servicename = (ImageView)itemView.findViewById(R.id.servicename);
-                servicetypetxt = (TextView)itemView.findViewById(R.id.servicetypetxt);
+                servicetypetxt = itemView.findViewById(R.id.servicetypetxt);
 
 
 

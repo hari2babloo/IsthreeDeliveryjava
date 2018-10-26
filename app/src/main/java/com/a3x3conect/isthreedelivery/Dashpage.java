@@ -1,16 +1,13 @@
 package com.a3x3conect.isthreedelivery;
 
 
-import android.app.AlertDialog;
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.Build;
-import android.os.Handler;
+import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -26,14 +23,15 @@ import com.squareup.okhttp.Callback;
 import com.squareup.okhttp.MediaType;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
-import com.squareup.okhttp.RequestBody;
 import com.squareup.okhttp.Response;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.util.List;
+
+//import com.squareup.okhttp.RequestBody;
+//import java.util.List;
 
 public class Dashpage extends AppCompatActivity {
 
@@ -50,28 +48,28 @@ public class Dashpage extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dashpage);
-        swipeRefreshLayout = (SwipeRefreshLayout)findViewById(R.id.swipe_container);
+        swipeRefreshLayout = findViewById(R.id.swipe_container);
 
 
-        myorders = (ImageButton) findViewById(R.id.myorders);
-        expressorders=(ImageButton)findViewById(R.id.expressorders);
-        managertransactions = (Button)findViewById(R.id.managertransactions);
+        myorders = findViewById(R.id.myorders);
+        expressorders= findViewById(R.id.expressorders);
+        managertransactions = findViewById(R.id.managertransactions);
 
-        ipickeup = (TextView)findViewById(R.id.ipickup);
-        ipending = (TextView)findViewById(R.id.ipending);
-        icanceled = (TextView)findViewById(R.id.icancel);
-        wpickup = (TextView)findViewById(R.id.wpickup);
-        wpending = (TextView)findViewById(R.id.wpending);
-        wcanceled = (TextView)findViewById(R.id.wcancel);
-        dpickup = (TextView)findViewById(R.id.dpickup);
-        dpending = (TextView)findViewById(R.id.dpendind);
-        dcanceled = (TextView)findViewById(R.id.dcancel);
-        dipending = (TextView)findViewById(R.id.dipending);
-        didelivered = (TextView)findViewById(R.id.dideliverd);
-        dwpending = (TextView)findViewById(R.id.dwpending);
-        dwdelivered = (TextView)findViewById(R.id.dwdelivered);
-        ddpending = (TextView)findViewById(R.id.ddpending);
-        dddelivered = (TextView)findViewById(R.id.dddelivered);
+        ipickeup = findViewById(R.id.ipickup);
+        ipending = findViewById(R.id.ipending);
+        icanceled = findViewById(R.id.icancel);
+        wpickup = findViewById(R.id.wpickup);
+        wpending = findViewById(R.id.wpending);
+        wcanceled = findViewById(R.id.wcancel);
+        dpickup = findViewById(R.id.dpickup);
+        dpending = findViewById(R.id.dpendind);
+        dcanceled = findViewById(R.id.dcancel);
+        dipending = findViewById(R.id.dipending);
+        didelivered = findViewById(R.id.dideliverd);
+        dwpending = findViewById(R.id.dwpending);
+        dwdelivered = findViewById(R.id.dwdelivered);
+        ddpending = findViewById(R.id.ddpending);
+        dddelivered = findViewById(R.id.dddelivered);
 
 
 
@@ -79,7 +77,7 @@ public class Dashpage extends AppCompatActivity {
 
         // deliverycancelcount = (TextView)findViewById(R.id.deliverycancelcount);
 
-        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_container);
+        swipeRefreshLayout = findViewById(R.id.swipe_container);
 //        swipeRefreshLayout.setOnRefreshListener((SwipeRefreshLayout.OnRefreshListener) Dashpage.this);
         swipeRefreshLayout.setColorScheme(android.R.color.holo_green_dark,
                 android.R.color.holo_blue_dark,
@@ -108,8 +106,8 @@ swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener
 
             managertransactions.setVisibility(View.GONE);
         }
-        pick = (ImageButton)findViewById(R.id.pickup);
-        delivery = (ImageButton)findViewById(R.id.delivery);
+        pick = findViewById(R.id.pickup);
+        delivery = findViewById(R.id.delivery);
         expressorders.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -165,9 +163,8 @@ swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener
         pd.show();
 
         final OkHttpClient okHttpClient = new OkHttpClient();
-        JSONObject postdat = new JSONObject();
 
-        RequestBody body = RequestBody.create(MEDIA_TYPE,postdat.toString());
+        //RequestBody body = RequestBody.create(MEDIA_TYPE,postdat.toString());
         final Request request = new Request.Builder()
                 .url(getString(R.string.baseurl)+"getPickupDeliveriesCount")
                 .get()
@@ -178,21 +175,22 @@ swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener
 
                 pd.cancel();
                 pd.dismiss();
-                String mMessage = e.getMessage().toString();
+                String mMessage = e.getMessage();
                 Log.e("resyul reer",mMessage);
 
                 runOnUiThread(new Runnable() {
+                    @SuppressLint("SetTextI18n")
                     @Override
                     public void run() {
                         final Dialog openDialog = new Dialog(Dashpage.this);
                         openDialog.setContentView(R.layout.alert);
                         openDialog.setTitle("No Internet");
-                        TextView dialogTextContent = (TextView)openDialog.findViewById(R.id.dialog_text);
+                        TextView dialogTextContent = openDialog.findViewById(R.id.dialog_text);
                         dialogTextContent.setText("Something Went Wrong");
-                        ImageView dialogImage = (ImageView)openDialog.findViewById(R.id.dialog_image);
-                        Button dialogCloseButton = (Button)openDialog.findViewById(R.id.dialog_button);
+//                        ImageView dialogImage = openDialog.findViewById(R.id.dialog_image);
+                        Button dialogCloseButton = openDialog.findViewById(R.id.dialog_button);
                         dialogCloseButton.setVisibility(View.GONE);
-                        Button dialogno = (Button)openDialog.findViewById(R.id.cancel);
+                        Button dialogno = openDialog.findViewById(R.id.cancel);
                         dialogno.setText("OK");
                         dialogno.setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -333,11 +331,11 @@ swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener
         final Dialog openDialog = new Dialog(Dashpage.this);
         openDialog.setContentView(R.layout.alert);
         openDialog.setTitle("Exit app");
-        TextView dialogTextContent = (TextView)openDialog.findViewById(R.id.dialog_text);
+        TextView dialogTextContent = openDialog.findViewById(R.id.dialog_text);
         dialogTextContent.setText("Do you want to close the app?");
-        ImageView dialogImage = (ImageView)openDialog.findViewById(R.id.dialog_image);
-        Button dialogCloseButton = (Button)openDialog.findViewById(R.id.dialog_button);
-        Button dialogno = (Button)openDialog.findViewById(R.id.cancel);
+        ImageView dialogImage = openDialog.findViewById(R.id.dialog_image);
+        Button dialogCloseButton = openDialog.findViewById(R.id.dialog_button);
+        Button dialogno = openDialog.findViewById(R.id.cancel);
 
         dialogCloseButton.setOnClickListener(new View.OnClickListener() {
             @Override

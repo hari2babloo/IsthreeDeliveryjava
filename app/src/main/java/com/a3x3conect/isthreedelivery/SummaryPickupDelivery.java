@@ -4,8 +4,8 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -72,13 +72,13 @@ public class SummaryPickupDelivery extends AppCompatActivity {
         intentjobid= bundle.getString("jobid");
         intentcustid = bundle.getString("custid");
         tinyDB = new TinyDB(SummaryPickupDelivery.this);
-        home =  (Button)findViewById(R.id.home);
-        cancelorder = (Button)findViewById(R.id.cancel);
-        grdtotal = (TextView)findViewById(R.id.grdtotal);
+        home = findViewById(R.id.home);
+        cancelorder = findViewById(R.id.cancel);
+        grdtotal = findViewById(R.id.grdtotal);
 
-        jobidtxt =  (TextView)findViewById(R.id.jobid);
-        custid =  (TextView)findViewById(R.id.custid);
-        date =  (TextView)findViewById(R.id.date);
+        jobidtxt = findViewById(R.id.jobid);
+        custid = findViewById(R.id.custid);
+        date = findViewById(R.id.date);
 
         getjoborder();
     }
@@ -121,12 +121,12 @@ public class SummaryPickupDelivery extends AppCompatActivity {
                         final Dialog openDialog = new Dialog(SummaryPickupDelivery.this);
                         openDialog.setContentView(R.layout.alert);
                         openDialog.setTitle("No Internet");
-                        TextView dialogTextContent = (TextView)openDialog.findViewById(R.id.dialog_text);
+                        TextView dialogTextContent = openDialog.findViewById(R.id.dialog_text);
                         dialogTextContent.setText("Something Went Wrong");
-                        ImageView dialogImage = (ImageView)openDialog.findViewById(R.id.dialog_image);
-                        Button dialogCloseButton = (Button)openDialog.findViewById(R.id.dialog_button);
+                        ImageView dialogImage = openDialog.findViewById(R.id.dialog_image);
+                        Button dialogCloseButton = openDialog.findViewById(R.id.dialog_button);
                         dialogCloseButton.setVisibility(View.GONE);
-                        Button dialogno = (Button)openDialog.findViewById(R.id.cancel);
+                        Button dialogno = openDialog.findViewById(R.id.cancel);
                         dialogno.setText("OK");
                         dialogno.setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -181,12 +181,12 @@ public class SummaryPickupDelivery extends AppCompatActivity {
                                     final Dialog openDialog = new Dialog(SummaryPickupDelivery.this);
                                     openDialog.setContentView(R.layout.alert);
                                     openDialog.setTitle("Select Status");
-                                    TextView dialogTextContent = (TextView)openDialog.findViewById(R.id.dialog_text);
+                                    TextView dialogTextContent = openDialog.findViewById(R.id.dialog_text);
                                     dialogTextContent.setText("Please ask your customer to fill order");
-                                    ImageView dialogImage = (ImageView)openDialog.findViewById(R.id.dialog_image);
-                                    Button dialogCloseButton = (Button)openDialog.findViewById(R.id.dialog_button);
+                                    ImageView dialogImage = openDialog.findViewById(R.id.dialog_image);
+                                    Button dialogCloseButton = openDialog.findViewById(R.id.dialog_button);
                                     //  dialogCloseButton.setVisibility(View.GONE);
-                                    Button dialogno = (Button)openDialog.findViewById(R.id.cancel);
+                                    Button dialogno = openDialog.findViewById(R.id.cancel);
                                     dialogno.setText("OK");
                                     dialogno.setOnClickListener(new View.OnClickListener() {
                                         @Override
@@ -379,13 +379,13 @@ public class SummaryPickupDelivery extends AppCompatActivity {
             // create constructor to get widget reference
             public MyHolder(View itemView) {
                 super(itemView);
-                item = (TextView)itemView.findViewById(R.id.item);
-                noofpices = (TextView)itemView.findViewById(R.id.noofpices);
-                cost = (TextView)itemView.findViewById(R.id.cost);
-                amount = (TextView)itemView.findViewById(R.id.total);
-                plus = (Button)itemView.findViewById(R.id.plus);
+                item = itemView.findViewById(R.id.item);
+                noofpices = itemView.findViewById(R.id.noofpices);
+                cost = itemView.findViewById(R.id.cost);
+                amount = itemView.findViewById(R.id.total);
+                plus = itemView.findViewById(R.id.plus);
 //                minus = (ImageButton)itemView.findViewById(R.id.minus);
-                delete = (ImageButton)itemView.findViewById(R.id.del);
+                delete = itemView.findViewById(R.id.del);
 
                 //  id= (TextView)itemView.findViewById(R.id.id);
             }

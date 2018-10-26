@@ -3,20 +3,16 @@ package com.a3x3conect.isthreedelivery;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.a3x3conect.isthreedelivery.Models.Sigin;
 import com.a3x3conect.isthreedelivery.Models.TinyDB;
-
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.rengwuxian.materialedittext.MaterialEditText;
@@ -50,9 +46,9 @@ public class Signin extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.signin);
         tinyDB = new TinyDB(this);
-        userid  = (MaterialEditText)findViewById(R.id.userid);
-        pass = (MaterialEditText)findViewById(R.id.pass);
-        signin = (Button)findViewById(R.id.signin);
+        userid  = findViewById(R.id.userid);
+        pass = findViewById(R.id.pass);
+        signin = findViewById(R.id.signin);
 
         tinyDB = new TinyDB(this);
 
@@ -111,12 +107,12 @@ public class Signin extends AppCompatActivity {
                         final Dialog openDialog = new Dialog(Signin.this);
                         openDialog.setContentView(R.layout.alert);
                         openDialog.setTitle("No Internet");
-                        TextView dialogTextContent = (TextView)openDialog.findViewById(R.id.dialog_text);
+                        TextView dialogTextContent = openDialog.findViewById(R.id.dialog_text);
                         dialogTextContent.setText("Something Went Wrong");
-                        ImageView dialogImage = (ImageView)openDialog.findViewById(R.id.dialog_image);
-                        Button dialogCloseButton = (Button)openDialog.findViewById(R.id.dialog_button);
+                        ImageView dialogImage = openDialog.findViewById(R.id.dialog_image);
+                        Button dialogCloseButton = openDialog.findViewById(R.id.dialog_button);
                         dialogCloseButton.setVisibility(View.GONE);
-                        Button dialogno = (Button)openDialog.findViewById(R.id.cancel);
+                        Button dialogno = openDialog.findViewById(R.id.cancel);
                         dialogno.setText("OK");
                         dialogno.setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -160,7 +156,7 @@ public class Signin extends AppCompatActivity {
     private void TraverseData() {
         Gson gson = new Gson();
         Type listType = new TypeToken<List<Sigin>>(){}.getType();
-        modelsignin = (List<Sigin>)  gson.fromJson(mMessage,listType);
+        modelsignin = gson.fromJson(mMessage,listType);
         for(int j = 0; j < modelsignin.size(); j++){
             Integer status = modelsignin.get(j).getStatus();
             //  modelsignin.get(j).getStatus();
@@ -168,15 +164,15 @@ public class Signin extends AppCompatActivity {
                 final Dialog openDialog = new Dialog(Signin.this);
                 openDialog.setContentView(R.layout.alert);
                 openDialog.setTitle("");
-                TextView dialogTextContent = (TextView)openDialog.findViewById(R.id.dialog_text);
+                TextView dialogTextContent = openDialog.findViewById(R.id.dialog_text);
                 dialogTextContent.setText("Please Enter Valid Credentials");
-                ImageView dialogImage = (ImageView)openDialog.findViewById(R.id.dialog_image);
+                ImageView dialogImage = openDialog.findViewById(R.id.dialog_image);
                 dialogImage.setBackgroundResource(R.drawable.failure);
                 dialogImage.setBackgroundDrawable(getApplicationContext().getResources().getDrawable(R.drawable.failure));
 //              dialogImage.setBackground(this.getDrawable(ContextCompat.R.drawable.failure));
-                Button dialogCloseButton = (Button)openDialog.findViewById(R.id.dialog_button);
+                Button dialogCloseButton = openDialog.findViewById(R.id.dialog_button);
                 dialogCloseButton.setVisibility(View.GONE);
-                Button dialogno = (Button)openDialog.findViewById(R.id.cancel);
+                Button dialogno = openDialog.findViewById(R.id.cancel);
                 dialogno.setText("OK");
                 dialogno.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -214,15 +210,15 @@ public class Signin extends AppCompatActivity {
                     final Dialog openDialog = new Dialog(Signin.this);
                     openDialog.setContentView(R.layout.alert);
                     openDialog.setTitle("");
-                    TextView dialogTextContent = (TextView)openDialog.findViewById(R.id.dialog_text);
+                    TextView dialogTextContent = openDialog.findViewById(R.id.dialog_text);
                     dialogTextContent.setText("Please login using customer app");
-                    ImageView dialogImage = (ImageView)openDialog.findViewById(R.id.dialog_image);
+                    ImageView dialogImage = openDialog.findViewById(R.id.dialog_image);
                     dialogImage.setBackgroundResource(R.drawable.failure);
                     dialogImage.setBackgroundDrawable(getApplicationContext().getResources().getDrawable(R.drawable.failure));
 //              dialogImage.setBackground(this.getDrawable(ContextCompat.R.drawable.failure));
-                    Button dialogCloseButton = (Button)openDialog.findViewById(R.id.dialog_button);
+                    Button dialogCloseButton = openDialog.findViewById(R.id.dialog_button);
                     dialogCloseButton.setVisibility(View.GONE);
-                    Button dialogno = (Button)openDialog.findViewById(R.id.cancel);
+                    Button dialogno = openDialog.findViewById(R.id.cancel);
                     dialogno.setText("OK");
                     dialogno.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -243,11 +239,11 @@ public class Signin extends AppCompatActivity {
         final Dialog openDialog = new Dialog(Signin.this);
         openDialog.setContentView(R.layout.alert);
         openDialog.setTitle("Exit app");
-        TextView dialogTextContent = (TextView)openDialog.findViewById(R.id.dialog_text);
+        TextView dialogTextContent = openDialog.findViewById(R.id.dialog_text);
         dialogTextContent.setText("Do you want to Close the app?");
-        ImageView dialogImage = (ImageView)openDialog.findViewById(R.id.dialog_image);
-        Button dialogCloseButton = (Button)openDialog.findViewById(R.id.dialog_button);
-        Button dialogno = (Button)openDialog.findViewById(R.id.cancel);
+        ImageView dialogImage = openDialog.findViewById(R.id.dialog_image);
+        Button dialogCloseButton = openDialog.findViewById(R.id.dialog_button);
+        Button dialogno = openDialog.findViewById(R.id.cancel);
         dialogCloseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

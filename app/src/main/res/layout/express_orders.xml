@@ -29,7 +29,8 @@
                 android:layout_alignParentTop="false"
                 android:layout_centerHorizontal="false"
                 android:layout_marginTop="10dp"
-                android:background="@drawable/logo" />
+                android:background="@drawable/logo"
+                android:contentDescription="TODO" />
 
         </LinearLayout>
 
@@ -657,7 +658,8 @@
                     android:background="?selectableItemBackground"
                     android:scaleType="fitCenter"
                     android:theme="@style/AppTheme.GreenRipple"
-                    app:srcCompat="@drawable/express_ickup" />
+                    app:srcCompat="@drawable/express_ickup"
+                    android:contentDescription="TODO" />
 
                 <View
                     android:id="@+id/view3"
@@ -673,7 +675,8 @@
                     android:background="?selectableItemBackground"
                     android:scaleType="fitCenter"
                     android:theme="@style/AppTheme.GreenRipple"
-                    app:srcCompat="@drawable/express_delivery" />
+                    app:srcCompat="@drawable/express_delivery"
+                    android:contentDescription="TODO" />
 
             </TableRow>
 

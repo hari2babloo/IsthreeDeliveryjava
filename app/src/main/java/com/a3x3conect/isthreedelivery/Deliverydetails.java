@@ -6,14 +6,12 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -66,15 +64,15 @@ public class Deliverydetails extends AppCompatActivity {
         final Integer pos = bundle.getInt("position");
         tinyDB = new TinyDB(Deliverydetails.this);
         Log.e(String.valueOf(pos), message);
-        custname = (TextView) findViewById(R.id.custname);
-        address = (TextView) findViewById(R.id.adressdata);
+        custname = findViewById(R.id.custname);
+        address = findViewById(R.id.adressdata);
        // total = (TextView) findViewById(R.id.total);
-        map = (ImageButton) findViewById(R.id.directions);
-        call = (ImageButton) findViewById(R.id.call);
-        joborder = (Button) findViewById(R.id.submit);
+        map = findViewById(R.id.directions);
+        call = findViewById(R.id.call);
+        joborder = findViewById(R.id.submit);
       //  count = (TextView)findViewById(R.id.count);
-        spinner = (Spinner)findViewById(R.id.spinner);
-        cancel = (Button)findViewById(R.id.cancel);
+        spinner = findViewById(R.id.spinner);
+        cancel = findViewById(R.id.cancel);
 
 
 
@@ -283,12 +281,12 @@ public class Deliverydetails extends AppCompatActivity {
                         final Dialog openDialog = new Dialog(Deliverydetails.this);
                         openDialog.setContentView(R.layout.alert);
                         openDialog.setTitle("No Internet");
-                        TextView dialogTextContent = (TextView)openDialog.findViewById(R.id.dialog_text);
+                        TextView dialogTextContent = openDialog.findViewById(R.id.dialog_text);
                         dialogTextContent.setText("Something Went Wrong");
-                        ImageView dialogImage = (ImageView)openDialog.findViewById(R.id.dialog_image);
-                        Button dialogCloseButton = (Button)openDialog.findViewById(R.id.dialog_button);
+                        ImageView dialogImage = openDialog.findViewById(R.id.dialog_image);
+                        Button dialogCloseButton = openDialog.findViewById(R.id.dialog_button);
                         dialogCloseButton.setVisibility(View.GONE);
-                        Button dialogno = (Button)openDialog.findViewById(R.id.cancel);
+                        Button dialogno = openDialog.findViewById(R.id.cancel);
                         dialogno.setText("OK");
                         dialogno.setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -334,12 +332,12 @@ public class Deliverydetails extends AppCompatActivity {
                                     final Dialog openDialog = new Dialog(Deliverydetails.this);
                                     openDialog.setContentView(R.layout.alert);
                                     openDialog.setTitle("status");
-                                    TextView dialogTextContent = (TextView)openDialog.findViewById(R.id.dialog_text);
+                                    TextView dialogTextContent = openDialog.findViewById(R.id.dialog_text);
                                     dialogTextContent.setText(jsonObject.getString("status"));
-                                    ImageView dialogImage = (ImageView)openDialog.findViewById(R.id.dialog_image);
-                                    Button dialogCloseButton = (Button)openDialog.findViewById(R.id.dialog_button);
+                                    ImageView dialogImage = openDialog.findViewById(R.id.dialog_image);
+                                    Button dialogCloseButton = openDialog.findViewById(R.id.dialog_button);
                                     dialogCloseButton.setVisibility(View.GONE);
-                                    Button dialogno = (Button)openDialog.findViewById(R.id.cancel);
+                                    Button dialogno = openDialog.findViewById(R.id.cancel);
                                     dialogno.setText("OK");
                                     dialogno.setOnClickListener(new View.OnClickListener() {
                                         @Override
@@ -363,12 +361,12 @@ public class Deliverydetails extends AppCompatActivity {
                                     final Dialog openDialog = new Dialog(Deliverydetails.this);
                                     openDialog.setContentView(R.layout.alert);
                                     openDialog.setTitle("status");
-                                    TextView dialogTextContent = (TextView)openDialog.findViewById(R.id.dialog_text);
+                                    TextView dialogTextContent = openDialog.findViewById(R.id.dialog_text);
                                     dialogTextContent.setText("Your transaction has been succesfully updated");
-                                    ImageView dialogImage = (ImageView)openDialog.findViewById(R.id.dialog_image);
-                                    Button dialogCloseButton = (Button)openDialog.findViewById(R.id.dialog_button);
+                                    ImageView dialogImage = openDialog.findViewById(R.id.dialog_image);
+                                    Button dialogCloseButton = openDialog.findViewById(R.id.dialog_button);
                                     dialogCloseButton.setVisibility(View.GONE);
-                                    Button dialogno = (Button)openDialog.findViewById(R.id.cancel);
+                                    Button dialogno = openDialog.findViewById(R.id.cancel);
                                     dialogno.setText("OK");
                                     dialogno.setOnClickListener(new View.OnClickListener() {
                                         @Override

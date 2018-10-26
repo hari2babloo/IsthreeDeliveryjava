@@ -3,10 +3,10 @@ package com.a3x3conect.isthreedelivery;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -44,29 +44,29 @@ public class ExpressOrders extends AppCompatActivity {
         setContentView(R.layout.express_orders);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("Express Orders");
-        expressdeliverirs = (ImageButton)findViewById(R.id.expressdeliveries);
-        expresspickup = (ImageButton)findViewById(R.id.exprespickups);
+        expressdeliverirs = findViewById(R.id.expressdeliveries);
+        expresspickup = findViewById(R.id.exprespickups);
 
-        swipeRefreshLayout = (SwipeRefreshLayout)findViewById(R.id.swipe_container);
-        ipickeup = (TextView)findViewById(R.id.ipickup);
-        ipending = (TextView)findViewById(R.id.ipending);
-        icanceled = (TextView)findViewById(R.id.icancel);
-        wpickup = (TextView)findViewById(R.id.wpickup);
-        wpending = (TextView)findViewById(R.id.wpending);
-        wcanceled = (TextView)findViewById(R.id.wcancel);
-        dpickup = (TextView)findViewById(R.id.dpickup);
-        dpending = (TextView)findViewById(R.id.dpendind);
-        dcanceled = (TextView)findViewById(R.id.dcancel);
-        dipending = (TextView)findViewById(R.id.dipending);
-        didelivered = (TextView)findViewById(R.id.dideliverd);
-        dwpending = (TextView)findViewById(R.id.dwpending);
-        dwdelivered = (TextView)findViewById(R.id.dwdelivered);
-        ddpending = (TextView)findViewById(R.id.ddpending);
-        dddelivered = (TextView)findViewById(R.id.dddelivered);
+        swipeRefreshLayout = findViewById(R.id.swipe_container);
+        ipickeup = findViewById(R.id.ipickup);
+        ipending = findViewById(R.id.ipending);
+        icanceled = findViewById(R.id.icancel);
+        wpickup = findViewById(R.id.wpickup);
+        wpending = findViewById(R.id.wpending);
+        wcanceled = findViewById(R.id.wcancel);
+        dpickup = findViewById(R.id.dpickup);
+        dpending = findViewById(R.id.dpendind);
+        dcanceled = findViewById(R.id.dcancel);
+        dipending = findViewById(R.id.dipending);
+        didelivered = findViewById(R.id.dideliverd);
+        dwpending = findViewById(R.id.dwpending);
+        dwdelivered = findViewById(R.id.dwdelivered);
+        ddpending = findViewById(R.id.ddpending);
+        dddelivered = findViewById(R.id.dddelivered);
 
         // deliverycancelcount = (TextView)findViewById(R.id.deliverycancelcount);
 
-        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_container);
+        swipeRefreshLayout = findViewById(R.id.swipe_container);
 //        swipeRefreshLayout.setOnRefreshListener((SwipeRefreshLayout.OnRefreshListener) Dashpage.this);
         swipeRefreshLayout.setColorScheme(android.R.color.holo_green_dark,
                 android.R.color.holo_blue_dark,
@@ -140,12 +140,12 @@ public class ExpressOrders extends AppCompatActivity {
                         final Dialog openDialog = new Dialog(ExpressOrders.this);
                         openDialog.setContentView(R.layout.alert);
                         openDialog.setTitle("No Internet");
-                        TextView dialogTextContent = (TextView)openDialog.findViewById(R.id.dialog_text);
+                        TextView dialogTextContent = openDialog.findViewById(R.id.dialog_text);
                         dialogTextContent.setText("Something Went Wrong");
-                        ImageView dialogImage = (ImageView)openDialog.findViewById(R.id.dialog_image);
-                        Button dialogCloseButton = (Button)openDialog.findViewById(R.id.dialog_button);
+                        ImageView dialogImage = openDialog.findViewById(R.id.dialog_image);
+                        Button dialogCloseButton = openDialog.findViewById(R.id.dialog_button);
                         dialogCloseButton.setVisibility(View.GONE);
-                        Button dialogno = (Button)openDialog.findViewById(R.id.cancel);
+                        Button dialogno = openDialog.findViewById(R.id.cancel);
                         dialogno.setText("OK");
                         dialogno.setOnClickListener(new View.OnClickListener() {
                             @Override

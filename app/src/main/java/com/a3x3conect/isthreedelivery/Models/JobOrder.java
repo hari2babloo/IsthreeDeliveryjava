@@ -26,6 +26,17 @@ public class JobOrder {
     private String expressDeliveryCharge;
 
 
+    @SerializedName("hangerPrice")
+    @Expose
+    private String hangerPrice;
+
+    public String getHangerPrice() {
+        return hangerPrice;
+    }
+
+    public void setHangerPrice(String hangerPrice) {
+        this.hangerPrice = hangerPrice;
+    }
 
     @SerializedName("date")
     @Expose

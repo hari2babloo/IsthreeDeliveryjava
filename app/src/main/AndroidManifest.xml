@@ -104,14 +104,21 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Dashpage" />
         </activity>
-        <activity android:name=".ManagerWalletTransactions"
+        <activity
+            android:name=".ManagerWalletTransactions"
             android:parentActivityName=".Dashpage">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Dashpage" />
-
-
         </activity>
+        <activity android:name=".ExistingData"
+            android:parentActivityName=".Pickuplist">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Signin" />
+
+
+            </activity>
     </application>
 
 </manifest>

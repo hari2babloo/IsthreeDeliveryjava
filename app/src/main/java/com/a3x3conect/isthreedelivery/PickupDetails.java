@@ -6,18 +6,15 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -37,10 +34,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.AbstractList;
 import java.util.ArrayList;
-import java.util.Calendar;
 
 public class PickupDetails extends AppCompatActivity {
 
@@ -72,10 +66,10 @@ public class PickupDetails extends AppCompatActivity {
 
         Log.e(String.valueOf(pos),message);
 
-        custname = (TextView)findViewById(R.id.custname);
-        address = (TextView)findViewById(R.id.adressdata);
-        pickupdate = (TextView)findViewById(R.id.pickupdate);
-        cancel = (Button) findViewById(R.id.cancel2);
+        custname = findViewById(R.id.custname);
+        address = findViewById(R.id.adressdata);
+        pickupdate = findViewById(R.id.pickupdate);
+        cancel = findViewById(R.id.cancel2);
 
 
         cancel.setOnClickListener(new View.OnClickListener() {
@@ -140,10 +134,10 @@ public class PickupDetails extends AppCompatActivity {
             }
         });
 
-        map = (ImageButton) findViewById(R.id.directions);
-        call = (ImageButton) findViewById(R.id.call);
-        spinner = (Spinner)findViewById(R.id.spinner);
-        submit = (Button) findViewById(R.id.submit);
+        map = findViewById(R.id.directions);
+        call = findViewById(R.id.call);
+        spinner = findViewById(R.id.spinner);
+        submit = findViewById(R.id.submit);
         // joborder = (Button)findViewById(R.id.submit);
 
 
@@ -158,6 +152,8 @@ public class PickupDetails extends AppCompatActivity {
             custname.setText(mm.getDisplayName() + " ("+mm.getCustomerId()+")");
             address.setText(mm.getAddress() + ","+mm.getLandMark()+ ","+mm.getCity()+","+mm.getState());
             pickupdate.setText(mm.getPickupScheduledAt());
+
+            tinyDB.putString("serviceLocation",mm.getPickupZone());
             tinyDB.putString("custid",mm.getCustomerId());
             tinyDB.putString("jobid",mm.getJobid());
             //           Log.e("custid",mm.getCustomerId());
@@ -336,12 +332,12 @@ public class PickupDetails extends AppCompatActivity {
                         final Dialog openDialog = new Dialog(PickupDetails.this);
                         openDialog.setContentView(R.layout.alert);
                         openDialog.setTitle("No Internet");
-                        TextView dialogTextContent = (TextView)openDialog.findViewById(R.id.dialog_text);
+                        TextView dialogTextContent = openDialog.findViewById(R.id.dialog_text);
                         dialogTextContent.setText("Something Went Wrong");
-                        ImageView dialogImage = (ImageView)openDialog.findViewById(R.id.dialog_image);
-                        Button dialogCloseButton = (Button)openDialog.findViewById(R.id.dialog_button);
+                        ImageView dialogImage = openDialog.findViewById(R.id.dialog_image);
+                        Button dialogCloseButton = openDialog.findViewById(R.id.dialog_button);
                         dialogCloseButton.setVisibility(View.GONE);
-                        Button dialogno = (Button)openDialog.findViewById(R.id.cancel);
+                        Button dialogno = openDialog.findViewById(R.id.cancel);
                         dialogno.setText("OK");
                         dialogno.setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -505,12 +501,12 @@ public class PickupDetails extends AppCompatActivity {
                         final Dialog openDialog = new Dialog(PickupDetails.this);
                         openDialog.setContentView(R.layout.alert);
                         openDialog.setTitle("No Internet");
-                        TextView dialogTextContent = (TextView)openDialog.findViewById(R.id.dialog_text);
+                        TextView dialogTextContent = openDialog.findViewById(R.id.dialog_text);
                         dialogTextContent.setText("Something Went Wrong");
-                        ImageView dialogImage = (ImageView)openDialog.findViewById(R.id.dialog_image);
-                        Button dialogCloseButton = (Button)openDialog.findViewById(R.id.dialog_button);
+                        ImageView dialogImage = openDialog.findViewById(R.id.dialog_image);
+                        Button dialogCloseButton = openDialog.findViewById(R.id.dialog_button);
                         dialogCloseButton.setVisibility(View.GONE);
-                        Button dialogno = (Button)openDialog.findViewById(R.id.cancel);
+                        Button dialogno = openDialog.findViewById(R.id.cancel);
                         dialogno.setText("OK");
                         dialogno.setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -558,12 +554,12 @@ public class PickupDetails extends AppCompatActivity {
                                     final Dialog openDialog = new Dialog(PickupDetails.this);
                                     openDialog.setContentView(R.layout.alert);
                                     openDialog.setTitle("status");
-                                    TextView dialogTextContent = (TextView)openDialog.findViewById(R.id.dialog_text);
+                                    TextView dialogTextContent = openDialog.findViewById(R.id.dialog_text);
                                     dialogTextContent.setText(jsonObject.getString("status"));
-                                    ImageView dialogImage = (ImageView)openDialog.findViewById(R.id.dialog_image);
-                                    Button dialogCloseButton = (Button)openDialog.findViewById(R.id.dialog_button);
+                                    ImageView dialogImage = openDialog.findViewById(R.id.dialog_image);
+                                    Button dialogCloseButton = openDialog.findViewById(R.id.dialog_button);
                                     dialogCloseButton.setVisibility(View.GONE);
-                                    Button dialogno = (Button)openDialog.findViewById(R.id.cancel);
+                                    Button dialogno = openDialog.findViewById(R.id.cancel);
                                     dialogno.setText("OK");
                                     dialogno.setOnClickListener(new View.OnClickListener() {
                                         @Override
@@ -587,12 +583,12 @@ public class PickupDetails extends AppCompatActivity {
                                     final Dialog openDialog = new Dialog(PickupDetails.this);
                                     openDialog.setContentView(R.layout.alert);
                                     openDialog.setTitle("status");
-                                    TextView dialogTextContent = (TextView)openDialog.findViewById(R.id.dialog_text);
+                                    TextView dialogTextContent = openDialog.findViewById(R.id.dialog_text);
                                     dialogTextContent.setText("Your order has been cancelled succesfully");
-                                    ImageView dialogImage = (ImageView)openDialog.findViewById(R.id.dialog_image);
-                                    Button dialogCloseButton = (Button)openDialog.findViewById(R.id.dialog_button);
+                                    ImageView dialogImage = openDialog.findViewById(R.id.dialog_image);
+                                    Button dialogCloseButton = openDialog.findViewById(R.id.dialog_button);
                                     dialogCloseButton.setVisibility(View.GONE);
-                                    Button dialogno = (Button)openDialog.findViewById(R.id.cancel);
+                                    Button dialogno = openDialog.findViewById(R.id.cancel);
                                     dialogno.setText("OK");
 
 

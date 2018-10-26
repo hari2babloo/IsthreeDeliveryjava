@@ -6,11 +6,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
-import android.provider.ContactsContract;
+import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -25,12 +24,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
-
 
 import com.a3x3conect.isthreedelivery.Models.TinyDB;
 import com.a3x3conect.isthreedelivery.Models.modelPickuplist;
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import com.google.gson.reflect.TypeToken;
 import com.squareup.okhttp.Callback;
 import com.squareup.okhttp.MediaType;
@@ -46,10 +44,9 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 public class Pickuplist extends AppCompatActivity {
 
@@ -89,9 +86,9 @@ public class Pickuplist extends AppCompatActivity {
         tinyDB = new TinyDB(this);
         url = tinyDB.getString("keypickup");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        mRVFishPrice = (RecyclerView)findViewById(R.id.fishPriceList);
-        spinner = (Spinner)findViewById(R.id.spinner);
-        count  = (TextView)findViewById(R.id.count);
+        mRVFishPrice = findViewById(R.id.fishPriceList);
+        spinner = findViewById(R.id.spinner);
+        count  = findViewById(R.id.count);
         gson = new Gson();
 
         getdata();
@@ -126,12 +123,12 @@ public class Pickuplist extends AppCompatActivity {
                         final Dialog openDialog = new Dialog(Pickuplist.this);
                         openDialog.setContentView(R.layout.alert);
                         openDialog.setTitle("No Internet");
-                        TextView dialogTextContent = (TextView)openDialog.findViewById(R.id.dialog_text);
+                        TextView dialogTextContent = openDialog.findViewById(R.id.dialog_text);
                         dialogTextContent.setText("Looks like your device is offline");
-                        ImageView dialogImage = (ImageView)openDialog.findViewById(R.id.dialog_image);
-                        Button dialogCloseButton = (Button)openDialog.findViewById(R.id.dialog_button);
+                        ImageView dialogImage = openDialog.findViewById(R.id.dialog_image);
+                        Button dialogCloseButton = openDialog.findViewById(R.id.dialog_button);
                         dialogCloseButton.setVisibility(View.GONE);
-                        Button dialogno = (Button)openDialog.findViewById(R.id.cancel);
+                        Button dialogno = openDialog.findViewById(R.id.cancel);
 
                         dialogno.setText("OK");
 
@@ -224,6 +221,7 @@ public class Pickuplist extends AppCompatActivity {
                 spinnertext = locationid.get(position);
                 pickupzone = location.get(position);
                 Log.e("selected item", location.get(position));
+                Log.e("selected item", spinnertext);
 
                 // Adapter.notifyDataSetChanged();
 
@@ -301,7 +299,7 @@ public class Pickuplist extends AppCompatActivity {
                             Getlocations();
 
                             Type listType = new TypeToken<List<modelPickuplist>>(){}.getType();
-                            tarif = (List<modelPickuplist>)  gson.fromJson(mMessage,listType);
+                            tarif = gson.fromJson(mMessage,listType);
 
                             try {
                                 JSONArray jj = new JSONArray(mMessage);
@@ -315,12 +313,12 @@ public class Pickuplist extends AppCompatActivity {
                                         final Dialog openDialog = new Dialog(Pickuplist.this);
                                         openDialog.setContentView(R.layout.alert);
                                         openDialog.setTitle("No Pickups");
-                                        TextView dialogTextContent = (TextView)openDialog.findViewById(R.id.dialog_text);
+                                        TextView dialogTextContent = openDialog.findViewById(R.id.dialog_text);
                                         dialogTextContent.setText("No Pickups Available at this moment");
-                                        ImageView dialogImage = (ImageView)openDialog.findViewById(R.id.dialog_image);
-                                        Button dialogCloseButton = (Button)openDialog.findViewById(R.id.dialog_button);
+                                        ImageView dialogImage = openDialog.findViewById(R.id.dialog_image);
+                                        Button dialogCloseButton = openDialog.findViewById(R.id.dialog_button);
                                         dialogCloseButton.setVisibility(View.GONE);
-                                        Button dialogno = (Button)openDialog.findViewById(R.id.cancel);
+                                        Button dialogno = openDialog.findViewById(R.id.cancel);
                                         dialogno.setText("OK");
                                         dialogno.setOnClickListener(new View.OnClickListener() {
                                             @Override
@@ -527,6 +525,10 @@ public class Pickuplist extends AppCompatActivity {
             //    holder.setIsRecyclable(true);
             final modelPickuplist current = data.get(position);
 
+            final int po = position;
+
+
+
 
 
             if (current.getExpressDelivery().equalsIgnoreCase("1")){
@@ -589,8 +591,24 @@ public class Pickuplist extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
 
+
+
+                 //   String sss = (String) filterdata.get(position);
+
+                 //   Log.e("position", filterdata2.get(position)); //filterdata2.get(position).toString());
+
                     Intent intent = new Intent(Pickuplist.this,PickupDetails.class);
                     intent.putExtra("message",mMessage);
+
+                    // filterdata2.get(position);
+
+                 //   ArrayList<String> ss = new ArrayList<String>();
+
+                   // ss.add(String.valueOf(filterdata2.get(position)));
+                  ///  intent.putExtra("test",ss);
+
+                    //intent.putStringArrayListExtra("test", (ArrayList<modelPickuplist>) filterdata.get(position));
+                 //   Log.e("position", String.valueOf(po));
                     intent.putExtra("position",position);
                     startActivity(intent);
 
@@ -712,17 +730,17 @@ public class Pickuplist extends AppCompatActivity {
             // create constructor to get widget reference
             public MyHolder(View itemView) {
                 super(itemView);
-                one = (TextView) itemView.findViewById(R.id.one);
-                two = (TextView)itemView.findViewById(R.id.two);
-                three= (TextView)itemView.findViewById(R.id.three);
-                location = (TextView)itemView.findViewById(R.id.location);
-                section = (TextView)itemView.findViewById(R.id.section);
-                pickupzone = (TextView)itemView.findViewById(R.id.pickupzone);
-                line = (View) itemView.findViewById(R.id.line);
-                serviceimg = (TextView)itemView.findViewById(R.id.servicimg);
-                servicename = (TextView)itemView.findViewById(R.id.servicename);
-                expressimg = (ImageView)itemView.findViewById(R.id.expressimg);
-                strip = (LinearLayout)itemView.findViewById(R.id.strip);
+                one = itemView.findViewById(R.id.one);
+                two = itemView.findViewById(R.id.two);
+                three= itemView.findViewById(R.id.three);
+                location = itemView.findViewById(R.id.location);
+                section = itemView.findViewById(R.id.section);
+                pickupzone = itemView.findViewById(R.id.pickupzone);
+                line = itemView.findViewById(R.id.line);
+                serviceimg = itemView.findViewById(R.id.servicimg);
+                servicename = itemView.findViewById(R.id.servicename);
+                expressimg = itemView.findViewById(R.id.expressimg);
+                strip = itemView.findViewById(R.id.strip);
 
 
             }
