@@ -2,6 +2,6 @@
     <string name="app_name">IS3 LOGISTICS</string>
     <string name="rupee">₹</string>
     <string name="quantity"></string>
-    <string name="baseurl">http://52.172.191.222/isthree/index.php/services/</string>
+    <string name="baseurl">http://40.124.7.240/isthree/index.php/services/</string>
     <string name="expressdeliverytext">Express Delivery * :  You will be charged Rs.50/- extra. </string>
 </resources>

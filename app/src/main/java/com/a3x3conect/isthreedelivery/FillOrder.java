@@ -406,7 +406,7 @@ TextView hangertxt;
         JSONObject postdat = new JSONObject();
         try {
             postdat.put("serviceName",serviceName);
-            postdat.put("serviceLocation",tinyDB.getString("pickupZone"));
+            postdat.put("serviceLocation",tinyDB.getString("serviceLocation"));
 
 
         } catch(JSONException e){

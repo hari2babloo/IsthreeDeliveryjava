@@ -548,6 +548,7 @@ String mMessage;
                     Intent intent = new Intent(Deliverylist.this,Deliverydetails.class);
 
                     intent.putExtra("message",mMessage);
+                    intent.putExtra("jobid",filterdata.get(position).getJobid());
                     intent.putExtra("position",position);
                     startActivity(intent);
 

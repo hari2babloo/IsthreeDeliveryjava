@@ -48,6 +48,7 @@ public class Deliverydetails extends AppCompatActivity {
     Spinner spinner;
     String status,mMessage;
     ProgressDialog pd;
+    String jobid;
     ArrayList<String> spinerdata = new ArrayList<>();
     public static final MediaType MEDIA_TYPE =
             MediaType.parse("application/json");
@@ -62,6 +63,7 @@ public class Deliverydetails extends AppCompatActivity {
         Bundle bundle = getIntent().getExtras();
         String message = bundle.getString("message");
         final Integer pos = bundle.getInt("position");
+        jobid = bundle.getString("jobid");
         tinyDB = new TinyDB(Deliverydetails.this);
         Log.e(String.valueOf(pos), message);
         custname = findViewById(R.id.custname);
@@ -136,9 +138,31 @@ public class Deliverydetails extends AppCompatActivity {
 
         try {
             JSONArray jj = new JSONArray(message);
-            JSONObject ss = jj.getJSONObject(pos);
-            Gson gson = new Gson();
-            mm = gson.fromJson(String.valueOf(ss), modelPickuplist.class);
+
+
+
+            for(int k = 0; k < jj.length(); k++){
+
+
+                JSONObject ss = jj.getJSONObject(k);
+
+                if (ss.getString("jobid").equalsIgnoreCase(jobid)){
+
+                    Gson gson = new Gson();
+                    mm = gson.fromJson(String.valueOf(ss),modelPickuplist.class);
+                }
+
+
+            }
+
+
+
+
+
+
+//            JSONObject ss = jj.getJSONObject(pos);
+//            Gson gson = new Gson();
+//            mm = gson.fromJson(String.valueOf(ss), modelPickuplist.class);
             Log.e("Adres", mm.getAddress());
             custname.setText(mm.getDisplayName());
             address.setText(mm.getAddress() + "," + mm.getLandMark() + "," + mm.getCity() + "," + mm.getState());

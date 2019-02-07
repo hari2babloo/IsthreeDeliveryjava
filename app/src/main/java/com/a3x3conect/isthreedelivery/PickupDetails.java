@@ -46,6 +46,8 @@ public class PickupDetails extends AppCompatActivity {
     Spinner spinner;
     String status,mMessage,radiostatus;
     ProgressDialog pd;
+
+    String jobid;
     ArrayList<String> spinerdata = new ArrayList<>();
     public static final MediaType MEDIA_TYPE =
             MediaType.parse("application/json");
@@ -63,6 +65,9 @@ public class PickupDetails extends AppCompatActivity {
         Bundle bundle = getIntent().getExtras();
         String message = bundle.getString("message");
         final Integer pos = bundle.getInt("position");
+        jobid = bundle.getString("jobid");
+
+
 
         Log.e(String.valueOf(pos),message);
 
@@ -145,9 +150,32 @@ public class PickupDetails extends AppCompatActivity {
 
         try {
             JSONArray jj = new JSONArray(message);
-            JSONObject ss =jj.getJSONObject(pos);
-            Gson gson = new Gson();
-            mm = gson.fromJson(String.valueOf(ss),modelPickuplist.class);
+
+
+            for(int k = 0; k < jj.length(); k++){
+
+
+                JSONObject ss = jj.getJSONObject(k);
+
+                if (ss.getString("jobid").equalsIgnoreCase(jobid)){
+
+                    Gson gson = new Gson();
+                    mm = gson.fromJson(String.valueOf(ss),modelPickuplist.class);
+                }
+
+
+            }
+//            JSONObject ss =jj.getJSONObject(pos);
+//
+////            JSONObject Ss = new JSONObject(total);
+//
+//
+//            Gson gson = new Gson();
+//         //   mm = gson.fromJson(String.valueOf(Ss),modelPickuplist.class);
+//
+//          //  Log.e("totalvalues",mm.getDisplayName());
+//
+//            mm = gson.fromJson(String.valueOf(ss),modelPickuplist.class);
 //            Log.e("Adres", mm.getAddress());
             custname.setText(mm.getDisplayName() + " ("+mm.getCustomerId()+")");
             address.setText(mm.getAddress() + ","+mm.getLandMark()+ ","+mm.getCity()+","+mm.getState());
@@ -242,6 +270,9 @@ public class PickupDetails extends AppCompatActivity {
 
 
                     Intent intent = new Intent(PickupDetails.this,SummaryReport.class);
+
+
+                    tinyDB.putString("locationforfillorder",mm.getPickupZone());
                     startActivity(intent);
                 }
 
@@ -380,6 +411,8 @@ public class PickupDetails extends AppCompatActivity {
                                 JSONObject jsonObject = new JSONObject(mMessage);
 //
                                 Intent intent = new Intent(PickupDetails.this,SummaryReport.class);
+                                tinyDB.putString("locationforfillorder",mm.getPickupZone());
+
                                 startActivity(intent);
 
 //                                if (jsonObject.getString("statusCode").equalsIgnoreCase("0")){

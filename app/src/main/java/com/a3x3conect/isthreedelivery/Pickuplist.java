@@ -599,6 +599,11 @@ public class Pickuplist extends AppCompatActivity {
 
                     Intent intent = new Intent(Pickuplist.this,PickupDetails.class);
                     intent.putExtra("message",mMessage);
+                    intent.putExtra("jobid",filterdata.get(position).getJobid());
+                    Log.e("jobid",filterdata.get(position).getJobid());
+                  //  Log.e("total", String.valueOf(myHolder.getAdapterPosition()));
+
+                   // myHolder.getAdapterPosition()
 
                     // filterdata2.get(position);
 
